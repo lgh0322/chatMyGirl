@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.vaca.chatmygirl.databinding.FragmentLoginBinding
 import com.vaca.chatmygirl.databinding.FragmentMainBinding
+import com.vaca.chatmygirl.databinding.FragmentMyBinding
 
 class MyFragment: Fragment() {
 
-    lateinit var binding:FragmentMainBinding
+    lateinit var binding:FragmentMyBinding
 
 
     override fun onCreateView(
@@ -20,7 +21,7 @@ class MyFragment: Fragment() {
     ): View{
 
 
-        binding= FragmentMainBinding.inflate(inflater,container,false)
+        binding= FragmentMyBinding.inflate(inflater,container,false)
 
 
         return binding.root
