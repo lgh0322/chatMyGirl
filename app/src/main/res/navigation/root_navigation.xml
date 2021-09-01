@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
@@ -28,4 +31,12 @@
         android:id="@+id/mainFragment"
         android:name="com.vaca.chatmygirl.fragment.MainFragment"
         android:label="MainFragment" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.vaca.chatmygirl.fragment.SignUpFragment"
+        android:label="SignUpFragment" >
+        <action
+            android:id="@+id/action_signUpFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>
