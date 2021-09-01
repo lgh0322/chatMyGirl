@@ -13,4 +13,8 @@
         android:id="@+id/welcomeFragment"
         android:name="com.vaca.chatmygirl.fragment.WelcomeFragment"
         android:label="WelcomeFragment" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.vaca.chatmygirl.fragment.MainFragment"
+        android:label="MainFragment" />
 </navigation>
