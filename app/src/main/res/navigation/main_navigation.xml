@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/login_navigation"
-    app:startDestination="@id/welcomeFragment">
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/contactFragment">
+
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.vaca.chatmygirl.fragment.LoginFragment"
-        android:label="LoginFragment" />
+        android:id="@+id/myFragment"
+        android:name="com.vaca.chatmygirl.fragment.mainnavi.MyFragment"
+        android:label="MyFragment" />
     <fragment
-        android:id="@+id/welcomeFragment"
-        android:name="com.vaca.chatmygirl.fragment.WelcomeFragment"
-        android:label="WelcomeFragment" />
+        android:id="@+id/contactFragment"
+        android:name="com.vaca.chatmygirl.fragment.mainnavi.ContactFragment"
+        android:label="ContactFragment" />
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.vaca.chatmygirl.fragment.MainFragment"
-        android:label="MainFragment" />
+        android:id="@+id/chatListFragment"
+        android:name="com.vaca.chatmygirl.fragment.mainnavi.ChatListFragment"
+        android:label="ChatListFragment" />
 </navigation>
