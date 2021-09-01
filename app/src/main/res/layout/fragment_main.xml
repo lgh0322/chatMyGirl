@@ -9,7 +9,7 @@
     <TextView
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="送到房间里看见分厘卡"
+        android:text="送到房间里看见dfgdsf分厘卡"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

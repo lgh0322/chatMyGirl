@@ -12,6 +12,7 @@ import com.vaca.chatmygirl.databinding.FragmentWelcomeBinding
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class WelcomeFragment:Fragment() {
 
@@ -28,16 +29,26 @@ class WelcomeFragment:Fragment() {
     ): View {
         binding= FragmentWelcomeBinding.inflate(inflater,container,false)
 
-
+        findNavController().navigate(R.id.action_welcomeFragment_to_mainFragment)
 
 
         MainScope().launch {
             delay(3000)
             val yes= MyStorage.getAccount()
             if(yes.user.isEmpty()){
-                findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
+                try {
+                    findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
+                }catch (e:Exception){
+
+                }
+
             }else{
-                findNavController().navigate(R.id.action_welcomeFragment_to_mainFragment)
+                try {
+                    findNavController().navigate(R.id.action_welcomeFragment_to_mainFragment)
+                }catch (e:Exception){
+
+                }
+
             }
         }
 
