@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="135dp"
+    android:orientation="vertical">
+
+    <com.vaca.chatmygirl.view.CustomSwipeLayout
+        android:id="@+id/bp_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/sw_bg"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/be_bp_list_menu"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_bpm_btn_del">
+
+            <TextView
+                android:id="@+id/be_bp_list_delete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="@color/White"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/gaga"
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/x1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="17dp"
+                    android:src="@drawable/time_icon" />
+
+                <TextView
+                    android:id="@+id/timeStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="2020-08-25 16:16:16"
+                    android:textColor="@color/login_hint_black"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/monitorTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="87dp"
+                    android:layout_marginTop="10dp"
+                    android:text="监测时长:04:33"
+                    android:textColor="@color/login_hint_black"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:gravity="start|center_vertical"
+                android:text=""
+                android:textColor="@color/login_black"
+                android:textSize="30sp" />
+
+
+        </LinearLayout>
+    </com.vaca.chatmygirl.view.CustomSwipeLayout>
+
+</LinearLayout>
