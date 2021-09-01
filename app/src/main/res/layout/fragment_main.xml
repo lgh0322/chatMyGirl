@@ -7,10 +7,35 @@
     tools:context=".MainActivity">
 
     <TextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="送到房间里看见dfgdsf分厘卡"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="送到房间里看见dfgdsf分厘卡"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="542dp"
+        android:layout_height="70dp"
+        android:elevation="10dp"
+        app:cardCornerRadius="35dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/topButton"
+                android:layout_width="522dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:overScrollMode="never" />
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
