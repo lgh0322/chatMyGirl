@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
+import com.daimajia.swipe.implments.SwipeItemRecyclerMangerImpl
 import com.daimajia.swipe.interfaces.SwipeAdapterInterface
 import com.daimajia.swipe.interfaces.SwipeItemMangerInterface
 import com.daimajia.swipe.util.Attributes
@@ -26,7 +27,7 @@ class ReportEcgDataAdapter(
 ) :
     RecyclerView.Adapter<ReportEcgDataAdapter.ViewHolder>(), SwipeItemMangerInterface,
     SwipeAdapterInterface {
-
+    private val mItemManger: SwipeItemRecyclerMangerImpl = SwipeItemRecyclerMangerImpl(this)
 
     var mEcgData: MutableList<ChatListBean> = ArrayList()
 
@@ -51,7 +52,7 @@ class ReportEcgDataAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-
+        mItemManger.bindView(holder.mainView,position)
 
     }
 
@@ -113,47 +114,47 @@ class ReportEcgDataAdapter(
     }
 
     override fun openItem(position: Int) {
-
+        mItemManger.openItem(position)
     }
 
     override fun closeItem(position: Int) {
-        TODO("Not yet implemented")
+        mItemManger.closeItem(position)
     }
 
     override fun closeAllExcept(layout: SwipeLayout?) {
-        TODO("Not yet implemented")
+        mItemManger.closeAllExcept(layout)
     }
 
     override fun closeAllItems() {
-        TODO("Not yet implemented")
+        mItemManger.closeAllItems()
     }
 
     override fun getOpenItems(): MutableList<Int> {
-        TODO("Not yet implemented")
+        return mItemManger.openItems
     }
 
     override fun getOpenLayouts(): MutableList<SwipeLayout> {
-        TODO("Not yet implemented")
+        return mItemManger.openLayouts
     }
 
     override fun removeShownLayouts(layout: SwipeLayout?) {
-        TODO("Not yet implemented")
+        mItemManger.removeShownLayouts(layout)
     }
 
     override fun isOpen(position: Int): Boolean {
-        TODO("Not yet implemented")
+        return mItemManger.isOpen(position)
     }
 
     override fun getMode(): Attributes.Mode {
-        TODO("Not yet implemented")
+        return mItemManger.mode
     }
 
     override fun setMode(mode: Attributes.Mode?) {
-        TODO("Not yet implemented")
+        mItemManger.mode = mode
     }
 
     override fun getSwipeLayoutResourceId(position: Int): Int {
-        TODO("Not yet implemented")
+        return R.id.bp_swipe
     }
 
 
