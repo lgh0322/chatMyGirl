@@ -10,6 +10,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.daimajia.swipe.SwipeLayout
+import com.daimajia.swipe.interfaces.SwipeAdapterInterface
+import com.daimajia.swipe.interfaces.SwipeItemMangerInterface
+import com.daimajia.swipe.util.Attributes
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.bean.ChatListBean
 import com.vaca.chatmygirl.ble.BleServer
@@ -20,7 +24,8 @@ import java.util.*
 class ReportEcgDataAdapter(
     val context: Context,
 ) :
-    RecyclerView.Adapter<ReportEcgDataAdapter.ViewHolder>() {
+    RecyclerView.Adapter<ReportEcgDataAdapter.ViewHolder>(), SwipeItemMangerInterface,
+    SwipeAdapterInterface {
 
 
     var mEcgData: MutableList<ChatListBean> = ArrayList()
@@ -105,6 +110,50 @@ class ReportEcgDataAdapter(
 
 
         }
+    }
+
+    override fun openItem(position: Int) {
+
+    }
+
+    override fun closeItem(position: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun closeAllExcept(layout: SwipeLayout?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun closeAllItems() {
+        TODO("Not yet implemented")
+    }
+
+    override fun getOpenItems(): MutableList<Int> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getOpenLayouts(): MutableList<SwipeLayout> {
+        TODO("Not yet implemented")
+    }
+
+    override fun removeShownLayouts(layout: SwipeLayout?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun isOpen(position: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun getMode(): Attributes.Mode {
+        TODO("Not yet implemented")
+    }
+
+    override fun setMode(mode: Attributes.Mode?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getSwipeLayoutResourceId(position: Int): Int {
+        TODO("Not yet implemented")
     }
 
 

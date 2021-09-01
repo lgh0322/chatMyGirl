@@ -47,7 +47,6 @@ public class CustomSwipeLayout extends SwipeLayout {
                 if (Math.abs(positionY - ev.getRawY()) < touchSlop && Math.abs(positionX - ev.getRawX()) < touchSlop) {
                     if (onClickItemListener != null) {
                         onClickItemListener.onClick(CustomSwipeLayout.this);
-//						performClick();
                     }
                 }
                 break;
