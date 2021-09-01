@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -21,7 +22,9 @@ import kotlinx.coroutines.launch
 class MainFragment: Fragment() {
 
     lateinit var binding:FragmentMainBinding
-
+    companion object {
+        val initJump = MutableLiveData<Int>()
+    }
     val topId = arrayOf(
         R.id.chatListFragment,
         R.id.contactFragment,
@@ -51,20 +54,31 @@ class MainFragment: Fragment() {
         buttonAdapter.addAll(arrayOf("消息", "朋友", "我的"))
         buttonAdapter.myGo = object : RecordButtonAdapter.WantInfo {
             override fun go(u: Int) {
-//                if (currentIndex == u) {
-//                    return
-//                }
-//                currentIndex = u
-//                if (navController.popBackStack(topId[u], false)) {
-//
-//                } else {
-//                    navController.navigate(topId[u])
-//                }
+                if (currentIndex == u) {
+                    return
+                }
+                currentIndex = u
+                if (navController.popBackStack(topId[u], false)) {
+
+                } else {
+                    navController.navigate(topId[u])
+                }
 
             }
 
         }
         binding.topButton.adapter = buttonAdapter
+
+        if(initJump.value==null){
+            initJump.value=0
+        }
+
+        initJump.observe(viewLifecycleOwner, {
+            currentIndex = it
+            graph.startDestination = topId[it]
+            navController.graph = graph
+            buttonAdapter.setSelect(it)
+        })
 
         return binding.root
     }
