@@ -89,20 +89,16 @@ class ReportEcgDataAdapter(
     inner class ViewHolder internal constructor(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        val timeStart: TextView = itemView.findViewById(R.id.timeStart)
-        val moT: TextView = itemView.findViewById(R.id.monitorTime)
-        val x1: ImageView = itemView.findViewById(R.id.x1)
-        val result: TextView = itemView.findViewById(R.id.result)
-        val del = itemView.findViewById<TextView>(R.id.be_bp_list_delete)
+
 
         val mainItem: LinearLayout = itemView.findViewById(R.id.gaga)
         val mainView: CustomSwipeLayout = itemView.findViewById(R.id.bp_swipe)
 
         init {
 
-            del.setOnClickListener {
-
-            }
+//            del.setOnClickListener {
+//
+//            }
 
             var multiClick = false
             mainItem.setOnClickListener {
