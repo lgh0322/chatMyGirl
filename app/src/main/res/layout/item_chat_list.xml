@@ -69,13 +69,13 @@
                 android:layout_width="wrap_content"
                 android:minWidth="30dp"
                 android:minHeight="30dp"
-                android:padding="3dp"
+
                 android:layout_height="0dp"
                 app:layout_constraintDimensionRatio="1:1"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/shape_red_drawable"
                 android:gravity="center"
-                android:text="9"
+                android:text="99"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
