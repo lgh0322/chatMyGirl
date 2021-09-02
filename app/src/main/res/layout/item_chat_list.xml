@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gaga"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:orientation="vertical">
@@ -40,7 +41,7 @@
                 android:textSize="26sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/txcv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -50,77 +51,66 @@
 
             <com.vaca.chatmygirl.view.CircleImageView
                 android:id="@+id/item_iv_avatar"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginLeft="12dp" />
+                android:src="@drawable/banner"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginStart="20dp" />
 
 
-            <LinearLayout
+            <TextView
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/red_text"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="13dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/ll_user_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="名字测试"
-                        android:textColor="#333333"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll_user_info"
-                    android:layout_marginTop="5dp"
-                    android:layout_toRightOf="@+id/item_iv_avatar"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:paddingRight="70dp"
-                    android:text="10分钟前"
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="12dp"
+                android:minWidth="30dp"
+                android:minHeight="30dp"
+                android:padding="3dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_red_drawable"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:text="9"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10分钟前"
-                    android:textColor="#999999"
-                    android:textSize="10sp" />
+            <TextView
+                app:layout_constraintStart_toEndOf="@+id/item_iv_avatar"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:text="流口水的JFK"
+                android:textColor="@color/login_black"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_constraintStart_toEndOf="@+id/item_iv_avatar"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="70dp"
+                android:text="流口水的JFK"
+                android:textColor="@color/login_hint_black"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="20dp"
+                android:text="流口水的JFK"
+                android:textColor="@color/login_hint_black"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/red_text"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/shape_red_drawable"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:visibility="invisible" />
-            </LinearLayout>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </com.vaca.chatmygirl.view.CustomSwipeLayout>
