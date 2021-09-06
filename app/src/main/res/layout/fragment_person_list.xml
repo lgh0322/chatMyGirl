@@ -25,8 +25,8 @@
   <TextView
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/bar"
+      app:layout_constraintBottom_toBottomOf="@+id/bar"
       android:id="@+id/dialog"
       android:layout_width="160dp"
       android:layout_height="160dp"
