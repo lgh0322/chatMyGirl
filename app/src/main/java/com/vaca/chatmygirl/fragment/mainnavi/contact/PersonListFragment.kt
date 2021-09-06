@@ -86,7 +86,7 @@ class PersonListFragment: Fragment() {
         stickyList.isFastScrollAlwaysVisible = false
 
 
-        val gugu=SortModel("好人","234")
+        val gugu=SortModel("吃屎","234")
 
 
 
