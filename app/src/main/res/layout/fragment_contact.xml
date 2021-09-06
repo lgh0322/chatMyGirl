@@ -89,4 +89,14 @@
             android:textSize="35sp" />
     </LinearLayout>
 
+    <fragment
+        android:id="@+id/bx"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="0dp"
+        app:defaultNavHost="false" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
