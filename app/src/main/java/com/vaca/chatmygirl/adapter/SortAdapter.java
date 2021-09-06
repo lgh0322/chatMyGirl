@@ -57,7 +57,7 @@ public class SortAdapter extends BaseAdapter implements StickyListHeadersAdapter
         final SortModel mContent = list.get(position);
         if (view == null) {
             viewHolder = new ViewHolder();
-
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_contacts, null);
 
             view.setTag(viewHolder);
         } else {
@@ -66,7 +66,7 @@ public class SortAdapter extends BaseAdapter implements StickyListHeadersAdapter
 
 
 
-        viewHolder.text.setText(this.list.get(position).getName());
+//        viewHolder.text.setText(this.list.get(position).getName());
 
         return view;
 

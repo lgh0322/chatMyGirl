@@ -24,7 +24,7 @@ class PersonListFragment: Fragment() {
     private var adapter: SortAdapter? = null
     private var SourceDateList: MutableList<SortModel>? = null
     private var SourceDateList2: MutableList<SortModel>? = null
-    private var pinyinComparator: PinyinComparator? = null
+    private val pinyinComparator=PinyinComparator()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -86,12 +86,14 @@ class PersonListFragment: Fragment() {
         stickyList.isFastScrollAlwaysVisible = false
 
 
+        val gugu=SortModel("好人","234")
 
 
 
+        SourceDateList= arrayListOf(gugu)
         Collections.sort(SourceDateList, pinyinComparator)
         SourceDateList2 = SourceDateList
-        adapter = SortAdapter(activity, SourceDateList, false)
+        adapter = SortAdapter(requireContext(), SourceDateList, false)
         stickyList.adapter = adapter
 
         return binding.root
@@ -191,9 +193,7 @@ class PersonListFragment: Fragment() {
                 }
             }
             if (filterDateList == null) filterDateList = ArrayList<SortModel>()
-            if (pinyinComparator == null) {
-                pinyinComparator = PinyinComparator()
-            }
+
             // 根据a-z进行排序
             Collections.sort(filterDateList, pinyinComparator)
             SourceDateList2 = filterDateList
