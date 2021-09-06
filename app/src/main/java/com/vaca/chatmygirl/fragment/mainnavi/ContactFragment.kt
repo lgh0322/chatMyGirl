@@ -1,6 +1,8 @@
 package com.vaca.chatmygirl.fragment.mainnavi
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +11,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.vaca.chatmygirl.ContactInputEvent
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.adapter.ContactButtonAdapter
 import com.vaca.chatmygirl.databinding.FragmentContactBinding
+import org.greenrobot.eventbus.EventBus
 
 class ContactFragment : Fragment() {
 
@@ -37,6 +41,21 @@ class ContactFragment : Fragment() {
 
 
         binding = FragmentContactBinding.inflate(inflater, container, false)
+
+        binding.filterEdit.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                EventBus.getDefault().post(ContactInputEvent(p0.toString()))
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
 
 
         val fm = childFragmentManager.findFragmentById(R.id.bx) as NavHostFragment
