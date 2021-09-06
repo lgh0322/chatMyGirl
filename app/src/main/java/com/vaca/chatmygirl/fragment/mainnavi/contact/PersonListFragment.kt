@@ -7,15 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
-import com.vaca.chatmygirl.R
+import com.vaca.chatmygirl.ContactInputEvent
 import com.vaca.chatmygirl.adapter.SortAdapter
 import com.vaca.chatmygirl.bean.SortModel
-import com.vaca.chatmygirl.databinding.FragmentLoginBinding
-import com.vaca.chatmygirl.databinding.FragmentMainBinding
 import com.vaca.chatmygirl.databinding.FragmentPersonListBinding
 import com.vaca.chatmygirl.stickylistheaders.StickyListHeadersListView
 import com.vaca.chatmygirl.utils.HanyuParser
 import com.vaca.chatmygirl.utils.PinyinComparator
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 
 class PersonListFragment: Fragment() {
@@ -25,6 +26,31 @@ class PersonListFragment: Fragment() {
     private var SourceDateList: MutableList<SortModel>? = null
     private var SourceDateList2: MutableList<SortModel>? = null
     private val pinyinComparator=PinyinComparator()
+
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this);
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event:ContactInputEvent?) {
+        if(event!=null){
+            filterData(event.input)
+        }
+    }
+
+
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -134,40 +160,6 @@ class PersonListFragment: Fragment() {
         return mSortList
     }
 
-    private fun filledData_Person(date: Array<String>?, id: Array<String>?): List<SortModel>? {
-        val mSortList: MutableList<SortModel> = ArrayList<SortModel>()
-        if (null == date) {
-            return ArrayList<SortModel>()
-        } else {
-            if (date.size == 0) {
-                return ArrayList<SortModel>()
-            }
-        }
-        if (null == id) {
-            return ArrayList<SortModel>()
-        } else {
-            if (id.size == 0) {
-                return ArrayList<SortModel>()
-            }
-        }
-        for (i in date.indices) {
-            val sortModel = SortModel()
-            sortModel.name = date[i]
-            sortModel.id = id[i]
-
-            // 汉字转换成拼音
-            val pinyin: String = HanyuParser().getStringPinYin(date[i])
-            val sortString = pinyin.substring(0, 1).toUpperCase(Locale.getDefault())
-            // 正则表达式，判断首字母是否是英文字母
-            if (sortString.matches(Regex("[A-Z]"))) {
-                sortModel.sortLetters = sortString.toUpperCase(Locale.getDefault())
-            } else {
-                sortModel.sortLetters = "#"
-            }
-            mSortList.add(sortModel)
-        }
-        return mSortList
-    }
 
     /**
      * 根据输入框中的值来过滤数据并更新ListView
@@ -184,7 +176,7 @@ class PersonListFragment: Fragment() {
             } else {
                 filterDateList.clear()
                 if (SourceDateList != null) {
-                    for (sortModel in SourceDateList!!!!) {
+                    for (sortModel in SourceDateList!!) {
                         val name: String = sortModel.name!!
                         if (containString(name, filterStr)) {
                             filterDateList.add(sortModel)
@@ -192,15 +184,9 @@ class PersonListFragment: Fragment() {
                     }
                 }
             }
-            if (filterDateList == null) filterDateList = ArrayList<SortModel>()
-
-            // 根据a-z进行排序
             Collections.sort(filterDateList, pinyinComparator)
             SourceDateList2 = filterDateList
-            if (adapter == null) return
-            if (filterDateList == null) return
             adapter!!.updateListView(filterDateList)
-
     }
 
     private fun containString(name: String, filterStr: String): Boolean {
