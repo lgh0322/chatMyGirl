@@ -6,11 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        app:layout_constraintStart_toStartOf="parent"
+    <com.vaca.chatmygirl.stickylistheaders.StickyListHeadersListView
+        android:layout_width="match_parent"
+        android:clipToPadding="false"
+        android:divider="#00000000"
+        android:dividerHeight="0dp"
+        android:fadeScrollbars="false"
+        android:scrollbars="none"
+        android:elevation="0dp"
+        android:layout_height="match_parent"/>
+    <com.vaca.chatmygirl.view.SideBar
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="送到房间里看见dsfgdsfg分厘卡"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:id="@+id/sidrbar"
+        android:layout_width="60.0dp"
+        android:layout_height="800dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
