@@ -24,7 +24,7 @@ class PersonListFragment: Fragment() {
     lateinit var binding:FragmentPersonListBinding
     private var adapter: SortAdapter? = null
     private var SourceDateList: MutableList<SortModel>? = null
-    private var SourceDateList2: MutableList<SortModel>? = null
+    private var SourceDateListAfterSort: MutableList<SortModel>? = null
     private val pinyinComparator=PinyinComparator()
 
 
@@ -118,7 +118,7 @@ class PersonListFragment: Fragment() {
 
         SourceDateList= arrayListOf(gugu)
         Collections.sort(SourceDateList, pinyinComparator)
-        SourceDateList2 = SourceDateList
+        SourceDateListAfterSort = SourceDateList
         adapter = SortAdapter(requireContext(), SourceDateList, false)
         stickyList.adapter = adapter
 
@@ -185,7 +185,7 @@ class PersonListFragment: Fragment() {
                 }
             }
             Collections.sort(filterDateList, pinyinComparator)
-            SourceDateList2 = filterDateList
+            SourceDateListAfterSort = filterDateList
             adapter!!.updateListView(filterDateList)
     }
 
