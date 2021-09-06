@@ -20,6 +20,11 @@ class ContactFragment: Fragment() {
         val initJump = MutableLiveData<Int>()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initJump.postValue(0)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,6 +43,9 @@ class ContactFragment: Fragment() {
         buttonAdapter.addAll(arrayOf("朋友", "群组"))
         binding.topButton.adapter=buttonAdapter
 
+        initJump.observe(viewLifecycleOwner,{
+            buttonAdapter.setSelect(it)
+        })
         return binding.root
     }
 }
