@@ -1,7 +1,6 @@
 package com.vaca.chatmygirl.fragment.mainnavi
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,20 +11,16 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.adapter.ContactButtonAdapter
-import com.vaca.chatmygirl.adapter.RecordButtonAdapter
 import com.vaca.chatmygirl.databinding.FragmentContactBinding
-import com.vaca.chatmygirl.databinding.FragmentLoginBinding
-import com.vaca.chatmygirl.databinding.FragmentMainBinding
-import com.vaca.chatmygirl.fragment.MainFragment
 
-class ContactFragment: Fragment() {
+class ContactFragment : Fragment() {
 
-    lateinit var binding:FragmentContactBinding
+    lateinit var binding: FragmentContactBinding
+
     companion object {
         var currentIndex = 0
         val initJump = MutableLiveData<Int>()
     }
-
 
 
     val topId = arrayOf(
@@ -38,10 +33,10 @@ class ContactFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
 
 
-        binding= FragmentContactBinding.inflate(inflater,container,false)
+        binding = FragmentContactBinding.inflate(inflater, container, false)
 
 
         val fm = childFragmentManager.findFragmentById(R.id.bx) as NavHostFragment
@@ -49,8 +44,7 @@ class ContactFragment: Fragment() {
         val graph = navController.navInflater.inflate(R.navigation.contact_navigation)
 
 
-
-        val buttonAdapter =ContactButtonAdapter(requireContext())
+        val buttonAdapter = ContactButtonAdapter(requireContext())
         val lm = object : LinearLayoutManager(requireContext(), HORIZONTAL, false) {
             override fun canScrollHorizontally(): Boolean {
                 return false
@@ -73,15 +67,13 @@ class ContactFragment: Fragment() {
             }
 
         }
-        binding.topButton.adapter=buttonAdapter
+        binding.topButton.adapter = buttonAdapter
 
-        if(initJump.value==null){
-            Log.e("fuck666", currentIndex.toString())
-           initJump.postValue(currentIndex)
+        if (initJump.value == null) {
+            initJump.postValue(currentIndex)
         }
 
-    initJump.observe(viewLifecycleOwner, {
-            Log.e("fuck",it.toString())
+        initJump.observe(viewLifecycleOwner, {
             graph.startDestination = topId[it]
             navController.graph = graph
             buttonAdapter.setSelect(it)

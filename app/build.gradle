@@ -76,7 +76,7 @@ dependencies {
 
     api "me.jessyan:autosize:1.2.1"
 
-
+    implementation files('libs/pinyin4j-2.5.0.jar')
 
     implementation 'com.bigkoo:convenientbanner:2.1.5'
     implementation "com.tencent.liteav:LiteAVSDK_TRTC:latest.release"
