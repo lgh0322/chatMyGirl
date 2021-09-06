@@ -33,21 +33,21 @@
     </RelativeLayout>
 
 
-
-        <com.vaca.chatmygirl.view.ClearEditText
-            android:id="@+id/filter_edit"
-            android:layout_marginTop="88dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:paddingStart="30dp"
-            android:background="@drawable/search_1"
-            android:hint="搜索"
-            android:includeFontPadding="false"
-            android:singleLine="false"
-            android:textColorHint="#999999"
-            android:textSize="24sp" />
+    <com.vaca.chatmygirl.view.ClearEditText
+        android:id="@+id/filter_edit"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/search_1"
+        android:hint="搜索"
+        android:includeFontPadding="false"
+        android:paddingStart="30dp"
+        android:singleLine="false"
+        android:textColorHint="#999999"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="15dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
