@@ -22,7 +22,10 @@ class GroupListFragment: Fragment() {
 
 
         binding= FragmentGroupListBinding.inflate(inflater,container,false)
+        binding.bar.setTextView(binding.dialog)
+        binding.bar.setOnTouchingLetterChangedListener {
 
+        }
 
         return binding.root
     }
