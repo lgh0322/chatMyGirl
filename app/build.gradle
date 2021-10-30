@@ -5,22 +5,39 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        vaca {
+            storeFile file('..\\key\\chatcar.jks')
+            storePassword '0168lgh'
+            keyAlias 'key0'
+            keyPassword '0168lgh'
+        }
+    }
     compileSdk 31
 
     defaultConfig {
         applicationId "com.vaca.chatmygirl"
         minSdk 24
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        signingConfig signingConfigs.vaca
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
+            signingConfig signingConfigs.vaca
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "HOST", RELEASE_HOST
+            buildConfigField "String", "APPID", RELEASE_APPID
+            buildConfigField "String", "PDFURL", RELEASE_AI_PDF
+        }
+        debug {
+            signingConfig signingConfigs.vaca
+            buildConfigField "String", "HOST", RELEASE_HOST
+            buildConfigField "String", "APPID", RELEASE_APPID
+            buildConfigField "String", "PDFURL", RELEASE_AI_PDF
         }
     }
     compileOptions {
@@ -33,6 +50,27 @@ android {
     buildFeatures {
         viewBinding true
         dataBinding true
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            def buildTypeName = ""
+
+            if (outputFile != null) {
+                if (outputFile.name.contains('release')) {
+                    buildTypeName += "release-"
+                } else if (outputFile.name.contains('debug')) {
+                    buildTypeName += "debug-"
+                }
+
+            }
+
+            def fileName = "ChatCar-" +
+                    "${buildTypeName}" +
+                    "${variant.versionName}" +
+                    ".apk"
+            outputFileName = fileName
+        }
     }
 }
 
@@ -94,4 +132,6 @@ dependencies {
     implementation ('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
+
+    api "com.tencent.bugly:crashreport:latest.release"
 }
