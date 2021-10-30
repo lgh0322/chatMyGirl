@@ -29,7 +29,7 @@ class WelcomeFragment:Fragment() {
     ): View {
         binding= FragmentWelcomeBinding.inflate(inflater,container,false)
 
-        findNavController().navigate(R.id.action_welcomeFragment_to_mainFragment)
+//        findNavController().navigate(R.id.action_welcomeFragment_to_mainFragment)
 
 
         MainScope().launch {
