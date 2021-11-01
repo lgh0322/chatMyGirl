@@ -15,8 +15,16 @@ object NetCmd {
         mSocket.connect()
         mSocket.on("Server", object : Emitter.Listener {
             override fun call(vararg args: Any?) {
-                val fuck = args[0]
-                Log.e("fuck", fuck.toString())
+                val content = JSONObject( args[0].toString())
+
+                val purpose=content.getString("purpose")
+                when(purpose){
+                    "connectSuccess"->{
+                        Log.e("fuck",content.toString())
+//                        NetCmd.login()
+                    }
+                }
+
             }
 
         }
