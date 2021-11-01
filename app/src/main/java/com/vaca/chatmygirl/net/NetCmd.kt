@@ -1,6 +1,7 @@
 package com.vaca.chatmygirl.net
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.vaca.chatmygirl.BuildConfig
 import io.socket.client.IO
 import io.socket.emitter.Emitter
@@ -10,6 +11,12 @@ object NetCmd {
     private val mSocket = IO.socket(BuildConfig.HOST)
 
     private val PURPOSE = "purpose"
+
+    val loginState=MutableLiveData<Boolean>()
+
+
+
+
 
     fun initSocket() {
         mSocket.connect()
