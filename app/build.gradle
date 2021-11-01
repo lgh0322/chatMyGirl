@@ -132,6 +132,6 @@ dependencies {
     implementation ('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
-
+    implementation 'org.webrtc:google-webrtc:1.0.32006'
     api "com.tencent.bugly:crashreport:latest.release"
 }
