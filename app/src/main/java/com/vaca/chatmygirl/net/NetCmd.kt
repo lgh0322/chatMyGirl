@@ -4,9 +4,12 @@ import android.util.Log
 import com.vaca.chatmygirl.BuildConfig
 import io.socket.client.IO
 import io.socket.emitter.Emitter
+import org.json.JSONObject
 
 object NetCmd {
     private val mSocket = IO.socket(BuildConfig.HOST)
+
+    private val PURPOSE="purpose"
 
     fun initSocket(){
         mSocket.connect()
@@ -20,8 +23,32 @@ object NetCmd {
         )
     }
 
-    fun send(msg:String){
-        mSocket.emit("msg",msg)
+    private fun sendServer(msg:String){
+        mSocket.emit("Server",msg)
+    }
+
+    private fun sendRelay(msg:String){
+        mSocket.emit("Relay",msg)
+    }
+
+
+
+
+
+    fun login(user:String,password:String){
+        val msg=JSONObject()
+        msg.put(PURPOSE,"login")
+        msg.put("username",user)
+        msg.put("password",password)
+        sendServer(msg.toString())
+    }
+
+    fun signUp(user:String,password:String){
+        val msg=JSONObject()
+        msg.put(PURPOSE,"signup")
+        msg.put("username",user)
+        msg.put("password",password)
+        sendServer(msg.toString())
     }
 
 }
