@@ -5,8 +5,8 @@ import com.vaca.chatmygirl.bean.Account
 
 object MyStorage {
 
-    val UserName="UserName"
-    val UserPassword="UserPassword"
+    private const val UserName="UserName"
+    private const val UserPassword="UserPassword"
 
     fun getAccount():Account{
         val a=SPUtils.getInstance().getString(UserName,"")
