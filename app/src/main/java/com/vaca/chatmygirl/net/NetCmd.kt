@@ -39,7 +39,8 @@ object NetCmd {
                     }
                 }
                 "login"->{
-
+                    val result=content.getInt("result").toString()
+                    LiveEventBus.get("login",String::class.java).post(result)
                 }
                 "signup"->{
                     val result=content.getInt("result").toString()
