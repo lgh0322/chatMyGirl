@@ -107,6 +107,7 @@ class LoginFragment: Fragment() {
             if(it=="0"){
                 Log.e("girlxx","登陆成功")
                 bindSet(true)
+                findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
             }else{
                 Log.e("girlxx","登陆失败， 密码错误")
                 bindSet(false)
