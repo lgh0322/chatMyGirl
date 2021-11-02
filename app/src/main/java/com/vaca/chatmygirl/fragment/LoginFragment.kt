@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vaca.chatmygirl.R
+import com.vaca.chatmygirl.bean.Account
+import com.vaca.chatmygirl.data.MyStorage
 import com.vaca.chatmygirl.databinding.FragmentLoginBinding
 import com.vaca.chatmygirl.net.NetCmd
 
@@ -105,6 +107,9 @@ class LoginFragment: Fragment() {
 
         LiveEventBus.get("login", String::class.java).observe(viewLifecycleOwner,{
             if(it=="0"){
+                val user=binding.x1.text.toString()
+                val pass=binding.x2.text.toString()
+                MyStorage.setAccount(Account(user,pass))
                 Log.e("girlxx","登陆成功")
                 bindSet(true)
                 findNavController().navigate(R.id.action_loginFragment_to_mainFragment)

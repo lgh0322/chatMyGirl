@@ -2,6 +2,7 @@ package com.vaca.chatmygirl.data
 
 import com.blankj.utilcode.util.SPUtils
 import com.vaca.chatmygirl.bean.Account
+import com.vaca.chatmygirl.net.NetCmd
 
 object MyStorage {
 
@@ -16,6 +17,7 @@ object MyStorage {
 
 
     fun setAccount(account: Account){
+        NetCmd.haveRegister=true
         SPUtils.getInstance().put(UserName,account.user)
         SPUtils.getInstance().put(UserPassword,account.password)
     }
