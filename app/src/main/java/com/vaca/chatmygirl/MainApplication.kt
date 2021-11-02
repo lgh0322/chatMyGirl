@@ -19,6 +19,7 @@ class MainApplication : Application() {
 
         PathUtil.initVar(this)
 
+
         NetCmd.initSocket()
         application = this
         CrashReport.initCrashReport(this, "ab96e0dbf2", false);

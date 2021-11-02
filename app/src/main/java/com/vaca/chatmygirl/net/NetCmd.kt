@@ -3,6 +3,7 @@ package com.vaca.chatmygirl.net
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.vaca.chatmygirl.BuildConfig
+import com.vaca.chatmygirl.data.MyStorage
 import io.socket.client.IO
 import io.socket.emitter.Emitter
 import org.json.JSONObject
@@ -13,6 +14,9 @@ object NetCmd {
     private val PURPOSE = "purpose"
 
     val loginState=MutableLiveData<Boolean>()
+    var myAcount=MyStorage.getAccount()
+    var haveRegister=!myAcount.isEmpty()
+
 
 
 
@@ -27,8 +31,12 @@ object NetCmd {
                 val purpose=content.getString("purpose")
                 when(purpose){
                     "connectSuccess"->{
-                        Log.e("fuck",content.toString())
-//                        NetCmd.login()
+                        if(haveRegister){
+                            Log.i("girlxx","haveRegister")
+                            NetCmd.login(myAcount.user, myAcount.password)
+                        }else{
+                            Log.i("girlxx","NothaveRegister")
+                        }
                     }
                 }
 
