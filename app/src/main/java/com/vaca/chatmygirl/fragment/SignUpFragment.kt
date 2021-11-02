@@ -4,11 +4,17 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.jeremyliao.liveeventbus.core.LiveEvent
 import com.vaca.chatmygirl.R
@@ -59,7 +65,7 @@ class SignUpFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View{
 
-
+        this.inflater=inflater
         binding= FragmentSignUpBinding.inflate(inflater,container,false)
 
         binding.x1.addTextChangedListener(object :TextWatcher{
@@ -104,12 +110,37 @@ class SignUpFragment: Fragment() {
         LiveEventBus.get("signUp", String::class.java).observe(viewLifecycleOwner,{
             if(it=="0"){
                 Log.e("girlxx","注册成功")
+                bindSet(true)
+                findNavController().navigateUp()
             }else{
-                Log.e("girlxx","注册失败")
+                Log.e("girlxx","注册失败， 用户名已存在")
+                bindSet(false)
             }
 
         })
 
         return binding.root
+    }
+
+    lateinit var inflater: LayoutInflater
+    fun bindSet(boolean: Boolean) {
+        Toast(requireContext()).apply {
+            val layout = inflater.inflate(R.layout.toast_bind_layout, null)
+            if (boolean) {
+                layout.findViewById<TextView>(R.id.dada).apply {
+                    text = "注册成功"
+                }
+                layout.findViewById<ImageView>(R.id.gr).setImageResource(R.drawable.success_icon)
+            } else {
+                layout.findViewById<TextView>(R.id.dada).apply {
+                    text = "注册失败， 用户名已存在"
+                }
+                layout.findViewById<ImageView>(R.id.gr).setImageResource(R.drawable.failure_icon)
+            }
+            setGravity(Gravity.CENTER, 0, 0)
+            duration = Toast.LENGTH_SHORT
+            setView(layout)
+            show()
+        }
     }
 }
