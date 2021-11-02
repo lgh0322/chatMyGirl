@@ -2,6 +2,7 @@ package com.vaca.chatmygirl.net
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vaca.chatmygirl.BuildConfig
 import com.vaca.chatmygirl.data.MyStorage
 import io.socket.client.IO
@@ -24,35 +25,34 @@ object NetCmd {
 
     fun initSocket() {
         mSocket.connect()
-        mSocket.on("Server", object : Emitter.Listener {
-            override fun call(vararg args: Any?) {
-                val content = JSONObject( args[0].toString())
+        mSocket.on("Server"
+        ) { args ->
+            val content = JSONObject(args[0].toString())
 
-                val purpose=content.getString("purpose")
-                when(purpose){
-                    "connectSuccess"->{
-                        if(haveRegister){
-                            Log.i("girlxx","haveRegister")
-                            NetCmd.login(myAcount.user, myAcount.password)
-                        }else{
-                            Log.i("girlxx","NothaveRegister")
-                        }
+            when (content.getString("purpose")) {
+                "connectSuccess" -> {
+                    if (haveRegister) {
+                        Log.i("girlxx", "haveRegister")
+                        NetCmd.login(myAcount.user, myAcount.password)
+                    } else {
+                        Log.i("girlxx", "NothaveRegister")
                     }
                 }
+                "login"->{
 
+                }
+                "signup"->{
+                    val result=content.getInt("result").toString()
+                    LiveEventBus.get("signUp",String::class.java).post(result)
+                }
             }
-
         }
-        )
 
-        mSocket.on("Relay", object : Emitter.Listener {
-            override fun call(vararg args: Any?) {
-                val fuck = args[0]
-                Log.e("fuck", fuck.toString())
-            }
-
+        mSocket.on("Relay"
+        ) { args ->
+            val fuck = args[0]
+            Log.e("fuck", fuck.toString())
         }
-        )
     }
 
     private fun sendServer(msg: String) {

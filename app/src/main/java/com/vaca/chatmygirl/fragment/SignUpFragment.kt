@@ -3,14 +3,18 @@ package com.vaca.chatmygirl.fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.jeremyliao.liveeventbus.LiveEventBus
+import com.jeremyliao.liveeventbus.core.LiveEvent
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.databinding.FragmentLoginBinding
 import com.vaca.chatmygirl.databinding.FragmentSignUpBinding
+import com.vaca.chatmygirl.net.NetCmd
 
 class SignUpFragment: Fragment() {
 
@@ -28,18 +32,25 @@ class SignUpFragment: Fragment() {
 
     fun changeBt(){
         if(isReady()){
+            isReadyGo=true
             binding.signUp.apply {
                 background =
                     ContextCompat.getDrawable(requireContext(), R.drawable.login_button)
 
             }
         }else{
+            isReadyGo=false
             binding.signUp.apply {
                 background =
                     ContextCompat.getDrawable(requireContext(), R.drawable.login_button_before)
             }
         }
     }
+
+    var isReadyGo=false
+
+
+
 
 
     override fun onCreateView(
@@ -82,8 +93,22 @@ class SignUpFragment: Fragment() {
         })
 
         binding.signUp.setOnClickListener {
+            if (isReadyGo){
+                val user=binding.x1.text.toString()
+                val pass=binding.x2.text.toString()
+                NetCmd.signUp(user,pass)
 
+            }
         }
+
+        LiveEventBus.get("signUp", String::class.java).observe(viewLifecycleOwner,{
+            if(it=="0"){
+                Log.e("girlxx","注册成功")
+            }else{
+                Log.e("girlxx","注册失败")
+            }
+
+        })
 
         return binding.root
     }
