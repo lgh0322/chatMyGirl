@@ -12,15 +12,15 @@
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/sign_bg" />
     <EditText
+        android:singleLine="true"
         android:id="@+id/x1"
         android:layout_width="490dp"
         android:layout_height="120dp"
         android:layout_marginTop="310dp"
         android:background="@drawable/login_coutour"
-        android:digits="1234567890"
         android:hint="请输入用户名"
         android:paddingStart="30dp"
-        android:inputType="phone"
+        android:inputType="textEmailAddress"
         android:maxLength="11"
         android:textColor="@color/login_black"
         android:textSize="36sp"
@@ -29,13 +29,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:singleLine="true"
         android:id="@+id/x2"
         android:layout_width="490dp"
         android:layout_height="120dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/login_coutour"
         android:digits="1234567890"
-        android:enabled="false"
         android:paddingStart="30dp"
         android:hint="请输入密码"
         android:inputType="number"
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/x1" />
 
     <TextView
-        android:id="@+id/login"
+        android:id="@+id/sign_up"
         android:layout_width="300dp"
         android:layout_height="120dp"
         android:layout_marginTop="94dp"
