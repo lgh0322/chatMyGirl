@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.vaca.chatmygirl.databinding.FragmentChatBinding
 import com.vaca.chatmygirl.databinding.FragmentLoginBinding
 import com.vaca.chatmygirl.databinding.FragmentMainBinding
+import com.vaca.chatmygirl.net.NetCmd
 
 class ChatFragment: Fragment() {
 
@@ -22,7 +23,12 @@ class ChatFragment: Fragment() {
 
 
         binding= FragmentChatBinding.inflate(inflater,container,false)
-
+        binding.messageSend.setOnClickListener {
+            val text=binding.chatMessage.text.toString()
+            if(text.isNotEmpty()){
+                NetCmd.chatText(text,false)
+            }
+        }
 
         return binding.root
     }

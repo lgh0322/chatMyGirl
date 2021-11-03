@@ -17,7 +17,7 @@ object NetCmd {
     val loginState=MutableLiveData<Boolean>()
     var myAcount=MyStorage.getAccount()
     var haveRegister=!myAcount.isEmpty()
-
+    var currentChatId="56"
 
 
 
@@ -82,20 +82,20 @@ object NetCmd {
     }
 
 
-    fun chatMsg(id:String,msg:String,type:Int,isGroup:Boolean=false){
+    fun chatMsg(sendMsg:String, type:Int, isGroup:Boolean){
         val msg=JSONObject()
         msg.put(PURPOSE,"chat")
-        msg.put("msg",msg)
-        if(isGroup){
-            msg.put("group",1)
-        }else{
-            msg.put("group",0)
-        }
+        msg.put("msg",sendMsg)
         msg.put("time",System.currentTimeMillis())
         msg.put("type",type)
         msg.put("from", myAcount.user)
-        msg.put("to", id)
+        msg.put("to", currentChatId)
+        Log.e("fucsssk",msg.toString())
         sendRelay(msg.toString())
+    }
+
+    fun chatText(msg:String,isGroup: Boolean){
+        chatMsg(msg,1,isGroup)
     }
 
 }
