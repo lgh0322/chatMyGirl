@@ -7,9 +7,12 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vaca.chatmygirl.R
+import com.vaca.chatmygirl.event.GoGo
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -76,9 +79,23 @@ class MainActivity : AppCompatActivity() {
 
         MainScope().launch {
             delay(5000)
-            val navController = findNavController(R.id.nav_host_fragment)
-            navController.navigate(R.id.chatFragment)
+            GoGo.goChat()
         }
+
+        LiveEventBus.get("rootGo",String::class.java).observeForever(Observer {
+            goPlace->
+            val navController = findNavController(R.id.nav_host_fragment)
+            when(goPlace){
+                "chat"->{
+                    if(!navController.popBackStack(R.id.chatFragment,false)){
+                        navController.navigate(R.id.chatFragment)
+                    }
+                }
+            }
+        })
+
+
+
 
     }
 }
