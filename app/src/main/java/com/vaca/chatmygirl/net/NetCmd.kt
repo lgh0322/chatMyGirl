@@ -81,4 +81,21 @@ object NetCmd {
         sendServer(msg.toString())
     }
 
+
+    fun chatMsg(id:String,msg:String,type:Int,isGroup:Boolean=false){
+        val msg=JSONObject()
+        msg.put(PURPOSE,"chat")
+        msg.put("msg",msg)
+        if(isGroup){
+            msg.put("group",1)
+        }else{
+            msg.put("group",0)
+        }
+        msg.put("time",System.currentTimeMillis())
+        msg.put("type",type)
+        msg.put("from", myAcount.user)
+        msg.put("to", id)
+        sendRelay(msg.toString())
+    }
+
 }
