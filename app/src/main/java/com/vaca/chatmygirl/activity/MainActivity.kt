@@ -77,10 +77,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        MainScope().launch {
-            delay(5000)
-            GoGo.goChat()
-        }
+
 
         LiveEventBus.get("rootGo",String::class.java).observeForever(Observer {
             goPlace->

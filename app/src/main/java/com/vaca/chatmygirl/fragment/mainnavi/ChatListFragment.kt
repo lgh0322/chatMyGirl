@@ -38,7 +38,7 @@ class ChatListFragment: Fragment() {
             adapter = myEcgItemAdapter
         }
 
-        myEcgItemAdapter.setList(listOf(ChatListBean("123","456","789",2344),ChatListBean("123","456","789",2344),ChatListBean("123","456","789",2344),ChatListBean("123","456","789",2344)))
+        myEcgItemAdapter.setList(listOf(ChatListBean("gaga","123","456","789",2344)))
 
         return binding.root
     }

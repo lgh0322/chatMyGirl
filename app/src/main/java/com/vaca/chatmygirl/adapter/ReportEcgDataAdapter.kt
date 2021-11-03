@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
@@ -18,6 +19,7 @@ import com.daimajia.swipe.util.Attributes
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.bean.ChatListBean
 import com.vaca.chatmygirl.ble.BleServer
+import com.vaca.chatmygirl.event.GoGo
 import com.vaca.chatmygirl.view.CustomSwipeLayout
 
 import java.util.*
@@ -91,18 +93,13 @@ class ReportEcgDataAdapter(
 
 
 
-        val mainItem: LinearLayout = itemView.findViewById(R.id.gaga)
+        val mainItem: ConstraintLayout = itemView.findViewById(R.id.main_item)
         val mainView: CustomSwipeLayout = itemView.findViewById(R.id.bp_swipe)
 
         init {
 
-//            del.setOnClickListener {
-//
-//            }
-
-            var multiClick = false
-            mainItem.setOnClickListener {
-
+           mainItem.setOnClickListener {
+                GoGo.goChat()
             }
 
 
