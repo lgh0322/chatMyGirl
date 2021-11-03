@@ -7,6 +7,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -41,6 +43,12 @@ class MainActivity : AppCompatActivity() {
      * @return
      */
     private fun isShouldHideKeyboard(v: View?, event: MotionEvent): Boolean {
+        if(v is TextView){
+            return false
+        }
+        if(v is ImageView){
+            return false
+        }
         if (v != null && v is EditText) {  //判断得到的焦点控件是否包含EditText
             val l = intArrayOf(0, 0)
             v.getLocationInWindow(l)
