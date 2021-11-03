@@ -118,16 +118,17 @@
 
             <ImageButton
                 android:id="@+id/plus"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginRight="30dp"
                 android:layout_toRightOf="@+id/emotion"
                 android:background="@drawable/chatplus" />
 
-            <Button
-                android:id="@+id/btn_chat_message_send"
+            <TextView
+                android:gravity="center"
+                android:id="@+id/message_send"
                 android:layout_width="120dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="10dp"
