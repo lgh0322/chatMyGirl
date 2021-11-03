@@ -33,7 +33,7 @@ class WelcomeFragment:Fragment() {
 
 
         MainScope().launch {
-            delay(3000)
+//            delay(3000)
             val yes= MyStorage.getAccount()
             if(yes.user.isEmpty()){
                 try {
