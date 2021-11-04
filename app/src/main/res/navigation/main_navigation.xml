@@ -8,7 +8,11 @@
     <fragment
         android:id="@+id/myFragment"
         android:name="com.vaca.chatmygirl.fragment.mainnavi.MyFragment"
-        android:label="MyFragment" />
+        android:label="MyFragment" >
+        <action
+            android:id="@+id/action_myFragment_to_userInfoFragment"
+            app:destination="@id/userInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/contactFragment"
         android:name="com.vaca.chatmygirl.fragment.mainnavi.ContactFragment"
@@ -17,4 +21,8 @@
         android:id="@+id/chatListFragment"
         android:name="com.vaca.chatmygirl.fragment.mainnavi.ChatListFragment"
         android:label="ChatListFragment" />
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="com.vaca.chatmygirl.fragment.mainnavi.UserInfoFragment"
+        android:label="UserInfoFragment" />
 </navigation>
