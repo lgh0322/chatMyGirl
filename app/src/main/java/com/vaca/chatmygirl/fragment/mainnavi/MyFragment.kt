@@ -1,6 +1,9 @@
 package com.vaca.chatmygirl.fragment.mainnavi
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +13,7 @@ import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.databinding.FragmentLoginBinding
 import com.vaca.chatmygirl.databinding.FragmentMainBinding
 import com.vaca.chatmygirl.databinding.FragmentMyBinding
+import java.lang.Exception
 
 class MyFragment: Fragment() {
 
@@ -27,6 +31,17 @@ class MyFragment: Fragment() {
 
         binding.changeInfo.setOnClickListener {
             findNavController().navigate(R.id.action_myFragment_to_userInfoFragment)
+        }
+
+        binding.rlSetting2.setOnClickListener {
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val uri = Uri.fromParts("package", requireContext().packageName, null)
+            intent.data = uri
+            try {
+                requireContext().startActivity(intent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         return binding.root
