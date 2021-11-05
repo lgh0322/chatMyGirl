@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.vaca.chatmygirl.ContactInputEvent
+import com.vaca.chatmygirl.event.ContactInputEvent
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.adapter.ContactButtonAdapter
 import com.vaca.chatmygirl.databinding.FragmentContactBinding

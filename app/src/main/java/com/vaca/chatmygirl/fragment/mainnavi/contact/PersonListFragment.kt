@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
-import com.vaca.chatmygirl.ContactInputEvent
+import com.vaca.chatmygirl.event.ContactInputEvent
 import com.vaca.chatmygirl.adapter.SortAdapter
 import com.vaca.chatmygirl.bean.SortModel
 import com.vaca.chatmygirl.databinding.FragmentPersonListBinding
@@ -41,7 +41,7 @@ class PersonListFragment: Fragment() {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event:ContactInputEvent?) {
+    fun onMessageEvent(event: ContactInputEvent?) {
         if(event!=null){
             filterData(event.input)
         }
