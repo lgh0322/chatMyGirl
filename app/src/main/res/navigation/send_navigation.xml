@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_navigation"
+    app:startDestination="@id/faceFragment">
+
+
+    <fragment
+        android:id="@+id/faceFragment"
+        android:name="com.vaca.chatmygirl.optionfragment.FaceFragment"
+        android:label="FaceFragment" />
+    <fragment
+        android:id="@+id/sendOptionFragment"
+        android:name="com.vaca.chatmygirl.optionfragment.SendOptionFragment"
+        android:label="SendOptionFragment" />
+    <fragment
+        android:id="@+id/voiceFragment"
+        android:name="com.vaca.chatmygirl.optionfragment.VoiceFragment"
+        android:label="VoiceFragment" />
+</navigation>
