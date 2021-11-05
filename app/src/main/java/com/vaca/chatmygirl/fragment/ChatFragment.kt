@@ -36,7 +36,7 @@ class ChatFragment: Fragment() {
                 MyStorage.setKeyboardHeight(-myHeight.toInt())
                 lp.height=-myHeight.toInt()
                 binding.container.layoutParams=lp
-//                Log.e("gogo",myHeight.toString())
+                Log.e("gogo",myHeight.toString())
 //                editText.setTranslationY(myHeight)
                 editText.setTranslationY(0f)
             } else {

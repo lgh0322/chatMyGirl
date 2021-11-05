@@ -28,7 +28,7 @@ object MyStorage {
     }
 
     fun getKeyboardHeight():Int{
-        return SPUtils.getInstance().getInt("keyboardheight",600)
+        return SPUtils.getInstance().getInt("keyboardheight",900)
     }
 
     fun setKeyboardHeight(a:Int){

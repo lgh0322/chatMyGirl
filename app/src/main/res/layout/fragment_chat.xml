@@ -174,7 +174,7 @@
             android:layout_width="match_parent"
             app:defaultNavHost="true"
             app:navGraph="@navigation/root_navigation"
-            android:layout_height="500dp"/>
+            android:layout_height="800dp"/>
 
 
 
