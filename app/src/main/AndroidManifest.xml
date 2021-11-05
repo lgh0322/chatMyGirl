@@ -24,8 +24,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
         android:theme="@style/Theme.ChatMyGirl">
         <activity
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
