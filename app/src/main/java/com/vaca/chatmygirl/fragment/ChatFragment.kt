@@ -1,11 +1,14 @@
 package com.vaca.chatmygirl.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.vaca.chatmygirl.databinding.FragmentChatBinding
 import com.vaca.chatmygirl.net.NetCmd
@@ -26,7 +29,15 @@ class ChatFragment: Fragment() {
             editText
         ) { isSoftInputShow, softInputHeight, viewOffset ->
             if (isSoftInputShow) {
-                editText.setTranslationY(binding.constraintLayout.getTranslationY() - viewOffset)
+//                binding.container.visibility=View.GONE
+                val lp=binding.container.layoutParams
+
+                val myHeight=binding.constraintLayout.getTranslationY() - viewOffset
+                lp.height=-myHeight.toInt()
+                binding.container.layoutParams=lp
+//                Log.e("gogo",myHeight.toString())
+//                editText.setTranslationY(myHeight)
+                editText.setTranslationY(0f)
             } else {
                 editText.setTranslationY(0f)
             }
@@ -48,6 +59,10 @@ class ChatFragment: Fragment() {
             if(text.isNotEmpty()){
                 NetCmd.chatText(text,false)
             }
+        }
+
+        binding.plus.setOnClickListener {
+            (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
 
         binding.chatMessage.addTextChangedListener(object:TextWatcher{
