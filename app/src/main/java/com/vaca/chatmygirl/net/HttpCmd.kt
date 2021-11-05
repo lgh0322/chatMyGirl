@@ -3,7 +3,6 @@ package com.vaca.chatmygirl.net
 import android.util.Log
 import com.vaca.chatmygirl.BuildConfig
 import com.vaca.chatmygirl.utils.PathUtil
-import com.vaca.netdisk.net.UploadProgressListener
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody

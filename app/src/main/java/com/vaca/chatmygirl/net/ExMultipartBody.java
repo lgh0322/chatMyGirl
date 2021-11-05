@@ -2,8 +2,6 @@ package com.vaca.chatmygirl.net;
 
 import android.util.Log;
 
-import com.vaca.netdisk.net.UploadProgressListener;
-
 import java.io.IOException;
 
 import okhttp3.MediaType;
