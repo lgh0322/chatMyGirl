@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.vaca.chatmygirl.data.MyStorage
 import com.vaca.chatmygirl.databinding.FragmentChatBinding
 import com.vaca.chatmygirl.net.NetCmd
+import com.vaca.chatmygirl.utils.SoftHeight
 import com.vaca.chatmygirl.utils.SoftInputUtil
 
 
@@ -20,30 +21,15 @@ class ChatFragment: Fragment() {
 
     lateinit var binding:FragmentChatBinding
 
+    var keyboardVisible=false
 
-    private fun attachView() {
-
-        //editText2为需要调整的View
-        val editText = binding.constraintLayout
-        val softInputUtil = SoftInputUtil()
-        softInputUtil.attachSoftInput(
-            editText
-        ) { isSoftInputShow, softInputHeight, viewOffset ->
-            if (isSoftInputShow) {
-//                binding.container.visibility=View.GONE
-                val lp=binding.container.layoutParams
-                val myHeight=binding.constraintLayout.getTranslationY() - viewOffset
-                MyStorage.setKeyboardHeight(-myHeight.toInt())
-                lp.height=-myHeight.toInt()
-                binding.container.layoutParams=lp
-                Log.e("gogo",myHeight.toString())
-//                editText.setTranslationY(myHeight)
-//                editText.setTranslationY(0f)
-            } else {
-                editText.setTranslationY(0f)
-            }
-        }
+    fun showKeyboard(view: View) {
+        val imm = view.context
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        view.requestFocus()
+        imm.showSoftInput(view, 0)
     }
+    var allowContainerExist=false
 
 
     override fun onCreateView(
@@ -54,11 +40,41 @@ class ChatFragment: Fragment() {
 
 
         binding= FragmentChatBinding.inflate(inflater,container,false)
+
+        val editText = binding.constraintLayout
+
         val lp=binding.container.layoutParams
         lp.height=MyStorage.keyboardHeightX
         binding.container.layoutParams=lp
 
-        attachView()
+//        attachView()
+
+        SoftHeight.observeSoftKeyboard(requireActivity(),object:SoftHeight.OnSoftKeyboardChangeListener{
+            override fun onSoftKeyBoardChange(softKeybardHeight: Int, visible: Boolean) {
+                Log.e("gogo",softKeybardHeight.toString())
+                if(visible){
+                    val lp=binding.container.layoutParams
+                    MyStorage.setKeyboardHeight(softKeybardHeight)
+                    lp.height=softKeybardHeight
+                    binding.container.layoutParams=lp
+                    if(binding.container.visibility==View.VISIBLE){
+                        editText.setTranslationY(0f)
+                    }else{
+                        editText.setTranslationY(-softKeybardHeight.toFloat())
+                    }
+
+                }else{
+                    if(allowContainerExist==false){
+                        binding.container.visibility=View.GONE
+                    }else{
+                        allowContainerExist=false
+                    }
+                    editText.setTranslationY(0f)
+                }
+                keyboardVisible=visible
+            }
+
+        })
         binding.messageSend.setOnClickListener {
             val text=binding.chatMessage.text.toString()
             if(text.isNotEmpty()){
@@ -67,7 +83,13 @@ class ChatFragment: Fragment() {
         }
 
         binding.plus.setOnClickListener {
-            (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            if(keyboardVisible){
+                allowContainerExist=true
+                    binding.container.visibility=View.VISIBLE
+                (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }else{
+                showKeyboard(binding.chatMessage)
+            }
         }
 
         binding.chatMessage.addTextChangedListener(object:TextWatcher{
