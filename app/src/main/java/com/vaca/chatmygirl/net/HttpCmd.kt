@@ -3,7 +3,6 @@ package com.vaca.chatmygirl.net
 import android.util.Log
 import com.vaca.chatmygirl.BuildConfig
 import com.vaca.chatmygirl.utils.PathUtil
-import com.vaca.netdisk.net.ExMultipartBody
 import com.vaca.netdisk.net.UploadProgressListener
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -92,7 +91,8 @@ object HttpCmd {
             )
 
 
-        val exMultipartBody = ExMultipartBody(builder.build(),pro)
+        val exMultipartBody =
+            ExMultipartBody(builder.build(), pro)
 
         val request: Request = Request.Builder()
             .addHeader("Content-Type", "application/json; charset=UTF-8")
