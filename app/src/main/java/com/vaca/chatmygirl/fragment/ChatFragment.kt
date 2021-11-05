@@ -18,19 +18,19 @@ import com.vaca.chatmygirl.utils.SoftInputUtil.ISoftInputChanged
 
 class ChatFragment: Fragment() {
 
-    lateinit var binding:FragmentChat2Binding
+    lateinit var binding:FragmentChatBinding
 
 
     private fun attachView() {
 
         //editText2为需要调整的View
-        val editText2 = binding.et2
+        val editText2 = binding.constraintLayout
         val softInputUtil = SoftInputUtil()
         softInputUtil.attachSoftInput(
             editText2
         ) { isSoftInputShow, softInputHeight, viewOffset ->
             if (isSoftInputShow) {
-                editText2.setTranslationY(binding.et2.getTranslationY() - viewOffset)
+                editText2.setTranslationY(binding.constraintLayout.getTranslationY() - viewOffset)
             } else {
                 editText2.setTranslationY(0f)
             }
@@ -45,7 +45,7 @@ class ChatFragment: Fragment() {
     ): View{
 
 
-        binding= FragmentChat2Binding.inflate(inflater,container,false)
+        binding= FragmentChatBinding.inflate(inflater,container,false)
         attachView()
       /*  binding.messageSend.setOnClickListener {
             val text=binding.chatMessage.text.toString()
