@@ -38,7 +38,7 @@ class ChatFragment: Fragment() {
                 binding.container.layoutParams=lp
                 Log.e("gogo",myHeight.toString())
 //                editText.setTranslationY(myHeight)
-                editText.setTranslationY(0f)
+//                editText.setTranslationY(0f)
             } else {
                 editText.setTranslationY(0f)
             }
