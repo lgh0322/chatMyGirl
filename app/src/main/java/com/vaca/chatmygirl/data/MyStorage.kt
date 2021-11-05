@@ -8,6 +8,11 @@ object MyStorage {
 
     private const val UserName="UserName"
     private const val UserPassword="UserPassword"
+    var keyboardHeightX=0
+    init {
+        keyboardHeightX= getKeyboardHeight()
+    }
+
 
     fun getAccount():Account{
         val a=SPUtils.getInstance().getString(UserName,"")
@@ -22,5 +27,13 @@ object MyStorage {
         SPUtils.getInstance().put(UserPassword,account.password)
     }
 
+    fun getKeyboardHeight():Int{
+        return SPUtils.getInstance().getInt("keyboardheight",600)
+    }
+
+    fun setKeyboardHeight(a:Int){
+        keyboardHeightX=a
+        SPUtils.getInstance().put("keyboardheight",a)
+    }
 
 }

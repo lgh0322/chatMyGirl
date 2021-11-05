@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import com.vaca.chatmygirl.data.MyStorage
 import com.vaca.chatmygirl.databinding.FragmentChatBinding
 import com.vaca.chatmygirl.net.NetCmd
 import com.vaca.chatmygirl.utils.SoftInputUtil
@@ -31,8 +32,8 @@ class ChatFragment: Fragment() {
             if (isSoftInputShow) {
 //                binding.container.visibility=View.GONE
                 val lp=binding.container.layoutParams
-
                 val myHeight=binding.constraintLayout.getTranslationY() - viewOffset
+                MyStorage.setKeyboardHeight(-myHeight.toInt())
                 lp.height=-myHeight.toInt()
                 binding.container.layoutParams=lp
 //                Log.e("gogo",myHeight.toString())
@@ -53,6 +54,10 @@ class ChatFragment: Fragment() {
 
 
         binding= FragmentChatBinding.inflate(inflater,container,false)
+        val lp=binding.container.layoutParams
+        lp.height=MyStorage.keyboardHeightX
+        binding.container.layoutParams=lp
+
         attachView()
         binding.messageSend.setOnClickListener {
             val text=binding.chatMessage.text.toString()
