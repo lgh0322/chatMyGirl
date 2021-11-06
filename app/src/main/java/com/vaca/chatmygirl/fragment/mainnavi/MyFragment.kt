@@ -13,6 +13,7 @@ import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.databinding.FragmentLoginBinding
 import com.vaca.chatmygirl.databinding.FragmentMainBinding
 import com.vaca.chatmygirl.databinding.FragmentMyBinding
+import com.vaca.chatmygirl.event.GoGo
 import java.lang.Exception
 
 class MyFragment: Fragment() {
@@ -42,6 +43,11 @@ class MyFragment: Fragment() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
+
+
+        binding.btLogout.setOnClickListener {
+            GoGo.goLogin()
         }
 
         return binding.root

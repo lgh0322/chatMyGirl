@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.adapter.RecordButtonAdapter
 import com.vaca.chatmygirl.data.MyStorage
@@ -18,7 +20,7 @@ import com.vaca.chatmygirl.databinding.FragmentMainBinding
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
+import androidx.lifecycle.Observer
 class MainFragment: Fragment() {
 
     lateinit var binding:FragmentMainBinding
@@ -79,6 +81,8 @@ class MainFragment: Fragment() {
             navController.graph = graph
             buttonAdapter.setSelect(it)
         })
+
+
 
         return binding.root
     }

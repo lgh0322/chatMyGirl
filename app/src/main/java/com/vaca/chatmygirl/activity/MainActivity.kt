@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -97,6 +98,11 @@ class MainActivity : AppCompatActivity() {
                     if(!navController.popBackStack(R.id.chatFragment,false)){
                         navController.navigate(R.id.chatFragment)
                     }
+                }
+                "login"->{
+                    val navOptions =
+                        NavOptions.Builder().setPopUpTo(R.id.mainFragment, true).build()
+                    navController.navigate(R.id.loginFragment,null,navOptions)
                 }
             }
         })

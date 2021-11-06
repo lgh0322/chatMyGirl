@@ -8,4 +8,8 @@ object GoGo {
         Log.e("chat","gotoChat")
         LiveEventBus.get("rootGo",String::class.java).post("chat")
     }
+
+    fun goLogin(){
+        LiveEventBus.get("rootGo",String::class.java).post("login")
+    }
 }
