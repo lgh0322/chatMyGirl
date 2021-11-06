@@ -23,12 +23,12 @@
 
     <com.vaca.chatmygirl.view.AutoScaleTextView
         android:id="@+id/title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/profile_image"
+        app:layout_constraintTop_toTopOf="@+id/profile_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+
         android:layout_weight="1.0"
         android:gravity="center_vertical"
         android:singleLine="true"
