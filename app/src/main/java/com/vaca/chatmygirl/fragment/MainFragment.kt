@@ -1,6 +1,7 @@
 package com.vaca.chatmygirl.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,14 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.lifecycle.Observer
+import com.vaca.chatmygirl.bean.MyInfo
+import com.vaca.chatmygirl.net.FileCmd
 import com.vaca.chatmygirl.net.NetCmd
+import com.vaca.chatmygirl.utils.PathUtil
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
+import java.lang.Exception
 
 class MainFragment: Fragment() {
 
@@ -88,7 +96,36 @@ class MainFragment: Fragment() {
 
 
         NetCmd.dataScope.launch {
-           NetCmd.getInfo()
+            try {
+                val  info=NetCmd.getInfo()
+                val info2=JSONObject(info)
+                val info3=info2.getJSONObject("data")
+                val name=info3.getString("name")
+                val avatar=info3.getString("avatar")
+               if( !File(PathUtil.getPathX(avatar)).exists()){
+                   FileCmd.getFile(avatar,object :FileCmd.OnDownloadListener{
+                       override fun onDownloadSuccess(filePath: String?) {
+                           Log.e("getAvatar","ues")
+                           NetCmd.myInfo.postValue(MyInfo(name,avatar))
+                       }
+
+                       override fun onDownloading(progress: Int) {
+
+                       }
+
+                       override fun onDownloadFailed() {
+
+                       }
+
+                   })
+               }else{
+                   NetCmd.myInfo.postValue(MyInfo(name,avatar))
+               }
+
+            }catch (e:Exception){
+
+            }
+
         }
 
         return binding.root

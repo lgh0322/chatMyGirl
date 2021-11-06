@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vaca.chatmygirl.BuildConfig
+import com.vaca.chatmygirl.bean.MyInfo
 import com.vaca.chatmygirl.data.MyStorage
 import io.socket.client.IO
 import io.socket.emitter.Emitter
@@ -30,7 +31,7 @@ object NetCmd {
     var haveRegister=!myAcount.isEmpty()
     var currentChatId="56"
     val dataScope = CoroutineScope(Dispatchers.IO)
-
+    val myInfo=MutableLiveData<MyInfo>()
 
     //-------------------------------------------------------------------------------用户信息上传
     fun getInfo(): String? {
