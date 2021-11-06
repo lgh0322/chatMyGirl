@@ -4,9 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Chat/chatMyGirl/app/src/main/res/drawable/bg_login_bt.xml" value="0.150625" />
+        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_add_friend.xml" value="0.12346059113300492" />
         <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_chat.xml" value="0.14635416666666667" />
+        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_chat_list.xml" value="0.12346059113300492" />
+        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_contact.xml" value="0.12346059113300492" />
         <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_login.xml" value="0.12708333333333333" />
         <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_my.xml" value="0.1816123188405797" />
+        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/item_contact_button.xml" value="0.12346059113300492" />
+        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/item_contacts.xml" value="0.12346059113300492" />
         <entry key="..\:/Chat/chatMyGirl/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl2/app/src/main/res/drawable-v24/bg_my_top.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl2/app/src/main/res/drawable-v24/shape_red_drawable.xml" value="0.2898148148148148" />

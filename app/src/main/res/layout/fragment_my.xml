@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:background="@color/white"
                 android:layout_height="@dimen/height_my"
-                android:paddingLeft="12dp"
+                android:paddingStart="@dimen/margin_item_my"
                 android:paddingRight="12dp">
 
                 <TextView
@@ -117,7 +117,7 @@
                 android:layout_height="@dimen/height_my"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:paddingLeft="14dp"
+                android:paddingStart="@dimen/margin_item_my"
                 android:paddingRight="14dp">
 
                 <TextView
@@ -143,7 +143,7 @@
                 android:layout_height="@dimen/height_my"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:paddingLeft="14dp"
+                android:paddingStart="@dimen/margin_item_my"
                 android:paddingRight="14dp">
 
                 <TextView
@@ -169,7 +169,7 @@
                 android:layout_height="90dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:paddingLeft="14dp"
+                android:paddingStart="@dimen/margin_item_my"
                 android:paddingRight="14dp">
 
                 <TextView
@@ -195,7 +195,7 @@
                 android:layout_height="@dimen/height_my"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:paddingLeft="14dp"
+                android:paddingStart="@dimen/margin_item_my"
                 android:paddingRight="14dp">
 
                 <TextView

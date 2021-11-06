@@ -2,4 +2,5 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="control_left_icon">36dp</dimen>
     <dimen name="height_my">100dp</dimen>
+    <dimen name="margin_item_my">50dp</dimen>
 </resources>
