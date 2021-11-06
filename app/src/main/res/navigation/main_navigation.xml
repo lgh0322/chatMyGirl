@@ -25,4 +25,8 @@
         android:id="@+id/userInfoFragment"
         android:name="com.vaca.chatmygirl.fragment.mainnavi.UserInfoFragment"
         android:label="UserInfoFragment" />
+    <fragment
+        android:id="@+id/addFriendFragment"
+        android:name="com.vaca.chatmygirl.fragment.mainnavi.AddFriendFragment"
+        android:label="AddFriendFragment" />
 </navigation>
