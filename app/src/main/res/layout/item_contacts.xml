@@ -1,69 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:background="#fffafafa"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+    <com.vaca.chatmygirl.view.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/banner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.vaca.chatmygirl.view.AutoScaleTextView
+        android:id="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="50dp"
+        android:layout_weight="1.0"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:singleLine="true"
+        android:text="hhhh"
+        android:textColor="#222222"
+        android:textSize="50sp"
+        app:minTextSize="10sp" />
 
-        <com.vaca.chatmygirl.view.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/banner"
-            />
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="150dp"
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:text="[在线]"
+        android:textColor="#999999"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="3dp"
-            android:paddingBottom="2dp"
-            android:orientation="vertical">
-            <com.vaca.chatmygirl.view.AutoScaleTextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1.0"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="hhhh"
-                app:minTextSize="10sp"
-                android:textColor="#222222"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/status"
-                android:visibility="gone"
-                android:layout_weight="1.0"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="#999999"
-                android:textSize="12sp"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="[在线]"
-/>
-        </LinearLayout>
-
-
-
-    </LinearLayout>
 
     <View
         android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="60dp"
-        android:background="#F2F1F1" />
+        android:background="#F2F1F1"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
