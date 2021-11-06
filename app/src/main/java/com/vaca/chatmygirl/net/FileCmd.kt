@@ -11,10 +11,10 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 
-object HttpCmd {
+object FileCmd {
     val netAddress=BuildConfig.FILEURL
     private val client = OkHttpClient();
-    private val JSON2: MediaType? = "multipart/form-data; charset=utf-8".toMediaTypeOrNull()
+    private val JSON: MediaType? = "multipart/form-data; charset=utf-8".toMediaTypeOrNull()
 
     interface OnDownloadListener {
         fun onDownloadSuccess(filePath: String?)
@@ -86,7 +86,7 @@ object HttpCmd {
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart(
                 "uploadFile", file.name,
-                file.asRequestBody(JSON2)
+                file.asRequestBody(JSON)
             )
 
 

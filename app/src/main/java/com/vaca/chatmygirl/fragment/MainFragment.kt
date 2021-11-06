@@ -21,6 +21,8 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.lifecycle.Observer
+import com.vaca.chatmygirl.net.NetCmd
+
 class MainFragment: Fragment() {
 
     lateinit var binding:FragmentMainBinding
@@ -83,6 +85,11 @@ class MainFragment: Fragment() {
         })
 
 
+
+
+        NetCmd.dataScope.launch {
+           NetCmd.getInfo()
+        }
 
         return binding.root
     }

@@ -2,23 +2,59 @@ package com.vaca.chatmygirl.net
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vaca.chatmygirl.BuildConfig
 import com.vaca.chatmygirl.data.MyStorage
 import io.socket.client.IO
 import io.socket.emitter.Emitter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import java.io.IOException
+import java.lang.Exception
+import java.util.*
 
 object NetCmd {
-    private val mSocket = IO.socket(BuildConfig.HOST)
-
+    val netAddress=BuildConfig.HOST
+    private val mSocket = IO.socket(netAddress)
+    private val client = OkHttpClient();
     private val PURPOSE = "purpose"
 
     val loginState=MutableLiveData<Boolean>()
     var myAcount=MyStorage.getAccount()
     var haveRegister=!myAcount.isEmpty()
     var currentChatId="56"
+    val dataScope = CoroutineScope(Dispatchers.IO)
 
+
+    //-------------------------------------------------------------------------------用户信息上传
+    fun getInfo(): String? {
+        try {
+            val url = "$netAddress/info"
+            val request: Request = Request.Builder()
+                .addHeader("Content-Type", "application/json; charset=UTF-8")
+                .addHeader("acount", myAcount.user)
+                .url(url)
+                .build()
+            client.newCall(request)
+                .execute()
+                .use { response ->
+                    response.body?.string()?.let {
+                        Log.e("sdf",it)
+                        return it
+                    }
+                }
+            return null
+        }catch (e:Exception){
+            return null
+        }
+
+    }
 
 
 
