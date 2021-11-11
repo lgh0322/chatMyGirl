@@ -62,7 +62,7 @@ class WelcomeFragment : Fragment() {
         FileCmd.dataScope.launch {
             try {
 //                FileCmd.getTxtList()
-                val doc = Jsoup.connect("http://157.7.135.42/books").get();
+                val doc = Jsoup.connect("http://157.7.135.42/books/").get();
                 val trs = doc.select("table").select("tr")
                 for (k in 0 until trs.size) {
                     val tds = trs.get(k).select("td")
