@@ -36,7 +36,7 @@ class TxtBookFragment:Fragment() {
 
 
         FileCmd.bookUrl.observe(viewLifecycleOwner,{
-            binding.book.text= File(it).readText()
+            binding.pdfView.fromFile(File(it)).load()
         })
 
         return binding.root

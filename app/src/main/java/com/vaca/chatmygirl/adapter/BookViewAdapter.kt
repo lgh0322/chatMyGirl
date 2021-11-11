@@ -28,7 +28,7 @@ class BookViewAdapter(context: Context) : RecyclerView.Adapter<BookViewAdapter.V
     // binds the data to the TextView in each cell
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var nn=mBleData[position].name
-        nn=nn.replace(".txt","",ignoreCase = true)
+        nn=nn.replace(".pdf","",ignoreCase = true)
 
         holder.bleName.text = nn
     }
