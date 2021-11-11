@@ -38,7 +38,7 @@ class WelcomeFragment:Fragment() {
         binding.bleTable.adapter = bleViewAdapter
         bleViewAdapter.setClickListener(object:BookViewAdapter.ItemClickListener{
             override fun onScanItemClick(name: String) {
-                FileCmd.dataScope.launch {
+         /*       FileCmd.dataScope.launch {
                     try {
                         FileCmd.getFile(name,object:FileCmd.OnDownloadListener{
                             override fun onDownloadSuccess(filePath: String) {
@@ -61,7 +61,7 @@ class WelcomeFragment:Fragment() {
                     }catch (e:Exception){
                         e.printStackTrace()
                     }
-                }
+                }*/
             }
 
         })
@@ -69,12 +69,12 @@ class WelcomeFragment:Fragment() {
         FileCmd.dataScope.launch {
             try {
                 val n1=FileCmd.getTxtList()
-                val n2=JSONArray(n1)
-                val n3=n2.length()
-                Log.e("sdf",n3.toString())
-                withContext(Dispatchers.Main){
-                    bleViewAdapter.addAllDevice(n2)
-                }
+//                val n2=JSONArray(n1)
+//                val n3=n2.length()
+//                Log.e("sdf",n3.toString())
+//                withContext(Dispatchers.Main){
+//                    bleViewAdapter.addAllDevice(n2)
+//                }
             }catch (e:Exception){
                 e.printStackTrace()
             }

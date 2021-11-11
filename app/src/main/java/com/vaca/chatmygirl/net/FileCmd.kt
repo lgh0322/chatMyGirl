@@ -15,7 +15,7 @@ import java.io.IOException
 import java.io.InputStream
 
 object FileCmd {
-    val netAddress=BuildConfig.FILEURL
+    val netAddress="http://157.7.135.42/books"
     private val client = OkHttpClient();
     private val JSON: MediaType? = "multipart/form-data; charset=utf-8".toMediaTypeOrNull()
     val dataScope = CoroutineScope(Dispatchers.IO)
@@ -116,7 +116,7 @@ object FileCmd {
 
     @Throws(IOException::class)
     fun getTxtList(): String? {
-        val url = netAddress + "/booklist"
+        val url = netAddress + ""
 
         val request: Request = Request.Builder()
             .url(url).build()
