@@ -27,7 +27,10 @@ class BookViewAdapter(context: Context) : RecyclerView.Adapter<BookViewAdapter.V
 
     // binds the data to the TextView in each cell
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bleName.text = mBleData[position].name
+        var nn=mBleData[position].name
+        nn=nn.replace(".txt","",ignoreCase = true)
+
+        holder.bleName.text = nn
     }
 
     fun addAllDevice(name: JSONArray) {
