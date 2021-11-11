@@ -3,6 +3,8 @@ package com.vaca.chatmygirl.net
 import android.util.Log
 import com.vaca.chatmygirl.BuildConfig
 import com.vaca.chatmygirl.utils.PathUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -15,6 +17,8 @@ object FileCmd {
     val netAddress=BuildConfig.FILEURL
     private val client = OkHttpClient();
     private val JSON: MediaType? = "multipart/form-data; charset=utf-8".toMediaTypeOrNull()
+    val dataScope = CoroutineScope(Dispatchers.IO)
+
 
     interface OnDownloadListener {
         fun onDownloadSuccess(filePath: String?)
@@ -97,6 +101,22 @@ object FileCmd {
             .addHeader("Content-Type", "application/json; charset=UTF-8")
             .url(url).post(exMultipartBody)
             .build()
+        client.newCall(request)
+            .execute()
+            .use { response ->
+                response.body?.string()?.let { Log.e("sdf", it);return it }
+            }
+        return null
+    }
+
+
+
+    @Throws(IOException::class)
+    fun getTxtList(): String? {
+        val url = netAddress + "/booklist"
+
+        val request: Request = Request.Builder()
+            .url(url).build()
         client.newCall(request)
             .execute()
             .use { response ->

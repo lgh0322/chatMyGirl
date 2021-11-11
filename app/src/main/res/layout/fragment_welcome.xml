@@ -11,5 +11,10 @@
        android:src="@drawable/banner"
        android:layout_width="match_parent"
        android:layout_height="match_parent"/>
+   <androidx.recyclerview.widget.RecyclerView
+       android:elevation="2dp"
+       android:id="@+id/ble_table"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
