@@ -1,6 +1,7 @@
 package com.vaca.chatmygirl.net
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.vaca.chatmygirl.BuildConfig
 import com.vaca.chatmygirl.utils.PathUtil
 import kotlinx.coroutines.CoroutineScope
@@ -18,6 +19,8 @@ object FileCmd {
     private val client = OkHttpClient();
     private val JSON: MediaType? = "multipart/form-data; charset=utf-8".toMediaTypeOrNull()
     val dataScope = CoroutineScope(Dispatchers.IO)
+
+    val bookUrl=MutableLiveData<String>()
 
 
     interface OnDownloadListener {

@@ -13,6 +13,7 @@ import com.vaca.chatmygirl.adapter.BookViewAdapter
 import com.vaca.chatmygirl.data.MyStorage
 import com.vaca.chatmygirl.databinding.FragmentWelcomeBinding
 import com.vaca.chatmygirl.net.FileCmd
+import com.vaca.chatmygirl.net.NetCmd
 import kotlinx.coroutines.*
 import org.json.JSONArray
 import java.lang.Exception
@@ -42,6 +43,10 @@ class WelcomeFragment:Fragment() {
                         FileCmd.getFile(name,object:FileCmd.OnDownloadListener{
                             override fun onDownloadSuccess(filePath: String) {
                                Log.e("download","ok")
+                                FileCmd.bookUrl.postValue(filePath)
+                               MainScope().launch {
+                                   findNavController().navigate(R.id.action_welcomeFragment_to_txtBookFragment)
+                               }
                             }
 
                             override fun onDownloading(progress: Int) {
@@ -49,7 +54,7 @@ class WelcomeFragment:Fragment() {
                             }
 
                             override fun onDownloadFailed() {
-
+                                Log.e("download","fail")
                             }
 
                         })

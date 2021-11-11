@@ -104,7 +104,7 @@ class MainFragment: Fragment() {
                 val avatar=info3.getString("avatar")
                if( !File(PathUtil.getPathX(avatar)).exists()){
                    FileCmd.getFile(avatar,object :FileCmd.OnDownloadListener{
-                       override fun onDownloadSuccess(filePath: String?) {
+                       override fun onDownloadSuccess(filePath: String) {
                            Log.e("getAvatar","ues")
                            NetCmd.myInfo.postValue(MyInfo(name,avatar))
                        }

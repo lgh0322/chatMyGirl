@@ -6,16 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-
-   <ImageView
-       android:scaleType="centerCrop"
-       android:src="@drawable/banner"
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+   <TextView
+       android:id="@+id/book"
+       android:padding="30dp"
        android:layout_width="match_parent"
        android:layout_height="match_parent"/>
-   <androidx.recyclerview.widget.RecyclerView
-       android:elevation="2dp"
-       android:id="@+id/ble_table"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent" />
+</androidx.core.widget.NestedScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,9 @@
             app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_txtBookFragment"
+            app:destination="@id/txtBookFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -55,4 +58,8 @@
         android:id="@+id/chatFragment"
         android:name="com.vaca.chatmygirl.fragment.ChatFragment"
         android:label="ChatFragment" />
+    <fragment
+        android:id="@+id/txtBookFragment"
+        android:name="com.vaca.chatmygirl.fragment.TxtBookFragment"
+        android:label="TxtBookFragment" />
 </navigation>
