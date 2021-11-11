@@ -37,7 +37,26 @@ class WelcomeFragment:Fragment() {
         binding.bleTable.adapter = bleViewAdapter
         bleViewAdapter.setClickListener(object:BookViewAdapter.ItemClickListener{
             override fun onScanItemClick(name: String) {
+                FileCmd.dataScope.launch {
+                    try {
+                        FileCmd.getFile(name,object:FileCmd.OnDownloadListener{
+                            override fun onDownloadSuccess(filePath: String) {
+                               Log.e("download","ok")
+                            }
 
+                            override fun onDownloading(progress: Int) {
+
+                            }
+
+                            override fun onDownloadFailed() {
+
+                            }
+
+                        })
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
+                }
             }
 
         })

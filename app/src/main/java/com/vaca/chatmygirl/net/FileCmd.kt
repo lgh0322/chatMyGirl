@@ -21,7 +21,7 @@ object FileCmd {
 
 
     interface OnDownloadListener {
-        fun onDownloadSuccess(filePath: String?)
+        fun onDownloadSuccess(filePath: String)
         fun onDownloading(progress: Int)
         fun onDownloadFailed()
     }
