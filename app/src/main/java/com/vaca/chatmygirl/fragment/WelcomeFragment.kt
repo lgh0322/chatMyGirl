@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.vaca.chatmygirl.adapter.BookViewAdapter
 import com.vaca.chatmygirl.databinding.FragmentWelcomeBinding
 import com.vaca.chatmygirl.net.FileCmd
+import com.vaca.chatmygirl.utils.PathUtil
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
+import java.io.File
 
 class WelcomeFragment : Fragment() {
 
@@ -58,6 +60,10 @@ class WelcomeFragment : Fragment() {
             }
 
         })
+
+        //http://157.7.135.42/books/%e5%86%9b%e4%ba%8b/%e4%b8%ad%e5%9b%bd%e4%b8%8a%e5%8f%a4%e5%86%9b%e4%ba%8b%e5%8f%b2.pdf
+
+       File(PathUtil.getPathX("book")).mkdir()
 
         FileCmd.dataScope.launch {
             try {
