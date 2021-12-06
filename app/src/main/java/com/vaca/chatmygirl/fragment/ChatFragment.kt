@@ -3,6 +3,7 @@ package com.vaca.chatmygirl.fragment
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
+import android.text.Selection
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,8 +16,13 @@ import androidx.navigation.fragment.NavHostFragment
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.data.MyStorage
 import com.vaca.chatmygirl.databinding.FragmentChatBinding
+import com.vaca.chatmygirl.event.Emotion
 import com.vaca.chatmygirl.net.NetCmd
 import com.vaca.chatmygirl.utils.SoftHeight
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import java.util.regex.Pattern
 
 
 class ChatFragment : Fragment() {
@@ -225,4 +231,82 @@ class ChatFragment : Fragment() {
 
         return binding.root
     }
+
+
+    private fun isDeletePng(cursor: Int): Boolean {
+        val st = "[f_static_000]"
+        val content: String = binding.chatMessage.getText().toString().substring(0, cursor)
+        if (content.length >= st.length) {
+            val checkStr = content.substring(
+                content.length - st.length,
+                content.length
+            )
+            val regex = "(\\[f_static_)\\d{1,3}(\\])"
+            val p = Pattern.compile(regex)
+            val m = p.matcher(checkStr)
+            return m.matches()
+        }
+        return false
+    }
+
+    private fun delete() {
+        if (binding.chatMessage.getText().length != 0) {
+            val iCursorEnd = Selection.getSelectionEnd(binding.chatMessage.getText())
+            val iCursorStart = Selection.getSelectionStart(binding.chatMessage.getText())
+            if (iCursorEnd > 0) {
+                if (iCursorEnd == iCursorStart) {
+                    if (isDeletePng(iCursorEnd)) {
+                        val st = "[f_static_000]"
+                        (binding.chatMessage.getText() as Editable).delete(
+                            iCursorEnd - st.length, iCursorEnd
+                        )
+                    } else {
+                        (binding.chatMessage.getText() as Editable).delete(
+                            iCursorEnd - 1,
+                            iCursorEnd
+                        )
+                    }
+                } else {
+                    (binding.chatMessage.getText() as Editable).delete(
+                        iCursorStart,
+                        iCursorEnd
+                    )
+                }
+            }
+        }
+    }
+
+
+    private fun insert(text: CharSequence) {
+        val iCursorStart = Selection.getSelectionStart(binding.chatMessage.getText())
+        val iCursorEnd = Selection.getSelectionEnd(binding.chatMessage.getText())
+        if (iCursorStart != iCursorEnd) {
+            (binding.chatMessage.getText() as Editable).replace(iCursorStart, iCursorEnd, "")
+        }
+        val iCursor = Selection.getSelectionEnd(binding.chatMessage.getText())
+        (binding.chatMessage.getText() as Editable).insert(iCursor, text)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: Emotion) {
+        if (event.isDelete) {
+            delete()
+        } else {
+            insert(event.text!!)
+        }
+    }
+
+
+    override fun onStart() {
+        EventBus.getDefault().register(this);
+        super.onStart()
+    }
+
+
+    override fun onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop()
+    }
+
+
 }

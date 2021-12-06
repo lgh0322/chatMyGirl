@@ -1,7 +1,9 @@
 package com.vaca.chatmygirl.optionfragment
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -16,9 +18,15 @@ import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.adapter.FaceGVAdapter
 import com.vaca.chatmygirl.adapter.FaceVPAdapter
 import com.vaca.chatmygirl.databinding.FragmentFaceBinding
+import com.vaca.chatmygirl.event.Emotion
+import org.greenrobot.eventbus.EventBus
 import java.util.*
 
 class FaceFragment : Fragment() {
+
+
+
+
 
     lateinit var binding: FragmentFaceBinding
     lateinit var mDotsLayout: LinearLayout
@@ -45,49 +53,29 @@ class FaceFragment : Fragment() {
         return if (count % (columns * rows - 1) == 0) count / (columns * rows - 1) else count / (columns * rows - 1) + 1
     }
 
-    private fun isDeletePng(cursor: Int): Boolean {
-        val st = "[f_static_000]"
-        /*  val content: String = et_chat_message.getText().toString().substring(0, cursor)
-          if (content.length >= st.length) {
-              val checkStr = content.substring(
-                  content.length - st.length,
-                  content.length
-              )
-              val regex = "(\\[f_static_)\\d{1,3}(\\])"
-              val p = Pattern.compile(regex)
-              val m = p.matcher(checkStr)
-              return m.matches()
-          }*/
-        return false
-    }
+
 
     private fun delete() {
-        /*  if (et_chat_message.getText().length != 0) {
-              val iCursorEnd = Selection.getSelectionEnd(et_chat_message.getText())
-              val iCursorStart = Selection.getSelectionStart(et_chat_message.getText())
-              if (iCursorEnd > 0) {
-                  if (iCursorEnd == iCursorStart) {
-                      if (isDeletePng(iCursorEnd)) {
-                          val st = "[f_static_000]"
-                          (et_chat_message.getText() as Editable).delete(
-                              iCursorEnd - st.length, iCursorEnd
-                          )
-                      } else {
-                          (et_chat_message.getText() as Editable).delete(
-                              iCursorEnd - 1,
-                              iCursorEnd
-                          )
-                      }
-                  } else {
-                      (et_chat_message.getText() as Editable).delete(
-                          iCursorStart,
-                          iCursorEnd
-                      )
-                  }
-              }
-          }*/
+        EventBus.getDefault().post(Emotion(true))
     }
 
+    private fun insert(text: CharSequence) {
+        EventBus.getDefault().post(Emotion(false,text))
+    }
+
+    fun bitMapScale(bitmap: Bitmap, scale: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postScale(scale, scale) //长和宽放大缩小的比例
+        return Bitmap.createBitmap(
+            bitmap,
+            0,
+            0,
+            bitmap.getWidth(),
+            bitmap.getHeight(),
+            matrix,
+            true
+        )
+    }
     private fun getFace(png: String): SpannableStringBuilder {
         val sb = SpannableStringBuilder()
         try {
@@ -100,8 +88,8 @@ class FaceFragment : Fragment() {
             sb.append(tempText)
             sb.setSpan(
                 ImageSpan(
-                    requireContext(), BitmapFactory
-                        .decodeStream(requireActivity().getAssets().open("face/png/$png.png"))
+                    requireContext(),bitMapScale( BitmapFactory
+                        .decodeStream(requireActivity().getAssets().open("face/png/$png.png")),2.5f)
                 ), sb.length
                         - tempText.length, sb.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -112,17 +100,9 @@ class FaceFragment : Fragment() {
         return sb
     }
 
-    private fun insert(text: CharSequence) {
-        /*  val iCursorStart = Selection.getSelectionStart(et_chat_message.getText())
-          val iCursorEnd = Selection.getSelectionEnd(et_chat_message.getText())
-          if (iCursorStart != iCursorEnd) {
-              (et_chat_message.getText() as Editable).replace(iCursorStart, iCursorEnd, "")
-          }
-          val iCursor = Selection.getSelectionEnd(et_chat_message.getText())
-          (et_chat_message.getText() as Editable).insert(iCursor, text)*/
-    }
 
-    private fun viewPagerItem(position: Int): View? {
+
+    private fun viewPagerItem(position: Int): View {
         val inflater =
             requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val layout: View = inflater.inflate(R.layout.face_gridview, null) //表情布局
