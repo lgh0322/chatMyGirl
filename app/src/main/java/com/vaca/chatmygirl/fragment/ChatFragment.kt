@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
@@ -92,9 +93,14 @@ class ChatFragment : Fragment() {
                 lp.height = softKeybardHeight
                 binding.container.layoutParams = lp
                 if (binding.container.visibility == View.VISIBLE) {
-                    editText.setTranslationY(0f)
+                    val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
+                    newLayoutParams.bottomMargin=0
+                    editText.layoutParams = newLayoutParams
                 } else {
-                    editText.setTranslationY(-softKeybardHeight.toFloat())
+                    val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
+                    newLayoutParams.bottomMargin=softKeybardHeight
+                    editText.layoutParams = newLayoutParams
+
                 }
 
             }
@@ -109,6 +115,8 @@ class ChatFragment : Fragment() {
                 chatMsg.add(da)
                 chatAdapter.setData(da)
                 NetCmd.chatText(text, false)
+                binding.rc.smoothScrollToPosition(chatMsg.size-1)
+                binding.chatMessage.setText("")
             }
         }
 
