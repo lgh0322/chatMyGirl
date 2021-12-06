@@ -10,6 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import com.tencent.bugly.proguard.u
+import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.data.MyStorage
 import com.vaca.chatmygirl.databinding.FragmentChatBinding
 import com.vaca.chatmygirl.net.NetCmd
@@ -29,8 +34,13 @@ class ChatFragment: Fragment() {
         view.requestFocus()
         imm.showSoftInput(view, 0)
     }
-
-
+    val topId = arrayOf(
+        R.id.sendOptionFragment,
+        R.id.faceFragment,
+        R.id.voiceFragment,
+    )
+    lateinit var navController: NavController
+    var currentIndex = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +50,14 @@ class ChatFragment: Fragment() {
 
 
         binding= FragmentChatBinding.inflate(inflater,container,false)
+
+
+
+        val fm = childFragmentManager.findFragmentById(R.id.container) as NavHostFragment
+        navController = fm.navController
+        val graph = navController.navInflater.inflate(R.navigation.send_navigation)
+
+
 
         val editText = binding.constraintLayout
 
@@ -79,53 +97,94 @@ class ChatFragment: Fragment() {
         }
 
         binding.plus.setOnClickListener {
-            if(keyboardVisible){
-                    binding.container.visibility=View.VISIBLE
-                (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            }else{
-                Log.e("plus","start")
-                if(binding.container.visibility==View.VISIBLE){
-                    Log.e("plus","start1")
-                    showKeyboard(binding.chatMessage)
-                }else{
-                    Log.e("plus","start2")
-                    binding.container.visibility=View.VISIBLE
-                }
+            if(currentIndex!=0){
+                currentIndex=0
+                if (navController.popBackStack(topId[0], false)) {
 
+                } else {
+                    navController.navigate(topId[0])
+                }
+                if(keyboardVisible){
+                    binding.container.visibility=View.VISIBLE
+                    (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }else{
+                if(keyboardVisible){
+                    binding.container.visibility=View.VISIBLE
+                    (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }else{
+                    Log.e("plus","start")
+                    if(binding.container.visibility==View.VISIBLE){
+                        Log.e("plus","start1")
+                        showKeyboard(binding.chatMessage)
+                    }else{
+                        Log.e("plus","start2")
+                        binding.container.visibility=View.VISIBLE
+                    }
+
+                }
             }
+
+
         }
 
         binding.voice.setOnClickListener {
-            if(keyboardVisible){
-                binding.container.visibility=View.VISIBLE
-                (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            }else{
-                Log.e("plus","start")
-                if(binding.container.visibility==View.VISIBLE){
-                    Log.e("plus","start1")
-                    showKeyboard(binding.chatMessage)
-                }else{
-                    Log.e("plus","start2")
-                    binding.container.visibility=View.VISIBLE
-                }
+            if(currentIndex!=2){
+                currentIndex=2
+                if (navController.popBackStack(topId[2], false)) {
 
+                } else {
+                    navController.navigate(topId[2])
+                }
+                if(keyboardVisible){
+                    binding.container.visibility=View.VISIBLE
+                    (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }else{
+                if(keyboardVisible){
+                    binding.container.visibility=View.VISIBLE
+                    (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }else{
+                    Log.e("plus","start")
+                    if(binding.container.visibility==View.VISIBLE){
+                        Log.e("plus","start1")
+                        showKeyboard(binding.chatMessage)
+                    }else{
+                        Log.e("plus","start2")
+                        binding.container.visibility=View.VISIBLE
+                    }
+
+                }
             }
         }
 
         binding.emotion.setOnClickListener {
-            if(keyboardVisible){
-                binding.container.visibility=View.VISIBLE
-                (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            }else{
-                Log.e("plus","start")
-                if(binding.container.visibility==View.VISIBLE){
-                    Log.e("plus","start1")
-                    showKeyboard(binding.chatMessage)
-                }else{
-                    Log.e("plus","start2")
-                    binding.container.visibility=View.VISIBLE
-                }
+            if(currentIndex!=1){
+                currentIndex=1
+                if (navController.popBackStack(topId[1], false)) {
 
+                } else {
+                    navController.navigate(topId[1])
+                }
+                if(keyboardVisible){
+                    binding.container.visibility=View.VISIBLE
+                    (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }else{
+                if(keyboardVisible){
+                    binding.container.visibility=View.VISIBLE
+                    (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }else{
+                    Log.e("plus","start")
+                    if(binding.container.visibility==View.VISIBLE){
+                        Log.e("plus","start1")
+                        showKeyboard(binding.chatMessage)
+                    }else{
+                        Log.e("plus","start2")
+                        binding.container.visibility=View.VISIBLE
+                    }
+
+                }
             }
         }
 
