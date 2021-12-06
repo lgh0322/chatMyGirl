@@ -35,14 +35,14 @@ class ChatFragment : Fragment() {
 
     var keyboardVisible = false
 
-    fun showKeyboard(view: View) {
+    private fun showKeyboard(view: View) {
         val imm = view.context
             .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         view.requestFocus()
         imm.showSoftInput(view, 0)
     }
 
-    val topId = arrayOf(
+    private val topId = arrayOf(
         R.id.sendOptionFragment,
         R.id.faceFragment,
         R.id.voiceFragment,
@@ -177,7 +177,7 @@ class ChatFragment : Fragment() {
 
     private fun isDeletePng(cursor: Int): Boolean {
         val st = "[f_static_000]"
-        val content: String = binding.chatMessage.getText().toString().substring(0, cursor)
+        val content: String = binding.chatMessage.text.toString().substring(0, cursor)
         if (content.length >= st.length) {
             val checkStr = content.substring(
                 content.length - st.length,
@@ -192,24 +192,24 @@ class ChatFragment : Fragment() {
     }
 
     private fun delete() {
-        if (binding.chatMessage.getText().length != 0) {
-            val iCursorEnd = Selection.getSelectionEnd(binding.chatMessage.getText())
-            val iCursorStart = Selection.getSelectionStart(binding.chatMessage.getText())
+        if (binding.chatMessage.text.isNotEmpty()) {
+            val iCursorEnd = Selection.getSelectionEnd(binding.chatMessage.text)
+            val iCursorStart = Selection.getSelectionStart(binding.chatMessage.text)
             if (iCursorEnd > 0) {
                 if (iCursorEnd == iCursorStart) {
                     if (isDeletePng(iCursorEnd)) {
                         val st = "[f_static_000]"
-                        (binding.chatMessage.getText() as Editable).delete(
+                        (binding.chatMessage.text as Editable).delete(
                             iCursorEnd - st.length, iCursorEnd
                         )
                     } else {
-                        (binding.chatMessage.getText() as Editable).delete(
+                        (binding.chatMessage.text as Editable).delete(
                             iCursorEnd - 1,
                             iCursorEnd
                         )
                     }
                 } else {
-                    (binding.chatMessage.getText() as Editable).delete(
+                    (binding.chatMessage.text as Editable).delete(
                         iCursorStart,
                         iCursorEnd
                     )
@@ -220,13 +220,13 @@ class ChatFragment : Fragment() {
 
 
     private fun insert(text: CharSequence) {
-        val iCursorStart = Selection.getSelectionStart(binding.chatMessage.getText())
-        val iCursorEnd = Selection.getSelectionEnd(binding.chatMessage.getText())
+        val iCursorStart = Selection.getSelectionStart(binding.chatMessage.text)
+        val iCursorEnd = Selection.getSelectionEnd(binding.chatMessage.text)
         if (iCursorStart != iCursorEnd) {
-            (binding.chatMessage.getText() as Editable).replace(iCursorStart, iCursorEnd, "")
+            (binding.chatMessage.text as Editable).replace(iCursorStart, iCursorEnd, "")
         }
-        val iCursor = Selection.getSelectionEnd(binding.chatMessage.getText())
-        (binding.chatMessage.getText() as Editable).insert(iCursor, text)
+        val iCursor = Selection.getSelectionEnd(binding.chatMessage.text)
+        (binding.chatMessage.text as Editable).insert(iCursor, text)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
