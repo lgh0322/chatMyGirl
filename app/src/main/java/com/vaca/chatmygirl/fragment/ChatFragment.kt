@@ -29,7 +29,7 @@ class ChatFragment: Fragment() {
         view.requestFocus()
         imm.showSoftInput(view, 0)
     }
-    var allowContainerExist=false
+
 
 
     override fun onCreateView(
@@ -64,12 +64,8 @@ class ChatFragment: Fragment() {
                     }
 
                 }else{
-                    if(allowContainerExist==false){
-                        binding.container.visibility=View.GONE
-                    }else{
-                        allowContainerExist=false
-                    }
-                    editText.setTranslationY(0f)
+
+
                 }
                 keyboardVisible=visible
             }
@@ -84,11 +80,18 @@ class ChatFragment: Fragment() {
 
         binding.plus.setOnClickListener {
             if(keyboardVisible){
-                allowContainerExist=true
                     binding.container.visibility=View.VISIBLE
                 (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }else{
-                showKeyboard(binding.chatMessage)
+                Log.e("plus","start")
+                if(binding.container.visibility==View.VISIBLE){
+                    Log.e("plus","start1")
+                    showKeyboard(binding.chatMessage)
+                }else{
+                    Log.e("plus","start2")
+                    binding.container.visibility=View.VISIBLE
+                }
+
             }
         }
 
