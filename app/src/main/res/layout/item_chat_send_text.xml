@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_toLeftOf="@id/iv_icon"
-            android:textSize="32sp"
+            android:textSize="40sp"
             android:layout_centerVertical="true"
             android:textColor="@color/black"
             android:autoLink="all"
