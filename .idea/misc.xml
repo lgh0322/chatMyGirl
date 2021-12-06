@@ -3,16 +3,31 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/drawable/bg_login_bt.xml" value="0.150625" />
-        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_add_friend.xml" value="0.12346059113300492" />
-        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_chat.xml" value="0.14635416666666667" />
-        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_chat_list.xml" value="0.12346059113300492" />
-        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_contact.xml" value="0.12346059113300492" />
         <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_login.xml" value="0.12708333333333333" />
-        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/fragment_my.xml" value="0.1816123188405797" />
-        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/item_contact_button.xml" value="0.12346059113300492" />
-        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/layout/item_contacts.xml" value="0.12346059113300492" />
-        <entry key="..\:/Chat/chatMyGirl/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/Users/liguanghao/Desktop/Chat/chatMyGirl/app/src/main/res/layout/fragment_chat.xml" value="0.296875" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/drawable-v24/chat_button_shape.xml" value="0.20625" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/drawable-v24/edit_background.xml" value="0.20625" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/drawable-v24/edit_cursor_color.xml" value="0.20625" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/drawable-v24/logout_bg.xml" value="0.3177083333333333" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/drawable/login_button.xml" value="0.275" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/drawable/login_button_before.xml" value="0.275" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/drawable/toast_bg.xml" value="0.275" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/activity_main.xml" value="0.2677083333333333" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/chat_face_container.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/fragment_chat.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/fragment_chat_list.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/fragment_login.xml" value="0.25885416666666666" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/fragment_main.xml" value="0.34375" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/fragment_my.xml" value="0.24583333333333332" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/fragment_sign_up.xml" value="0.25885416666666666" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/fragment_user_info.xml" value="0.34375" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/fragment_welcome.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/item_chat_list.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/pop_age.xml" value="0.24583333333333332" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/send_option_blank.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/send_option_container.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/send_voice_container.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl/app/src/main/res/layout/toast_bind_layout.xml" value="0.25885416666666666" />
         <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl2/app/src/main/res/drawable-v24/bg_my_top.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl2/app/src/main/res/drawable-v24/shape_red_drawable.xml" value="0.2898148148148148" />
         <entry key="..\:/Users/liguanghao/Desktop/chatMyGirl2/app/src/main/res/drawable/background_contacts_sidebar.xml" value="0.2453125" />
