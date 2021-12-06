@@ -7,6 +7,7 @@ import android.text.Selection
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -17,39 +18,28 @@ import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tencent.bugly.proguard.x
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.adapter.ChatAdapter
 import com.vaca.chatmygirl.bean.ChatBean
 import com.vaca.chatmygirl.data.MyStorage
 import com.vaca.chatmygirl.databinding.FragmentChatBinding
 import com.vaca.chatmygirl.event.Emotion
+import com.vaca.chatmygirl.keyboard.KeyboardHeightProvider
 import com.vaca.chatmygirl.net.NetCmd
-import com.vaca.chatmygirl.utils.SoftHeight
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.util.ArrayList
+import java.util.*
 import java.util.regex.Pattern
-import android.R.attr.scrollY
-
-import android.R.attr.scrollX
-import android.view.MotionEvent
-import android.R.attr.scrollY
-
-import android.R.attr.scrollX
-import com.tencent.bugly.proguard.v
-import com.vaca.chatmygirl.keyboard.KeyboardHeightObserver
-import com.vaca.chatmygirl.keyboard.KeyboardHeightProvider
 
 
 class ChatFragment : Fragment() {
 
-    var scrollX=0f
-    var scrollY=0f
+    var scrollX = 0f
+    var scrollY = 0f
     lateinit var keyboardHeightProvider: KeyboardHeightProvider
     lateinit var binding: FragmentChatBinding
     var chatMsg = ArrayList<ChatBean>()
@@ -61,7 +51,8 @@ class ChatFragment : Fragment() {
         view.requestFocus()
         imm.showSoftInput(view, 0)
     }
-    var hiddAll=false
+
+    var hiddAll = false
 
     private val topId = arrayOf(
         R.id.sendOptionFragment,
@@ -70,11 +61,11 @@ class ChatFragment : Fragment() {
     )
     lateinit var navController: NavController
     var currentIndex = 0
-    lateinit var graph:NavGraph
+    lateinit var graph: NavGraph
 
-    var maxK=0;
-    var miniK=0;
-    var mmK=0
+    var maxK = 0;
+    var miniK = 0;
+    var mmK = 0
 
 
     override fun onPause() {
@@ -87,13 +78,13 @@ class ChatFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        keyboardHeightProvider= KeyboardHeightProvider(requireActivity())
+        keyboardHeightProvider = KeyboardHeightProvider(requireActivity())
 
         binding = FragmentChatBinding.inflate(inflater, container, false)
 
-        binding.root.post { keyboardHeightProvider.start()}
+        binding.root.post { keyboardHeightProvider.start() }
 
-        chatAdapter= ChatAdapter(requireContext(),binding.rc)
+        chatAdapter = ChatAdapter(requireContext(), binding.rc)
         val linearLayoutManager = LinearLayoutManager(requireContext())
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         binding.rc.setLayoutManager(linearLayoutManager)
@@ -112,41 +103,41 @@ class ChatFragment : Fragment() {
 
 
         keyboardHeightProvider.setKeyboardHeightObserver { height, orientation ->
-            var isVisible=(height>0)
-            val softKeybardHeight=height
-            Log.e("fuckyou",height.toString())
+            var isVisible = (height > 0)
+            val softKeybardHeight = height
+            Log.e("fuckyou", height.toString())
             if (isVisible) {
-                if(maxK>0){
-                    if(height>maxK){
+                if (maxK > 0) {
+                    if (height > maxK) {
                         return@setKeyboardHeightObserver
                     }
                 }
-                maxK=height
-                mmK=maxK-miniK
+                maxK = height
+                mmK = maxK - miniK
                 val lp = binding.container.layoutParams
                 MyStorage.setKeyboardHeight(mmK)
                 lp.height = mmK
                 binding.container.layoutParams = lp
                 if (binding.container.visibility == View.VISIBLE) {
                     val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
-                    newLayoutParams.bottomMargin=0
+                    newLayoutParams.bottomMargin = 0
                     editText.layoutParams = newLayoutParams
                 } else {
 
                     val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
-                    newLayoutParams.bottomMargin=mmK
+                    newLayoutParams.bottomMargin = mmK
                     editText.layoutParams = newLayoutParams
 
 
                 }
 
-            }else{
-                miniK=height
+            } else {
+                miniK = height
 //                if(hiddAll){
 //                    hiddAll=false
-                    val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
-                    newLayoutParams.bottomMargin=0
-                    editText.layoutParams = newLayoutParams
+                /*   val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
+                   newLayoutParams.bottomMargin=0
+                   editText.layoutParams = newLayoutParams*/
 //                }
             }
             keyboardVisible = isVisible
@@ -158,7 +149,7 @@ class ChatFragment : Fragment() {
             if (event.getAction() === MotionEvent.ACTION_DOWN) {
                 scrollX = event.getX()
                 scrollY = event.getY()
-                Log.e("fuck","fuckScroll")
+                Log.e("fuck", "fuckScroll")
             }
             if (event.getAction() === MotionEvent.ACTION_UP) {
                 if (v.getId() !== 0 && Math.abs(scrollX - event.getX()) <= 5 && Math.abs(
@@ -167,12 +158,17 @@ class ChatFragment : Fragment() {
                 ) {
                     MainScope().launch {
 //                        hiddAll=true
-                       binding.container.visibility=View.GONE
+                        binding.container.visibility = View.GONE
                         delay(100)
                         (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-                        requireActivity().getCurrentFocus()?.getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS
-                    );
+                            requireActivity().getCurrentFocus()?.getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS
+                        );
+
+                        delay(100)
+                        val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
+                        newLayoutParams.bottomMargin=0
+                        editText.layoutParams = newLayoutParams
 
 
                     }
@@ -192,7 +188,7 @@ class ChatFragment : Fragment() {
                 chatMsg.add(da)
                 chatAdapter.setData(da)
                 NetCmd.chatText(text, false)
-                binding.rc.smoothScrollToPosition(chatMsg.size-1)
+                binding.rc.smoothScrollToPosition(chatMsg.size - 1)
                 binding.chatMessage.setText("")
             }
         }
@@ -202,11 +198,11 @@ class ChatFragment : Fragment() {
         }
 
         binding.voice.setOnClickListener {
-           jump(2)
+            jump(2)
         }
 
         binding.emotion.setOnClickListener {
-           jump(1)
+            jump(1)
         }
 
         binding.chatMessage.addTextChangedListener(object : TextWatcher {
@@ -233,8 +229,10 @@ class ChatFragment : Fragment() {
     }
 
 
-
-    private fun jump(x:Int){
+    private fun jump(x: Int) {
+        val newLayoutParams =  binding.constraintLayout.layoutParams as ConstraintLayout.LayoutParams
+        newLayoutParams.bottomMargin=0
+        binding.constraintLayout.layoutParams = newLayoutParams
         graph.startDestination = topId[x]
         navController.graph = graph
         if (currentIndex != x) {
@@ -247,15 +245,10 @@ class ChatFragment : Fragment() {
                     navController.navigate(topId[x])
                 }
                 if (keyboardVisible) {
-
                     (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
                         requireActivity().getCurrentFocus()?.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS
                     );
-                    MainScope().launch {
-                        delay(2000)
-                        binding.container.visibility = View.VISIBLE
-                    }
                 }
             }
 
