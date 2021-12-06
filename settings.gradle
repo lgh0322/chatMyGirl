@@ -7,4 +7,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "chatMyGirl"
-include ':app'
+include ':app', ':multi_image',":selectorlibrary"
