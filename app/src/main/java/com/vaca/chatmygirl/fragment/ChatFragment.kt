@@ -95,6 +95,40 @@ class ChatFragment: Fragment() {
             }
         }
 
+        binding.voice.setOnClickListener {
+            if(keyboardVisible){
+                binding.container.visibility=View.VISIBLE
+                (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }else{
+                Log.e("plus","start")
+                if(binding.container.visibility==View.VISIBLE){
+                    Log.e("plus","start1")
+                    showKeyboard(binding.chatMessage)
+                }else{
+                    Log.e("plus","start2")
+                    binding.container.visibility=View.VISIBLE
+                }
+
+            }
+        }
+
+        binding.emotion.setOnClickListener {
+            if(keyboardVisible){
+                binding.container.visibility=View.VISIBLE
+                (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(requireActivity().getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }else{
+                Log.e("plus","start")
+                if(binding.container.visibility==View.VISIBLE){
+                    Log.e("plus","start1")
+                    showKeyboard(binding.chatMessage)
+                }else{
+                    Log.e("plus","start2")
+                    binding.container.visibility=View.VISIBLE
+                }
+
+            }
+        }
+
         binding.chatMessage.addTextChangedListener(object:TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
