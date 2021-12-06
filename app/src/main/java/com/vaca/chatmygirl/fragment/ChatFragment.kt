@@ -19,6 +19,9 @@ import com.vaca.chatmygirl.databinding.FragmentChatBinding
 import com.vaca.chatmygirl.event.Emotion
 import com.vaca.chatmygirl.net.NetCmd
 import com.vaca.chatmygirl.utils.SoftHeight
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -67,7 +70,6 @@ class ChatFragment : Fragment() {
         lp.height = MyStorage.keyboardHeightX
         binding.container.layoutParams = lp
 
-//        attachView()
 
         SoftHeight.observeSoftKeyboard(requireActivity(),
             object : SoftHeight.OnSoftKeyboardChangeListener {
@@ -84,9 +86,6 @@ class ChatFragment : Fragment() {
                             editText.setTranslationY(-softKeybardHeight.toFloat())
                         }
 
-                    } else {
-
-
                     }
                     keyboardVisible = visible
                 }
@@ -102,17 +101,22 @@ class ChatFragment : Fragment() {
         binding.plus.setOnClickListener {
             if (currentIndex != 0) {
                 currentIndex = 0
-                if (navController.popBackStack(topId[0], false)) {
+                MainScope().launch {
+                    graph.startDestination = topId[0]
+                    navController.graph = graph
+                    delay(100)
+                    if (navController.popBackStack(topId[0], false)) {
 
-                } else {
-                    navController.navigate(topId[0])
-                }
-                if (keyboardVisible) {
-                    binding.container.visibility = View.VISIBLE
-                    (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-                        requireActivity().getCurrentFocus()?.getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS
-                    );
+                    } else {
+                        navController.navigate(topId[0])
+                    }
+                    if (keyboardVisible) {
+                        binding.container.visibility = View.VISIBLE
+                        (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                            requireActivity().getCurrentFocus()?.getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS
+                        );
+                    }
                 }
             } else {
                 if (keyboardVisible) {
@@ -140,17 +144,22 @@ class ChatFragment : Fragment() {
         binding.voice.setOnClickListener {
             if (currentIndex != 2) {
                 currentIndex = 2
-                if (navController.popBackStack(topId[2], false)) {
+                MainScope().launch {
+                    graph.startDestination = topId[2]
+                    navController.graph = graph
+                    delay(100)
+                    if (navController.popBackStack(topId[2], false)) {
 
-                } else {
-                    navController.navigate(topId[2])
-                }
-                if (keyboardVisible) {
-                    binding.container.visibility = View.VISIBLE
-                    (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-                        requireActivity().getCurrentFocus()?.getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS
-                    );
+                    } else {
+                        navController.navigate(topId[2])
+                    }
+                    if (keyboardVisible) {
+                        binding.container.visibility = View.VISIBLE
+                        (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                            requireActivity().getCurrentFocus()?.getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS
+                        );
+                    }
                 }
             } else {
                 if (keyboardVisible) {
@@ -174,20 +183,28 @@ class ChatFragment : Fragment() {
         }
 
         binding.emotion.setOnClickListener {
+            graph.startDestination = topId[1]
+            navController.graph = graph
             if (currentIndex != 1) {
                 currentIndex = 1
-                if (navController.popBackStack(topId[1], false)) {
+                MainScope().launch {
+                    graph.startDestination = topId[1]
+                    navController.graph = graph
+                    delay(100)
+                    if (navController.popBackStack(topId[1], false)) {
 
-                } else {
-                    navController.navigate(topId[1])
+                    } else {
+                        navController.navigate(topId[1])
+                    }
+                    if (keyboardVisible) {
+                        binding.container.visibility = View.VISIBLE
+                        (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                            requireActivity().getCurrentFocus()?.getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS
+                        );
+                    }
                 }
-                if (keyboardVisible) {
-                    binding.container.visibility = View.VISIBLE
-                    (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-                        requireActivity().getCurrentFocus()?.getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS
-                    );
-                }
+
             } else {
                 if (keyboardVisible) {
                     binding.container.visibility = View.VISIBLE
