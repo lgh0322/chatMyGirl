@@ -12,28 +12,25 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vaca.chatmygirl.R
-import com.vaca.chatmygirl.databinding.FragmentLoginBinding
-import com.vaca.chatmygirl.databinding.FragmentMainBinding
 import com.vaca.chatmygirl.databinding.FragmentMyBinding
 import com.vaca.chatmygirl.event.GoGo
 import com.vaca.chatmygirl.net.NetCmd
 import com.vaca.chatmygirl.utils.PathUtil
 import java.io.File
-import java.lang.Exception
 
-class MyFragment: Fragment() {
+class MyFragment : Fragment() {
 
-    lateinit var binding:FragmentMyBinding
+    lateinit var binding: FragmentMyBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
 
 
-        binding= FragmentMyBinding.inflate(inflater,container,false)
+        binding = FragmentMyBinding.inflate(inflater, container, false)
 
         binding.changeInfo.setOnClickListener {
             findNavController().navigate(R.id.action_myFragment_to_userInfoFragment)
@@ -55,8 +52,8 @@ class MyFragment: Fragment() {
             GoGo.goLogin()
         }
 
-        NetCmd.myInfo.observe(viewLifecycleOwner,{
-            binding.tvUsername.text=it.name
+        NetCmd.myInfo.observe(viewLifecycleOwner, {
+            binding.tvUsername.text = it.name
             Glide.with(requireContext())
                 .load(File(PathUtil.getPathX(it.avatar)))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

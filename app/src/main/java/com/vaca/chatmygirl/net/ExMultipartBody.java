@@ -40,7 +40,7 @@ public class ExMultipartBody extends RequestBody {
 
     @Override
     public void writeTo(BufferedSink sink) throws IOException {
-        Log.e("TAG","Monitor");
+        Log.e("TAG", "Monitor");
         // total length
         final long contentLength = contentLength();
         // Get how much data is currently written? BufferedSink Sink (okio is io) is the output stream of a server, I still don't know how much data was written
@@ -51,10 +51,10 @@ public class ExMultipartBody extends RequestBody {
             public void write(Buffer source, long byteCount) throws IOException {
                 // come here every time I write
                 mCurrentLength += byteCount;
-                if(mProgressListener!=null){
-                    mProgressListener.onProgress(contentLength,mCurrentLength);
+                if (mProgressListener != null) {
+                    mProgressListener.onProgress(contentLength, mCurrentLength);
                 }
-                Log.e("TAG",contentLength+" : "+mCurrentLength);
+                Log.e("TAG", contentLength + " : " + mCurrentLength);
                 super.write(source, byteCount);
             }
         };

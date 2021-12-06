@@ -9,24 +9,22 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.vaca.chatmygirl.R;
 import com.vaca.chatmygirl.bean.SortModel;
 import com.vaca.chatmygirl.stickylistheaders.StickyListHeadersAdapter;
-
 
 import java.util.List;
 import java.util.Locale;
 
 public class SortAdapter extends BaseAdapter implements StickyListHeadersAdapter, SectionIndexer {
+    boolean isGroup = false;
     private List<SortModel> list = null;
     private Context mContext;
-    boolean isGroup=false;
 
     public SortAdapter(Context mContext, List<SortModel> list, boolean isGroup) {
         this.mContext = mContext;
         this.list = list;
-        this.isGroup=isGroup;
+        this.isGroup = isGroup;
     }
 
     /**
@@ -63,7 +61,6 @@ public class SortAdapter extends BaseAdapter implements StickyListHeadersAdapter
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-
 
 
 //        viewHolder.text.setText(this.list.get(position).getName());

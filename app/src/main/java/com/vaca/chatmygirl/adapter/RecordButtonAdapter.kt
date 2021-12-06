@@ -42,7 +42,7 @@ class RecordButtonAdapter(var context: Context) :
             holder.text.setTextColor(ContextCompat.getColor(context, R.color.login_hint_black))
         }
 
-        holder.text.text=mem[position].name
+        holder.text.text = mem[position].name
 
     }
 

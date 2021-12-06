@@ -10,12 +10,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.video.meng.multi.image.R;
+import com.video.meng.multi.image.bean.Folder;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.video.meng.multi.image.bean.Folder;
 
 /**
  * 文件夹Adapter
@@ -110,15 +109,15 @@ public class FolderAdapter extends BaseAdapter {
         return result;
     }
 
+    public int getSelectIndex() {
+        return lastSelected;
+    }
+
     public void setSelectIndex(int i) {
         if (lastSelected == i) return;
 
         lastSelected = i;
         notifyDataSetChanged();
-    }
-
-    public int getSelectIndex() {
-        return lastSelected;
     }
 
     class ViewHolder {

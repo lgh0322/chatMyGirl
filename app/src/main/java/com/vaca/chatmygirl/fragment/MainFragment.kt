@@ -8,35 +8,27 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.adapter.RecordButtonAdapter
-import com.vaca.chatmygirl.data.MyStorage
-import com.vaca.chatmygirl.databinding.FragmentLoginBinding
-import com.vaca.chatmygirl.databinding.FragmentMainBinding
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import androidx.lifecycle.Observer
 import com.vaca.chatmygirl.bean.MyInfo
+import com.vaca.chatmygirl.databinding.FragmentMainBinding
 import com.vaca.chatmygirl.net.FileCmd
 import com.vaca.chatmygirl.net.NetCmd
 import com.vaca.chatmygirl.utils.PathUtil
-import org.json.JSONArray
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.io.File
-import java.lang.Exception
 
-class MainFragment: Fragment() {
+class MainFragment : Fragment() {
 
-    lateinit var binding:FragmentMainBinding
+    lateinit var binding: FragmentMainBinding
+
     companion object {
         val initJump = MutableLiveData<Int>()
     }
+
     val topId = arrayOf(
         R.id.chatListFragment,
         R.id.contactFragment,
@@ -48,10 +40,10 @@ class MainFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
 
 
-        binding= FragmentMainBinding.inflate(inflater,container,false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
         val fm = childFragmentManager.findFragmentById(R.id.bx) as NavHostFragment
         navController = fm.navController
         val graph = navController.navInflater.inflate(R.navigation.main_navigation)
@@ -81,8 +73,8 @@ class MainFragment: Fragment() {
         }
         binding.topButton.adapter = buttonAdapter
 
-        if(initJump.value==null){
-            initJump.value=0
+        if (initJump.value == null) {
+            initJump.value = 0
         }
 
         initJump.observe(viewLifecycleOwner, {
@@ -97,32 +89,32 @@ class MainFragment: Fragment() {
 
         NetCmd.dataScope.launch {
             try {
-                val  info=NetCmd.getInfo()
-                val info2=JSONObject(info)
-                val info3=info2.getJSONObject("data")
-                val name=info3.getString("name")
-                val avatar=info3.getString("avatar")
-               if( !File(PathUtil.getPathX(avatar)).exists()){
-                   FileCmd.getFile(avatar,object :FileCmd.OnDownloadListener{
-                       override fun onDownloadSuccess(filePath: String?) {
-                           Log.e("getAvatar","ues")
-                           NetCmd.myInfo.postValue(MyInfo(name,avatar))
-                       }
+                val info = NetCmd.getInfo()
+                val info2 = JSONObject(info)
+                val info3 = info2.getJSONObject("data")
+                val name = info3.getString("name")
+                val avatar = info3.getString("avatar")
+                if (!File(PathUtil.getPathX(avatar)).exists()) {
+                    FileCmd.getFile(avatar, object : FileCmd.OnDownloadListener {
+                        override fun onDownloadSuccess(filePath: String?) {
+                            Log.e("getAvatar", "ues")
+                            NetCmd.myInfo.postValue(MyInfo(name, avatar))
+                        }
 
-                       override fun onDownloading(progress: Int) {
+                        override fun onDownloading(progress: Int) {
 
-                       }
+                        }
 
-                       override fun onDownloadFailed() {
+                        override fun onDownloadFailed() {
 
-                       }
+                        }
 
-                   })
-               }else{
-                   NetCmd.myInfo.postValue(MyInfo(name,avatar))
-               }
+                    })
+                } else {
+                    NetCmd.myInfo.postValue(MyInfo(name, avatar))
+                }
 
-            }catch (e:Exception){
+            } catch (e: Exception) {
 
             }
 

@@ -1,6 +1,5 @@
 package com.vaca.chatmygirl.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.view.MotionEvent
@@ -10,16 +9,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vaca.chatmygirl.R
-import com.vaca.chatmygirl.event.GoGo
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,10 +40,10 @@ class MainActivity : AppCompatActivity() {
      * @return
      */
     private fun isShouldHideKeyboard(v: View?, event: MotionEvent): Boolean {
-        if(v is TextView){
+        if (v is TextView) {
             return false
         }
-        if(v is ImageView){
+        if (v is ImageView) {
             return false
         }
         if (v != null && v is EditText) {  //判断得到的焦点控件是否包含EditText
@@ -90,24 +85,21 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        LiveEventBus.get("rootGo",String::class.java).observeForever(Observer {
-            goPlace->
+        LiveEventBus.get("rootGo", String::class.java).observeForever(Observer { goPlace ->
             val navController = findNavController(R.id.nav_host_fragment)
-            when(goPlace){
-                "chat"->{
-                    if(!navController.popBackStack(R.id.chatFragment,false)){
+            when (goPlace) {
+                "chat" -> {
+                    if (!navController.popBackStack(R.id.chatFragment, false)) {
                         navController.navigate(R.id.chatFragment)
                     }
                 }
-                "login"->{
+                "login" -> {
                     val navOptions =
                         NavOptions.Builder().setPopUpTo(R.id.mainFragment, true).build()
-                    navController.navigate(R.id.loginFragment,null,navOptions)
+                    navController.navigate(R.id.loginFragment, null, navOptions)
                 }
             }
         })
-
-
 
 
     }

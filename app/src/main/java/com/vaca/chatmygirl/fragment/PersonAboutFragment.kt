@@ -5,23 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.vaca.chatmygirl.databinding.FragmentLoginBinding
-import com.vaca.chatmygirl.databinding.FragmentMainBinding
 import com.vaca.chatmygirl.databinding.FragmentPersonAboutBinding
 
-class PersonAboutFragment: Fragment() {
+class PersonAboutFragment : Fragment() {
 
-    lateinit var binding:FragmentPersonAboutBinding
+    lateinit var binding: FragmentPersonAboutBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
 
 
-        binding=FragmentPersonAboutBinding.inflate(inflater,container,false)
+        binding = FragmentPersonAboutBinding.inflate(inflater, container, false)
 
 
         return binding.root

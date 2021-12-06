@@ -10,6 +10,7 @@ public class SoftHeight {
         final View decorView = activity.getWindow().getDecorView();
         decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             int previousKeyboardHeight = -1;
+
             @Override
             public void onGlobalLayout() {
                 Rect rect = new Rect();

@@ -21,49 +21,49 @@ import com.vaca.chatmygirl.data.MyStorage
 import com.vaca.chatmygirl.databinding.FragmentLoginBinding
 import com.vaca.chatmygirl.net.NetCmd
 
-class LoginFragment: Fragment() {
+class LoginFragment : Fragment() {
 
-    lateinit var binding:FragmentLoginBinding
-    fun isReady():Boolean{
-        if(binding.x1.text.toString().isNullOrEmpty()){
+    lateinit var binding: FragmentLoginBinding
+    fun isReady(): Boolean {
+        if (binding.x1.text.toString().isNullOrEmpty()) {
             return false
         }
-        if(binding.x2.text.toString().isNullOrEmpty()){
+        if (binding.x2.text.toString().isNullOrEmpty()) {
             return false
         }
         return true
     }
 
-    fun changeBt(){
-        if(isReady()){
-            isReadyGo=true
+    fun changeBt() {
+        if (isReady()) {
+            isReadyGo = true
             binding.login.apply {
                 background =
                     ContextCompat.getDrawable(requireContext(), R.drawable.login_button)
 
             }
-        }else{
-            isReadyGo=false
-            binding.login.apply{
+        } else {
+            isReadyGo = false
+            binding.login.apply {
                 background =
                     ContextCompat.getDrawable(requireContext(), R.drawable.login_button_before)
             }
         }
     }
 
-    var isReadyGo=false
+    var isReadyGo = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
-        this.inflater=inflater
+    ): View {
+        this.inflater = inflater
 
-        binding= FragmentLoginBinding.inflate(inflater,container,false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         binding.hint.setOnClickListener {
-            binding.hint.isEnabled=false
+            binding.hint.isEnabled = false
             findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
         binding.x1.addTextChangedListener(object : TextWatcher {
@@ -97,24 +97,24 @@ class LoginFragment: Fragment() {
         })
 
         binding.login.setOnClickListener {
-            if (isReadyGo){
-                val user=binding.x1.text.toString()
-                val pass=binding.x2.text.toString()
-                NetCmd.login(user,pass)
+            if (isReadyGo) {
+                val user = binding.x1.text.toString()
+                val pass = binding.x2.text.toString()
+                NetCmd.login(user, pass)
 
             }
         }
 
-        LiveEventBus.get("login", String::class.java).observe(viewLifecycleOwner,{
-            if(it=="0"){
-                val user=binding.x1.text.toString()
-                val pass=binding.x2.text.toString()
-                MyStorage.setAccount(Account(user,pass))
-                Log.e("girlxx","登陆成功")
+        LiveEventBus.get("login", String::class.java).observe(viewLifecycleOwner, {
+            if (it == "0") {
+                val user = binding.x1.text.toString()
+                val pass = binding.x2.text.toString()
+                MyStorage.setAccount(Account(user, pass))
+                Log.e("girlxx", "登陆成功")
                 bindSet(true)
                 findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
-            }else{
-                Log.e("girlxx","登陆失败， 密码错误")
+            } else {
+                Log.e("girlxx", "登陆失败， 密码错误")
                 bindSet(false)
             }
 

@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#EBECED"
     android:gravity="center"
     android:orientation="vertical"
@@ -11,68 +10,71 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:gravity="center"
 
-        android:layout_height="wrap_content">
+        android:orientation="horizontal">
+
         <TextView
-            android:layout_weight="1"
             android:id="@+id/switch_camera_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
+            android:layout_weight="1"
             android:drawableTop="@drawable/yy3"
+            android:drawablePadding="5dp"
+            android:gravity="center_horizontal"
+            android:onClick="UpdatePhoto"
             android:padding="10dp"
             android:text="图片"
-            android:onClick="UpdatePhoto"
-            android:gravity="center_horizontal"
             android:textColor="@android:color/black"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
+
         <TextView
-            android:layout_weight="1"
             android:id="@+id/switch_camera_tv2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
+            android:layout_weight="1"
             android:drawableTop="@drawable/yy4"
+            android:drawablePadding="5dp"
+            android:gravity="center_horizontal"
+            android:onClick="UpdatePhoto2"
             android:padding="10dp"
             android:text="拍照"
-            android:onClick="UpdatePhoto2"
-            android:gravity="center_horizontal"
             android:textColor="@android:color/black"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
-            android:layout_weight="1"
             android:id="@+id/loundspeaker_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:drawableTop="@drawable/yy1"
-            android:padding="10dp"
-
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            android:text="视频"
-            android:onClick="UploadVideo"
-            android:gravity="center_horizontal"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"/>
-        <TextView
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"
+            android:drawableTop="@drawable/yy1"
+
+            android:drawablePadding="5dp"
+            android:gravity="center_horizontal"
+            android:onClick="UploadVideo"
+            android:padding="10dp"
+            android:text="视频"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+
+        <TextView
             android:id="@+id/file"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:drawableTop="@drawable/yy2"
-            android:padding="10dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            android:text="文件"
-            android:onClick="UploadFile"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/yy2"
+            android:drawablePadding="5dp"
             android:gravity="center_horizontal"
+            android:onClick="UploadFile"
+            android:padding="10dp"
+            android:text="文件"
             android:textColor="@android:color/black"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
     </LinearLayout>
 

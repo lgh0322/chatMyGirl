@@ -5,38 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="100dp"
         android:background="@color/white"
-        android:layout_height="100dp">
+        app:layout_constraintTop_toTopOf="parent">
+
         <TextView
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:textSize="40sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="通信"
             android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_right"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/add_friend"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/add_friend" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
-        android:layout_marginTop="100dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

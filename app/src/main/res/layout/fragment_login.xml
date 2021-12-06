@@ -5,23 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
+
     <ImageView
         android:id="@+id/loginBack"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/login_bg" />
+
     <EditText
-        android:singleLine="true"
         android:id="@+id/x1"
         android:layout_width="490dp"
         android:layout_height="120dp"
         android:layout_marginTop="310dp"
         android:background="@drawable/login_coutour"
         android:hint="请输入用户名"
-        android:paddingStart="30dp"
         android:inputType="textEmailAddress"
         android:maxLength="11"
+        android:paddingStart="30dp"
+        android:singleLine="true"
         android:textColor="@color/login_black"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,35 +31,37 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:singleLine="true"
         android:id="@+id/x2"
         android:layout_width="490dp"
         android:layout_height="120dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/login_coutour"
         android:digits="1234567890"
-        android:paddingStart="30dp"
         android:hint="请输入密码"
         android:inputType="number"
         android:maxLength="6"
+        android:paddingStart="30dp"
+        android:singleLine="true"
         android:textColor="@color/login_black"
 
         android:textSize="36sp"
         app:layout_constraintStart_toStartOf="@+id/x1"
         app:layout_constraintTop_toBottomOf="@+id/x1" />
+
     <TextView
-        android:clickable="true"
-        android:focusable="true"
         android:id="@+id/hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:clickable="true"
+        android:focusable="true"
         android:letterSpacing="0.05"
         android:text="还没有账号？点击注册"
         android:textColor="@color/blue1"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/x2"
         app:layout_constraintTop_toBottomOf="@+id/x2" />
+
     <TextView
         android:id="@+id/login"
         android:layout_width="300dp"
@@ -74,7 +78,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hint" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

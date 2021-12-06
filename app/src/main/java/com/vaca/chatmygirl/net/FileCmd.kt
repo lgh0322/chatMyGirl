@@ -12,7 +12,7 @@ import java.io.IOException
 import java.io.InputStream
 
 object FileCmd {
-    val netAddress=BuildConfig.FILEURL
+    val netAddress = BuildConfig.FILEURL
     private val client = OkHttpClient();
     private val JSON: MediaType? = "multipart/form-data; charset=utf-8".toMediaTypeOrNull()
 
@@ -23,17 +23,18 @@ object FileCmd {
     }
 
 
-    fun getFile( fileName: String, listener: OnDownloadListener?) {
-        val url: String= netAddress+"/download"
+    fun getFile(fileName: String, listener: OnDownloadListener?) {
+        val url: String = netAddress + "/download"
         val absoluteFilePath: String = PathUtil.getPathX(fileName)
         val file = File(absoluteFilePath)
         val request: Request = Request.Builder()
-            .addHeader("name",fileName)
+            .addHeader("name", fileName)
             .url(url).build()
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: Call, e: java.io.IOException) {
                 listener?.onDownloadFailed()
             }
+
             override fun onResponse(call: Call, response: Response) {
                 if (200 == response.code) {
 
@@ -72,11 +73,6 @@ object FileCmd {
 
         )
     }
-
-
-
-
-
 
 
     @Throws(IOException::class)

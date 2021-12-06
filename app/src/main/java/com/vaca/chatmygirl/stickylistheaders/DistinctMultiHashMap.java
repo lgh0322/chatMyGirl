@@ -12,120 +12,115 @@ import java.util.Set;
  *
  * @author lsjwzh
  */
-class DistinctMultiHashMap<TKey,TItemValue> {
+class DistinctMultiHashMap<TKey, TItemValue> {
+    LinkedHashMap<Object, List<TItemValue>> mKeyToValuesMap = new LinkedHashMap<Object, List<TItemValue>>();
+    LinkedHashMap<Object, TKey> mValueToKeyIndexer = new LinkedHashMap<Object, TKey>();
     private IDMapper<TKey, TItemValue> mIDMapper;
+    DistinctMultiHashMap() {
+        this(new IDMapper<TKey, TItemValue>() {
+            @Override
+            public Object keyToKeyId(TKey key) {
+                return key;
+            }
 
-    interface IDMapper<TKey,TItemValue>{
-        public Object keyToKeyId(TKey key);
-        public TKey keyIdToKey(Object keyId);
-        public Object valueToValueId(TItemValue value);
-        public TItemValue valueIdToValue(Object valueId);
+            @Override
+            public TKey keyIdToKey(Object keyId) {
+                return (TKey) keyId;
+            }
+
+            @Override
+            public Object valueToValueId(TItemValue value) {
+                return value;
+            }
+
+            @Override
+            public TItemValue valueIdToValue(Object valueId) {
+                return (TItemValue) valueId;
+            }
+        });
     }
 
-    LinkedHashMap<Object,List<TItemValue>> mKeyToValuesMap = new LinkedHashMap<Object, List<TItemValue>>();
-    LinkedHashMap<Object,TKey> mValueToKeyIndexer = new LinkedHashMap<Object, TKey>();
-
-    DistinctMultiHashMap(){
-         this(new IDMapper<TKey, TItemValue>() {
-             @Override
-             public Object keyToKeyId(TKey key) {
-                 return key;
-             }
-
-             @Override
-             public TKey keyIdToKey(Object keyId) {
-                 return (TKey) keyId;
-             }
-
-             @Override
-             public Object valueToValueId(TItemValue value) {
-                 return value;
-             }
-
-             @Override
-             public TItemValue valueIdToValue(Object valueId) {
-                 return (TItemValue) valueId;
-             }
-         });
-    }
-    DistinctMultiHashMap(IDMapper<TKey, TItemValue> idMapper){
+    DistinctMultiHashMap(IDMapper<TKey, TItemValue> idMapper) {
         mIDMapper = idMapper;
     }
 
-    public List<TItemValue> get(TKey key){
+    public List<TItemValue> get(TKey key) {
         //todo immutable
         return mKeyToValuesMap.get(mIDMapper.keyToKeyId(key));
     }
-    public TKey getKey(TItemValue value){
+
+    public TKey getKey(TItemValue value) {
         return mValueToKeyIndexer.get(mIDMapper.valueToValueId(value));
     }
 
-    public void add(TKey key,TItemValue value){
+    public void add(TKey key, TItemValue value) {
         Object keyId = mIDMapper.keyToKeyId(key);
-        if(mKeyToValuesMap.get(keyId)==null){
-            mKeyToValuesMap.put(keyId,new ArrayList<TItemValue>());
+        if (mKeyToValuesMap.get(keyId) == null) {
+            mKeyToValuesMap.put(keyId, new ArrayList<TItemValue>());
         }
         //remove old relationship
         TKey keyForValue = getKey(value);
-        if(keyForValue !=null){
+        if (keyForValue != null) {
             mKeyToValuesMap.get(mIDMapper.keyToKeyId(keyForValue)).remove(value);
         }
         mValueToKeyIndexer.put(mIDMapper.valueToValueId(value), key);
-        if(!containsValue(mKeyToValuesMap.get(mIDMapper.keyToKeyId(key)),value)) {
+        if (!containsValue(mKeyToValuesMap.get(mIDMapper.keyToKeyId(key)), value)) {
             mKeyToValuesMap.get(mIDMapper.keyToKeyId(key)).add(value);
         }
     }
 
-    public void removeKey(TKey key){
-        if(mKeyToValuesMap.get(mIDMapper.keyToKeyId(key))!=null){
-            for (TItemValue value : mKeyToValuesMap.get(mIDMapper.keyToKeyId(key))){
+    public void removeKey(TKey key) {
+        if (mKeyToValuesMap.get(mIDMapper.keyToKeyId(key)) != null) {
+            for (TItemValue value : mKeyToValuesMap.get(mIDMapper.keyToKeyId(key))) {
                 mValueToKeyIndexer.remove(mIDMapper.valueToValueId(value));
             }
             mKeyToValuesMap.remove(mIDMapper.keyToKeyId(key));
         }
     }
-    public void removeValue(TItemValue value){
-        if(getKey(value)!=null){
+
+    public void removeValue(TItemValue value) {
+        if (getKey(value) != null) {
             List<TItemValue> itemValues = mKeyToValuesMap.get(mIDMapper.keyToKeyId(getKey(value)));
-            if(itemValues!=null){
+            if (itemValues != null) {
                 itemValues.remove(value);
             }
         }
         mValueToKeyIndexer.remove(mIDMapper.valueToValueId(value));
     }
 
-    public void clear(){
+    public void clear() {
         mValueToKeyIndexer.clear();
         mKeyToValuesMap.clear();
     }
 
-    public void clearValues(){
-        for (Map.Entry<Object,List<TItemValue>> entry:entrySet()){
-            if(entry.getValue()!=null){
+    public void clearValues() {
+        for (Map.Entry<Object, List<TItemValue>> entry : entrySet()) {
+            if (entry.getValue() != null) {
                 entry.getValue().clear();
             }
         }
         mValueToKeyIndexer.clear();
     }
 
-    public Set<Map.Entry<Object,List<TItemValue>>> entrySet(){
+    public Set<Map.Entry<Object, List<TItemValue>>> entrySet() {
         return mKeyToValuesMap.entrySet();
     }
 
-    public Set<Map.Entry<Object,TKey>> reverseEntrySet(){
+    public Set<Map.Entry<Object, TKey>> reverseEntrySet() {
         return mValueToKeyIndexer.entrySet();
     }
 
-    public int size(){
+    public int size() {
         return mKeyToValuesMap.size();
     }
-    public int valuesSize(){
+
+    public int valuesSize() {
         return mValueToKeyIndexer.size();
     }
 
-    protected boolean containsValue(List<TItemValue> list,TItemValue  value){
-        for (TItemValue itemValue :list){
-            if(mIDMapper.valueToValueId(itemValue).equals(mIDMapper.valueToValueId(value))){
+    protected boolean containsValue(List<TItemValue> list, TItemValue value) {
+        for (TItemValue itemValue : list) {
+            if (mIDMapper.valueToValueId(itemValue).equals(mIDMapper.valueToValueId(value))) {
                 return true;
             }
         }
@@ -136,12 +131,22 @@ class DistinctMultiHashMap<TKey,TItemValue> {
      * @param position
      * @return
      */
-    public TItemValue getValueByPosition(int position){
+    public TItemValue getValueByPosition(int position) {
         Object[] vauleIdArray = mValueToKeyIndexer.keySet().toArray();
-        if(position>vauleIdArray.length){
+        if (position > vauleIdArray.length) {
             throw new IndexOutOfBoundsException();
         }
         Object valueId = vauleIdArray[position];
         return mIDMapper.valueIdToValue(valueId);
+    }
+
+    interface IDMapper<TKey, TItemValue> {
+        public Object keyToKeyId(TKey key);
+
+        public TKey keyIdToKey(Object keyId);
+
+        public Object valueToValueId(TItemValue value);
+
+        public TItemValue valueIdToValue(Object valueId);
     }
 }

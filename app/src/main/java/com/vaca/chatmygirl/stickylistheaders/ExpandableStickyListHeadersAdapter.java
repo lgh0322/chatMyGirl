@@ -12,20 +12,20 @@ import java.util.List;
 /**
  * @author lsjwzh
  */
- class ExpandableStickyListHeadersAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+class ExpandableStickyListHeadersAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
     private final StickyListHeadersAdapter mInnerAdapter;
-    DualHashMap<View,Long> mViewToItemIdMap = new DualHashMap<View, Long>();
-    DistinctMultiHashMap<Integer,View> mHeaderIdToViewMap = new DistinctMultiHashMap<Integer, View>();
+    DualHashMap<View, Long> mViewToItemIdMap = new DualHashMap<View, Long>();
+    DistinctMultiHashMap<Integer, View> mHeaderIdToViewMap = new DistinctMultiHashMap<Integer, View>();
     List<Long> mCollapseHeaderIds = new ArrayList<Long>();
 
-    ExpandableStickyListHeadersAdapter(StickyListHeadersAdapter innerAdapter){
+    ExpandableStickyListHeadersAdapter(StickyListHeadersAdapter innerAdapter) {
         this.mInnerAdapter = innerAdapter;
     }
 
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
-        return mInnerAdapter.getHeaderView(position,convertView,parent);
+        return mInnerAdapter.getHeaderView(position, convertView, parent);
     }
 
     @Override
@@ -75,12 +75,12 @@ import java.util.List;
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        View convertView = mInnerAdapter.getView(i,view,viewGroup);
+        View convertView = mInnerAdapter.getView(i, view, viewGroup);
         mViewToItemIdMap.put(convertView, getItemId(i));
         mHeaderIdToViewMap.add((int) getHeaderId(i), convertView);
-        if(mCollapseHeaderIds.contains(getHeaderId(i))){
+        if (mCollapseHeaderIds.contains(getHeaderId(i))) {
             convertView.setVisibility(View.GONE);
-        }else {
+        } else {
             convertView.setVisibility(View.VISIBLE);
         }
         return convertView;
@@ -101,31 +101,31 @@ import java.util.List;
         return mInnerAdapter.isEmpty();
     }
 
-    public List<View> getItemViewsByHeaderId(long headerId){
+    public List<View> getItemViewsByHeaderId(long headerId) {
         return mHeaderIdToViewMap.get((int) headerId);
     }
 
-    public boolean isHeaderCollapsed(long headerId){
+    public boolean isHeaderCollapsed(long headerId) {
         return mCollapseHeaderIds.contains(headerId);
     }
 
     public void expand(long headerId) {
-        if(isHeaderCollapsed(headerId)){
+        if (isHeaderCollapsed(headerId)) {
             mCollapseHeaderIds.remove((Object) headerId);
         }
     }
 
     public void collapse(long headerId) {
-        if(!isHeaderCollapsed(headerId)){
+        if (!isHeaderCollapsed(headerId)) {
             mCollapseHeaderIds.add(headerId);
         }
     }
 
-    public View findViewByItemId(long itemId){
-         return mViewToItemIdMap.getKey(itemId);
+    public View findViewByItemId(long itemId) {
+        return mViewToItemIdMap.getKey(itemId);
     }
 
-    public long findItemIdByView(View view){
+    public long findItemIdByView(View view) {
         return mViewToItemIdMap.get(view);
     }
 }

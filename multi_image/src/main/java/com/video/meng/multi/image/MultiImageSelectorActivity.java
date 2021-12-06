@@ -18,11 +18,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.video.meng.multi.image.utils.SettingUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.video.meng.multi.image.utils.SettingUtils;
 
 /**
  * 多图选择
@@ -59,10 +59,11 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
      * 多选
      */
     public static final int MODE_MULTI = 1;
-
+    String[] permissions = new String[]{Manifest.permission.CAMERA};
     private ArrayList<String> resultList = new ArrayList<>();
     private Button mSubmitButton;
     private int mDefaultCount;
+    private PermissionListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,12 +167,10 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
             resultList.add(imageFile.getAbsolutePath());
             data.putStringArrayListExtra(EXTRA_RESULT, resultList);
             setResult(RESULT_OK, data);
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));// 刷新系统相册  
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));// 刷新系统相册
             finish();
         }
     }
-
-    String[] permissions = new String[]{Manifest.permission.CAMERA};
 
     /**
      * 拍照需要相机权限
@@ -223,23 +222,6 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
                 }
             }
         });
-    }
-
-    private PermissionListener mListener;
-
-    public interface PermissionListener {
-        //授权，同意
-        void onGranted();
-
-        //拒绝
-        void onDenied(Activity activity, List<String> deniedPermission);
-
-    }
-
-    public interface PermissionCallBack {
-        //有权限
-        void hasPermission();
-
     }
 
     /**
@@ -307,5 +289,20 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
             default:
                 break;
         }
+    }
+
+    public interface PermissionListener {
+        //授权，同意
+        void onGranted();
+
+        //拒绝
+        void onDenied(Activity activity, List<String> deniedPermission);
+
+    }
+
+    public interface PermissionCallBack {
+        //有权限
+        void hasPermission();
+
     }
 }

@@ -18,8 +18,34 @@ public class SoftInputUtil {
     private ISoftInputChanged listener;
     private boolean isSoftInputShowing = false;
 
-    public interface ISoftInputChanged {
-        void onChanged(boolean isSoftInputShow, int softInputHeight, int viewOffset);
+    public static int getNavigationBarHeight(Context context) {
+        if (context == null)
+            return 0;
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        int height = resources.getDimensionPixelSize(resourceId);
+        return height;
+    }
+
+    public static void showSoftInput(View view) {
+        if (view == null)
+            return;
+        InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            inputMethodManager.showSoftInput(view, 0);
+        }
+    }
+
+
+    //***************STATIC METHOD******************
+
+    public static void hideSoftInput(View view) {
+        if (view == null)
+            return;
+        InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     public void attachSoftInput(final View anyView, final ISoftInputChanged listener) {
@@ -91,33 +117,7 @@ public class SoftInputUtil {
         });
     }
 
-
-    //***************STATIC METHOD******************
-
-    public static int getNavigationBarHeight(Context context) {
-        if (context == null)
-            return 0;
-        Resources resources = context.getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-        int height = resources.getDimensionPixelSize(resourceId);
-        return height;
-    }
-
-    public static void showSoftInput(View view) {
-        if (view == null)
-            return;
-        InputMethodManager inputMethodManager = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputMethodManager != null) {
-            inputMethodManager.showSoftInput(view, 0);
-        }
-    }
-
-    public static void hideSoftInput(View view) {
-        if (view == null)
-            return;
-        InputMethodManager inputMethodManager = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputMethodManager != null) {
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+    public interface ISoftInputChanged {
+        void onChanged(boolean isSoftInputShow, int softInputHeight, int viewOffset);
     }
 }

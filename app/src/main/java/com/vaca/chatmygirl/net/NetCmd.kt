@@ -2,36 +2,29 @@ package com.vaca.chatmygirl.net
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.vaca.chatmygirl.BuildConfig
 import com.vaca.chatmygirl.bean.MyInfo
 import com.vaca.chatmygirl.data.MyStorage
 import io.socket.client.IO
-import io.socket.emitter.Emitter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
-import java.io.IOException
-import java.lang.Exception
-import java.util.*
 
 object NetCmd {
-    val netAddress=BuildConfig.HOST
+    val netAddress = BuildConfig.HOST
     private val mSocket = IO.socket(netAddress)
     private val client = OkHttpClient();
     private val PURPOSE = "purpose"
 
-    val loginState=MutableLiveData<Boolean>()
-    var myAcount=MyStorage.getAccount()
-    var haveRegister=!myAcount.isEmpty()
-    var currentChatId="56"
+    val loginState = MutableLiveData<Boolean>()
+    var myAcount = MyStorage.getAccount()
+    var haveRegister = !myAcount.isEmpty()
+    var currentChatId = "56"
     val dataScope = CoroutineScope(Dispatchers.IO)
-    val myInfo=MutableLiveData<MyInfo>()
+    val myInfo = MutableLiveData<MyInfo>()
 
     //-------------------------------------------------------------------------------用户信息上传
     fun getInfo(): String? {
@@ -46,23 +39,22 @@ object NetCmd {
                 .execute()
                 .use { response ->
                     response.body?.string()?.let {
-                        Log.e("sdf",it)
+                        Log.e("sdf", it)
                         return it
                     }
                 }
             return null
-        }catch (e:Exception){
+        } catch (e: Exception) {
             return null
         }
 
     }
 
 
-
-
     fun initSocket() {
         mSocket.connect()
-        mSocket.on("Server"
+        mSocket.on(
+            "Server"
         ) { args ->
             val content = JSONObject(args[0].toString())
 
@@ -75,18 +67,19 @@ object NetCmd {
                         Log.i("girlxx", "NothaveRegister")
                     }
                 }
-                "login"->{
-                    val result=content.getInt("result").toString()
-                    LiveEventBus.get("login",String::class.java).post(result)
+                "login" -> {
+                    val result = content.getInt("result").toString()
+                    LiveEventBus.get("login", String::class.java).post(result)
                 }
-                "signup"->{
-                    val result=content.getInt("result").toString()
-                    LiveEventBus.get("signUp",String::class.java).post(result)
+                "signup" -> {
+                    val result = content.getInt("result").toString()
+                    LiveEventBus.get("signUp", String::class.java).post(result)
                 }
             }
         }
 
-        mSocket.on("Relay"
+        mSocket.on(
+            "Relay"
         ) { args ->
             val fuck = args[0]
             Log.e("fuck", fuck.toString())
@@ -119,20 +112,20 @@ object NetCmd {
     }
 
 
-    fun chatMsg(sendMsg:String, type:Int, isGroup:Boolean){
-        val msg=JSONObject()
-        msg.put(PURPOSE,"chat")
-        msg.put("msg",sendMsg)
-        msg.put("time",System.currentTimeMillis())
-        msg.put("type",type)
+    fun chatMsg(sendMsg: String, type: Int, isGroup: Boolean) {
+        val msg = JSONObject()
+        msg.put(PURPOSE, "chat")
+        msg.put("msg", sendMsg)
+        msg.put("time", System.currentTimeMillis())
+        msg.put("type", type)
         msg.put("from", myAcount.user)
         msg.put("to", currentChatId)
-        Log.e("fucsssk",msg.toString())
+        Log.e("fucsssk", msg.toString())
         sendRelay(msg.toString())
     }
 
-    fun chatText(msg:String,isGroup: Boolean){
-        chatMsg(msg,1,isGroup)
+    fun chatText(msg: String, isGroup: Boolean) {
+        chatMsg(msg, 1, isGroup)
     }
 
 }

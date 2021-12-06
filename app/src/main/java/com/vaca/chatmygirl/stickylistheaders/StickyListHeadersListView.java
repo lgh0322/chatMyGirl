@@ -38,57 +38,17 @@ import com.vaca.chatmygirl.R;
  */
 public class StickyListHeadersListView extends FrameLayout {
 
-    public interface OnHeaderClickListener {
-        void onHeaderClick(StickyListHeadersListView l, View header,
-                           int itemPosition, long headerId, boolean currentlySticky);
-    }
-
-    /**
-     * Notifies the listener when the sticky headers top offset has changed.
-     */
-    public interface OnStickyHeaderOffsetChangedListener {
-        /**
-         * @param l      The view parent
-         * @param header The currently sticky header being offset.
-         *               This header is not guaranteed to have it's measurements set.
-         *               It is however guaranteed that this view has been measured,
-         *               therefor you should user getMeasured* methods instead of
-         *               get* methods for determining the view's size.
-         * @param offset The amount the sticky header is offset by towards to top of the screen.
-         */
-        void onStickyHeaderOffsetChanged(StickyListHeadersListView l, View header, int offset);
-    }
-
-    /**
-     * Notifies the listener when the sticky header has been updated
-     */
-    public interface OnStickyHeaderChangedListener {
-        /**
-         * @param l            The view parent
-         * @param header       The new sticky header view.
-         * @param itemPosition The position of the item within the adapter's data set of
-         *                     the item whose header is now sticky.
-         * @param headerId     The id of the new sticky header.
-         */
-        void onStickyHeaderChanged(StickyListHeadersListView l, View header,
-                                   int itemPosition, long headerId);
-
-    }
-
     /* --- Children --- */
     private WrapperViewList mList;
     private View mHeader;
-
     /* --- Header state --- */
     private Long mHeaderId;
     // used to not have to call getHeaderId() all the time
     private Integer mHeaderPosition;
     private Integer mHeaderOffset;
-
     /* --- Delegates --- */
     private OnScrollListener mOnScrollListenerDelegate;
     private AdapterWrapper mAdapter;
-
     /* --- Settings --- */
     private boolean mAreHeadersSticky = true;
     private boolean mClippingToPadding = true;
@@ -98,12 +58,10 @@ public class StickyListHeadersListView extends FrameLayout {
     private int mPaddingTop = 0;
     private int mPaddingRight = 0;
     private int mPaddingBottom = 0;
-
     /* --- Touch handling --- */
     private float mDownY;
     private boolean mHeaderOwnsTouch;
     private float mTouchSlop;
-
     /* --- Other --- */
     private OnHeaderClickListener mOnHeaderClickListener;
     private OnStickyHeaderOffsetChangedListener mOnStickyHeaderOffsetChangedListener;
@@ -111,15 +69,12 @@ public class StickyListHeadersListView extends FrameLayout {
     private AdapterWrapperDataSetObserver mDataSetObserver;
     private Drawable mDivider;
     private int mDividerHeight;
-
     public StickyListHeadersListView(Context context) {
         this(context, null);
     }
-
     public StickyListHeadersListView(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.stickyListHeadersListViewStyle);
     }
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public StickyListHeadersListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -487,77 +442,6 @@ public class StickyListHeadersListView extends FrameLayout {
         return handled;
     }
 
-    private class AdapterWrapperDataSetObserver extends DataSetObserver {
-
-        @Override
-        public void onChanged() {
-            clearHeader();
-        }
-
-        @Override
-        public void onInvalidated() {
-            clearHeader();
-        }
-
-    }
-
-    private class WrapperListScrollListener implements OnScrollListener {
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem,
-                             int visibleItemCount, int totalItemCount) {
-            if (mOnScrollListenerDelegate != null) {
-                mOnScrollListenerDelegate.onScroll(view, firstVisibleItem,
-                        visibleItemCount, totalItemCount);
-            }
-            updateOrClearHeader(mList.getFixedFirstVisibleItem());
-        }
-
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-            if (mOnScrollListenerDelegate != null) {
-                mOnScrollListenerDelegate.onScrollStateChanged(view,
-                        scrollState);
-            }
-        }
-
-    }
-
-    private class WrapperViewListLifeCycleListener implements WrapperViewList.LifeCycleListener {
-
-        @Override
-        public void onDispatchDrawOccurred(Canvas canvas) {
-            // onScroll is not called often at all before froyo
-            // therefor we need to update the header here as well.
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-                updateOrClearHeader(mList.getFixedFirstVisibleItem());
-            }
-            if (mHeader != null) {
-                if (mClippingToPadding) {
-                    canvas.save();
-                    canvas.clipRect(0, mPaddingTop, getRight(), getBottom());
-                    drawChild(canvas, mHeader, 0);
-                    canvas.restore();
-                } else {
-                    drawChild(canvas, mHeader, 0);
-                }
-            }
-        }
-
-    }
-
-    private class AdapterWrapperHeaderClickHandler implements
-            AdapterWrapper.OnHeaderClickListener {
-
-        @Override
-        public void onHeaderClick(View header, int itemPosition, long headerId) {
-            mOnHeaderClickListener.onHeaderClick(
-                    StickyListHeadersListView.this, header, itemPosition,
-                    headerId, false);
-        }
-
-    }
-
     private boolean isStartOfSection(int position) {
         return position == 0 || mAdapter.getHeaderId(position) != mAdapter.getHeaderId(position - 1);
     }
@@ -580,19 +464,6 @@ public class StickyListHeadersListView extends FrameLayout {
         return mStickyHeaderTopOffset + (mClippingToPadding ? mPaddingTop : 0);
     }
 
-    /* ---------- StickyListHeaders specific API ---------- */
-
-    public void setAreHeadersSticky(boolean areHeadersSticky) {
-        mAreHeadersSticky = areHeadersSticky;
-        if (!areHeadersSticky) {
-            clearHeader();
-        } else {
-            updateOrClearHeader(mList.getFixedFirstVisibleItem());
-        }
-        // invalidating the list will trigger dispatchDraw()
-        mList.invalidate();
-    }
-
     public boolean areHeadersSticky() {
         return mAreHeadersSticky;
     }
@@ -605,6 +476,21 @@ public class StickyListHeadersListView extends FrameLayout {
         return areHeadersSticky();
     }
 
+    public void setAreHeadersSticky(boolean areHeadersSticky) {
+        mAreHeadersSticky = areHeadersSticky;
+        if (!areHeadersSticky) {
+            clearHeader();
+        } else {
+            updateOrClearHeader(mList.getFixedFirstVisibleItem());
+        }
+        // invalidating the list will trigger dispatchDraw()
+        mList.invalidate();
+    }
+
+    public int getStickyHeaderTopOffset() {
+        return mStickyHeaderTopOffset;
+    }
+
     /**
      * @param stickyHeaderTopOffset The offset of the sticky header fom the top of the view
      */
@@ -613,8 +499,8 @@ public class StickyListHeadersListView extends FrameLayout {
         updateOrClearHeader(mList.getFixedFirstVisibleItem());
     }
 
-    public int getStickyHeaderTopOffset() {
-        return mStickyHeaderTopOffset;
+    public boolean isDrawingListUnderStickyHeader() {
+        return mIsDrawingListUnderStickyHeader;
     }
 
     public void setDrawingListUnderStickyHeader(
@@ -624,9 +510,7 @@ public class StickyListHeadersListView extends FrameLayout {
         mList.setTopClippingLength(0);
     }
 
-    public boolean isDrawingListUnderStickyHeader() {
-        return mIsDrawingListUnderStickyHeader;
-    }
+    /* ---------- StickyListHeaders specific API ---------- */
 
     public void setOnHeaderClickListener(OnHeaderClickListener listener) {
         mOnHeaderClickListener = listener;
@@ -684,7 +568,9 @@ public class StickyListHeadersListView extends FrameLayout {
         return true;
     }
 
-    /* ---------- ListView delegate methods ---------- */
+    public StickyListHeadersAdapter getAdapter() {
+        return mAdapter == null ? null : mAdapter.mDelegate;
+    }
 
     public void setAdapter(StickyListHeadersAdapter adapter) {
         if (adapter == null) {
@@ -722,8 +608,8 @@ public class StickyListHeadersListView extends FrameLayout {
         clearHeader();
     }
 
-    public StickyListHeadersAdapter getAdapter() {
-        return mAdapter == null ? null : mAdapter.mDelegate;
+    public Drawable getDivider() {
+        return mDivider;
     }
 
     public void setDivider(Drawable divider) {
@@ -733,6 +619,10 @@ public class StickyListHeadersListView extends FrameLayout {
         }
     }
 
+    public int getDividerHeight() {
+        return mDividerHeight;
+    }
+
     public void setDividerHeight(int dividerHeight) {
         mDividerHeight = dividerHeight;
         if (mAdapter != null) {
@@ -740,17 +630,11 @@ public class StickyListHeadersListView extends FrameLayout {
         }
     }
 
-    public Drawable getDivider() {
-        return mDivider;
-    }
-
-    public int getDividerHeight() {
-        return mDividerHeight;
-    }
-
     public void setOnScrollListener(OnScrollListener onScrollListener) {
         mOnScrollListenerDelegate = onScrollListener;
     }
+
+    /* ---------- ListView delegate methods ---------- */
 
     @Override
     public void setOnTouchListener(final OnTouchListener l) {
@@ -806,12 +690,12 @@ public class StickyListHeadersListView extends FrameLayout {
         return mList.getFooterViewsCount();
     }
 
-    public void setEmptyView(View v) {
-        mList.setEmptyView(v);
-    }
-
     public View getEmptyView() {
         return mList.getEmptyView();
+    }
+
+    public void setEmptyView(View v) {
+        mList.setEmptyView(v);
     }
 
     @Override
@@ -820,13 +704,13 @@ public class StickyListHeadersListView extends FrameLayout {
     }
 
     @Override
-    public boolean isHorizontalScrollBarEnabled() {
-        return mList.isHorizontalScrollBarEnabled();
+    public void setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled) {
+        mList.setVerticalScrollBarEnabled(verticalScrollBarEnabled);
     }
 
     @Override
-    public void setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled) {
-        mList.setVerticalScrollBarEnabled(verticalScrollBarEnabled);
+    public boolean isHorizontalScrollBarEnabled() {
+        return mList.isHorizontalScrollBarEnabled();
     }
 
     @Override
@@ -1052,13 +936,6 @@ public class StickyListHeadersListView extends FrameLayout {
         mList.setFastScrollEnabled(fastScrollEnabled);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void setFastScrollAlwaysVisible(boolean alwaysVisible) {
-        if (requireSdkVersion(Build.VERSION_CODES.HONEYCOMB)) {
-            mList.setFastScrollAlwaysVisible(alwaysVisible);
-        }
-    }
-
     /**
      * @return true if the fast scroller will always show. False on pre-Honeycomb devices.
      * @see AbsListView#isFastScrollAlwaysVisible()
@@ -1071,12 +948,19 @@ public class StickyListHeadersListView extends FrameLayout {
         return mList.isFastScrollAlwaysVisible();
     }
 
-    public void setScrollBarStyle(int style) {
-        mList.setScrollBarStyle(style);
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public void setFastScrollAlwaysVisible(boolean alwaysVisible) {
+        if (requireSdkVersion(Build.VERSION_CODES.HONEYCOMB)) {
+            mList.setFastScrollAlwaysVisible(alwaysVisible);
+        }
     }
 
     public int getScrollBarStyle() {
         return mList.getScrollBarStyle();
+    }
+
+    public void setScrollBarStyle(int style) {
+        mList.setScrollBarStyle(style);
     }
 
     public int getPositionForView(View view) {
@@ -1119,11 +1003,119 @@ public class StickyListHeadersListView extends FrameLayout {
         mList.setBlockLayoutChildren(blockLayoutChildren);
     }
 
+    public boolean isStackFromBottom() {
+        return mList.isStackFromBottom();
+    }
+
     public void setStackFromBottom(boolean stackFromBottom) {
         mList.setStackFromBottom(stackFromBottom);
     }
 
-    public boolean isStackFromBottom() {
-        return mList.isStackFromBottom();
+    public interface OnHeaderClickListener {
+        void onHeaderClick(StickyListHeadersListView l, View header,
+                           int itemPosition, long headerId, boolean currentlySticky);
+    }
+
+    /**
+     * Notifies the listener when the sticky headers top offset has changed.
+     */
+    public interface OnStickyHeaderOffsetChangedListener {
+        /**
+         * @param l      The view parent
+         * @param header The currently sticky header being offset.
+         *               This header is not guaranteed to have it's measurements set.
+         *               It is however guaranteed that this view has been measured,
+         *               therefor you should user getMeasured* methods instead of
+         *               get* methods for determining the view's size.
+         * @param offset The amount the sticky header is offset by towards to top of the screen.
+         */
+        void onStickyHeaderOffsetChanged(StickyListHeadersListView l, View header, int offset);
+    }
+
+    /**
+     * Notifies the listener when the sticky header has been updated
+     */
+    public interface OnStickyHeaderChangedListener {
+        /**
+         * @param l            The view parent
+         * @param header       The new sticky header view.
+         * @param itemPosition The position of the item within the adapter's data set of
+         *                     the item whose header is now sticky.
+         * @param headerId     The id of the new sticky header.
+         */
+        void onStickyHeaderChanged(StickyListHeadersListView l, View header,
+                                   int itemPosition, long headerId);
+
+    }
+
+    private class AdapterWrapperDataSetObserver extends DataSetObserver {
+
+        @Override
+        public void onChanged() {
+            clearHeader();
+        }
+
+        @Override
+        public void onInvalidated() {
+            clearHeader();
+        }
+
+    }
+
+    private class WrapperListScrollListener implements OnScrollListener {
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                             int visibleItemCount, int totalItemCount) {
+            if (mOnScrollListenerDelegate != null) {
+                mOnScrollListenerDelegate.onScroll(view, firstVisibleItem,
+                        visibleItemCount, totalItemCount);
+            }
+            updateOrClearHeader(mList.getFixedFirstVisibleItem());
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            if (mOnScrollListenerDelegate != null) {
+                mOnScrollListenerDelegate.onScrollStateChanged(view,
+                        scrollState);
+            }
+        }
+
+    }
+
+    private class WrapperViewListLifeCycleListener implements WrapperViewList.LifeCycleListener {
+
+        @Override
+        public void onDispatchDrawOccurred(Canvas canvas) {
+            // onScroll is not called often at all before froyo
+            // therefor we need to update the header here as well.
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
+                updateOrClearHeader(mList.getFixedFirstVisibleItem());
+            }
+            if (mHeader != null) {
+                if (mClippingToPadding) {
+                    canvas.save();
+                    canvas.clipRect(0, mPaddingTop, getRight(), getBottom());
+                    drawChild(canvas, mHeader, 0);
+                    canvas.restore();
+                } else {
+                    drawChild(canvas, mHeader, 0);
+                }
+            }
+        }
+
+    }
+
+    private class AdapterWrapperHeaderClickHandler implements
+            AdapterWrapper.OnHeaderClickListener {
+
+        @Override
+        public void onHeaderClick(View header, int itemPosition, long headerId) {
+            mOnHeaderClickListener.onHeaderClick(
+                    StickyListHeadersListView.this, header, itemPosition,
+                    headerId, false);
+        }
+
     }
 }

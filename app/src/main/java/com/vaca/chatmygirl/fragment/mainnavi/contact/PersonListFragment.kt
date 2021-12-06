@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
-import com.vaca.chatmygirl.event.ContactInputEvent
 import com.vaca.chatmygirl.adapter.SortAdapter
 import com.vaca.chatmygirl.bean.SortModel
 import com.vaca.chatmygirl.databinding.FragmentPersonListBinding
+import com.vaca.chatmygirl.event.ContactInputEvent
 import com.vaca.chatmygirl.stickylistheaders.StickyListHeadersListView
 import com.vaca.chatmygirl.utils.HanyuParser
 import com.vaca.chatmygirl.utils.PinyinComparator
@@ -19,13 +19,13 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 
-class PersonListFragment: Fragment() {
+class PersonListFragment : Fragment() {
 
-    lateinit var binding:FragmentPersonListBinding
+    lateinit var binding: FragmentPersonListBinding
     private var adapter: SortAdapter? = null
     private var SourceDateList: MutableList<SortModel>? = null
     private var SourceDateListAfterSort: MutableList<SortModel>? = null
-    private val pinyinComparator=PinyinComparator()
+    private val pinyinComparator = PinyinComparator()
 
 
     override fun onStart() {
@@ -42,29 +42,26 @@ class PersonListFragment: Fragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: ContactInputEvent?) {
-        if(event!=null){
+        if (event != null) {
             filterData(event.input)
         }
     }
-
-
-
 
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
 
 
-        binding= FragmentPersonListBinding.inflate(inflater,container,false)
-        val stickyList=binding.list
+        binding = FragmentPersonListBinding.inflate(inflater, container, false)
+        val stickyList = binding.list
         binding.bar.setTextView(binding.dialog)
         binding.bar.setOnTouchingLetterChangedListener {
 
-            val yes=adapter
-            if(yes!=null){
+            val yes = adapter
+            if (yes != null) {
                 val position = yes.getPositionForSection(it[0].code)
                 if (position != -1) {
                     stickyList.setSelection(position)
@@ -76,13 +73,14 @@ class PersonListFragment: Fragment() {
 
 
 
-        stickyList.setOnItemClickListener(object : AdapterView.OnItemClickListener{
+        stickyList.setOnItemClickListener(object : AdapterView.OnItemClickListener {
             override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 
             }
 
         })
-        stickyList.setOnStickyHeaderChangedListener(object :StickyListHeadersListView.OnStickyHeaderChangedListener{
+        stickyList.setOnStickyHeaderChangedListener(object :
+            StickyListHeadersListView.OnStickyHeaderChangedListener {
             override fun onStickyHeaderChanged(
                 l: StickyListHeadersListView?,
                 header: View?,
@@ -94,7 +92,8 @@ class PersonListFragment: Fragment() {
             }
 
         })
-        stickyList.setOnStickyHeaderOffsetChangedListener(object :StickyListHeadersListView.OnStickyHeaderOffsetChangedListener{
+        stickyList.setOnStickyHeaderOffsetChangedListener(object :
+            StickyListHeadersListView.OnStickyHeaderOffsetChangedListener {
             override fun onStickyHeaderOffsetChanged(
                 l: StickyListHeadersListView?,
                 header: View?,
@@ -112,11 +111,11 @@ class PersonListFragment: Fragment() {
         stickyList.isFastScrollAlwaysVisible = false
 
 
-        val gugu=SortModel("吃屎","234")
+        val gugu = SortModel("吃屎", "234")
 
 
 
-        SourceDateList= arrayListOf(gugu)
+        SourceDateList = arrayListOf(gugu)
         Collections.sort(SourceDateList, pinyinComparator)
         SourceDateListAfterSort = SourceDateList
         adapter = SortAdapter(requireContext(), SourceDateList, false)
@@ -150,7 +149,7 @@ class PersonListFragment: Fragment() {
             val pinyin: String = HanyuParser().getStringPinYin(date[i])
             val sortString = pinyin.substring(0, 1).toUpperCase(Locale.getDefault())
             // 正则表达式，判断首字母是否是英文字母
-            if (sortString.matches(Regex ("[A-Z]"))) {
+            if (sortString.matches(Regex("[A-Z]"))) {
                 sortModel.sortLetters = sortString.toUpperCase(Locale.getDefault())
             } else {
                 sortModel.sortLetters = "#"
@@ -168,25 +167,25 @@ class PersonListFragment: Fragment() {
      */
     private fun filterData(filterStr: String) {
 
-            var filterDateList: MutableList<SortModel> = ArrayList<SortModel>()
-            if (TextUtils.isEmpty(filterStr)) {
-                if (SourceDateList != null) {
-                    filterDateList = SourceDateList as MutableList<SortModel>
-                }
-            } else {
-                filterDateList.clear()
-                if (SourceDateList != null) {
-                    for (sortModel in SourceDateList!!) {
-                        val name: String = sortModel.name!!
-                        if (containString(name, filterStr)) {
-                            filterDateList.add(sortModel)
-                        }
+        var filterDateList: MutableList<SortModel> = ArrayList<SortModel>()
+        if (TextUtils.isEmpty(filterStr)) {
+            if (SourceDateList != null) {
+                filterDateList = SourceDateList as MutableList<SortModel>
+            }
+        } else {
+            filterDateList.clear()
+            if (SourceDateList != null) {
+                for (sortModel in SourceDateList!!) {
+                    val name: String = sortModel.name!!
+                    if (containString(name, filterStr)) {
+                        filterDateList.add(sortModel)
                     }
                 }
             }
-            Collections.sort(filterDateList, pinyinComparator)
-            SourceDateListAfterSort = filterDateList
-            adapter!!.updateListView(filterDateList)
+        }
+        Collections.sort(filterDateList, pinyinComparator)
+        SourceDateListAfterSort = filterDateList
+        adapter!!.updateListView(filterDateList)
     }
 
     private fun containString(name: String, filterStr: String): Boolean {

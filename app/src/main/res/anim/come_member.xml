@@ -3,8 +3,7 @@
     android:duration="300">
     <translate
         android:fromXDelta="-104%"
-        android:toXDelta="0%"
-        />
+        android:toXDelta="0%" />
 
     <!-- pivotX 可以是   -->
     <!--    <scale-->

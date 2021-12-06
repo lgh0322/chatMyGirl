@@ -52,8 +52,6 @@ import java.util.List;
  */
 public class MultiImageSelectorFragment extends Fragment {
 
-    private static final String TAG = "MultiImageSelector";
-
     /**
      * 最大图片选择次数，int类型
      */
@@ -78,6 +76,7 @@ public class MultiImageSelectorFragment extends Fragment {
      * 多选
      */
     public static final int MODE_MULTI = 1;
+    private static final String TAG = "MultiImageSelector";
     // 不同loader定义
     private static final int LOADER_ALL = 0;
     private static final int LOADER_CATEGORY = 1;
@@ -118,6 +117,89 @@ public class MultiImageSelectorFragment extends Fragment {
     private File mTmpFile;
 
     private int mode = MODE_MULTI;
+    private MultiImageSelectorActivity activity;
+    private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
+
+        private final String[] IMAGE_PROJECTION = {
+                MediaStore.Images.Media.DATA,
+                MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media.DATE_ADDED,
+                MediaStore.Images.Media._ID};
+
+        @Nullable
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            if (id == LOADER_ALL) {
+                CursorLoader cursorLoader = new CursorLoader(getActivity(),
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
+                        null, null, IMAGE_PROJECTION[2] + " DESC");
+                return cursorLoader;
+            } else if (id == LOADER_CATEGORY) {
+                CursorLoader cursorLoader = new CursorLoader(getActivity(),
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
+                        IMAGE_PROJECTION[0] + " like '%" + args.getString("path") + "%'", null, IMAGE_PROJECTION[2] + " DESC");
+                return cursorLoader;
+            }
+
+            return null;
+        }
+
+        @Override
+        public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+            if (data != null) {
+                List<Image> images = new ArrayList<>();
+                int count = data.getCount();
+                if (count > 0) {
+                    data.moveToFirst();
+                    do {
+                        String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
+                        String name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
+                        long dateTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
+                        Image image = new Image(path, name, dateTime);
+                        images.add(image);
+                        if (!hasFolderGened) {
+                            // 获取文件夹名称
+                            File imageFile = new File(path);
+                            File folderFile = imageFile.getParentFile();
+                            Folder folder = new Folder();
+                            if (folderFile != null) {
+                                folder.name = folderFile.getName();
+                                folder.path = folderFile.getAbsolutePath();
+                            }
+                            folder.cover = image;
+                            if (!mResultFolder.contains(folder)) {
+                                List<Image> imageList = new ArrayList<>();
+                                imageList.add(image);
+                                folder.images = imageList;
+                                mResultFolder.add(folder);
+                            } else {
+                                // 更新
+                                Folder f = mResultFolder.get(mResultFolder.indexOf(folder));
+                                f.images.add(image);
+                            }
+                        }
+
+                    } while (data.moveToNext());
+
+                    mImageAdapter.setData(images);
+
+                    // 设定默认选择
+                    if (resultList != null && resultList.size() > 0) {
+                        mImageAdapter.setDefaultSelected(resultList);
+                    }
+
+                    mFolderAdapter.setData(mResultFolder);
+                    hasFolderGened = true;
+
+                }
+            }
+        }
+
+        @Override
+        public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+
+        }
+    };
 
     @Override
     public void onAttach(@NonNull Activity activity) {
@@ -392,8 +474,6 @@ public class MultiImageSelectorFragment extends Fragment {
 
     }
 
-    private MultiImageSelectorActivity activity;
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -480,89 +560,6 @@ public class MultiImageSelectorFragment extends Fragment {
             }
         }
     }
-
-    private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
-
-        private final String[] IMAGE_PROJECTION = {
-                MediaStore.Images.Media.DATA,
-                MediaStore.Images.Media.DISPLAY_NAME,
-                MediaStore.Images.Media.DATE_ADDED,
-                MediaStore.Images.Media._ID};
-
-        @Nullable
-        @Override
-        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-            if (id == LOADER_ALL) {
-                CursorLoader cursorLoader = new CursorLoader(getActivity(),
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
-                        null, null, IMAGE_PROJECTION[2] + " DESC");
-                return cursorLoader;
-            } else if (id == LOADER_CATEGORY) {
-                CursorLoader cursorLoader = new CursorLoader(getActivity(),
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
-                        IMAGE_PROJECTION[0] + " like '%" + args.getString("path") + "%'", null, IMAGE_PROJECTION[2] + " DESC");
-                return cursorLoader;
-            }
-
-            return null;
-        }
-
-        @Override
-        public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-            if (data != null) {
-                List<Image> images = new ArrayList<>();
-                int count = data.getCount();
-                if (count > 0) {
-                    data.moveToFirst();
-                    do {
-                        String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
-                        String name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
-                        long dateTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
-                        Image image = new Image(path, name, dateTime);
-                        images.add(image);
-                        if (!hasFolderGened) {
-                            // 获取文件夹名称
-                            File imageFile = new File(path);
-                            File folderFile = imageFile.getParentFile();
-                            Folder folder = new Folder();
-                            if (folderFile != null) {
-                                folder.name = folderFile.getName();
-                                folder.path = folderFile.getAbsolutePath();
-                            }
-                            folder.cover = image;
-                            if (!mResultFolder.contains(folder)) {
-                                List<Image> imageList = new ArrayList<>();
-                                imageList.add(image);
-                                folder.images = imageList;
-                                mResultFolder.add(folder);
-                            } else {
-                                // 更新
-                                Folder f = mResultFolder.get(mResultFolder.indexOf(folder));
-                                f.images.add(image);
-                            }
-                        }
-
-                    } while (data.moveToNext());
-
-                    mImageAdapter.setData(images);
-
-                    // 设定默认选择
-                    if (resultList != null && resultList.size() > 0) {
-                        mImageAdapter.setDefaultSelected(resultList);
-                    }
-
-                    mFolderAdapter.setData(mResultFolder);
-                    hasFolderGened = true;
-
-                }
-            }
-        }
-
-        @Override
-        public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
-        }
-    };
 
     /**
      * 回调接口

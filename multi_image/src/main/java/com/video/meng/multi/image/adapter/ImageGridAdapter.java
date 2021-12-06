@@ -10,12 +10,11 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.video.meng.multi.image.R;
+import com.video.meng.multi.image.bean.Image;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.video.meng.multi.image.bean.Image;
 
 /**
  * 图片Adapter
@@ -52,15 +51,15 @@ public class ImageGridAdapter extends BaseAdapter {
         showSelectIndicator = b;
     }
 
+    public boolean isShowCamera() {
+        return showCamera;
+    }
+
     public void setShowCamera(boolean b) {
         if (showCamera == b) return;
 
         showCamera = b;
         notifyDataSetChanged();
-    }
-
-    public boolean isShowCamera() {
-        return showCamera;
     }
 
     /**

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/myFragment"
         android:name="com.vaca.chatmygirl.fragment.mainnavi.MyFragment"
-        android:label="MyFragment" >
+        android:label="MyFragment">
         <action
             android:id="@+id/action_myFragment_to_userInfoFragment"
             app:destination="@id/userInfoFragment" />

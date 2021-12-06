@@ -5,9 +5,9 @@
     android:background="#EBECED"
     android:gravity="center"
     android:orientation="vertical"
-    android:visibility="visible" >
+    android:visibility="visible">
 
- <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/face_viewpager"
         android:layout_width="match_parent"
         android:layout_height="170dp"
@@ -20,7 +20,6 @@
         android:layout_height="20dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:orientation="horizontal" >
-    </LinearLayout>
+        android:orientation="horizontal"></LinearLayout>
 
 </LinearLayout>

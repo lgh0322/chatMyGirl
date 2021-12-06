@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.video.meng.multi.image" />
+<manifest package="com.video.meng.multi.image" />

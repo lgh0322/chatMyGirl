@@ -12,21 +12,22 @@ import java.util.Locale;
  */
 public class TimeUtils {
 
-    public static String timeFormat(long timeMillis, String pattern){
+    public static String timeFormat(long timeMillis, String pattern) {
         SimpleDateFormat format = new SimpleDateFormat(pattern, Locale.CHINA);
         return format.format(new Date(timeMillis));
     }
 
-    public static String formatPhotoDate(long time){
+    public static String formatPhotoDate(long time) {
         return timeFormat(time, "yyyy-MM-dd");
     }
-    public static String formatPhotoDateTime(long time){
+
+    public static String formatPhotoDateTime(long time) {
         return timeFormat(time, "yyyy-MM-dd HH:mm");
     }
 
-    public static String formatPhotoDate(String path){
+    public static String formatPhotoDate(String path) {
         File file = new File(path);
-        if(file.exists()){
+        if (file.exists()) {
             long time = file.lastModified();
             return formatPhotoDate(time);
         }

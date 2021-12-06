@@ -6,11 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-    <TextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="送到房间里看见分厘卡"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:id="@+id/face_dots_container"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/face_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
+        android:layout_gravity="center"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/face_dots_container" />
 </androidx.constraintlayout.widget.ConstraintLayout>

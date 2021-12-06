@@ -35,14 +35,16 @@ class ContactButtonAdapter(var context: Context) :
     // binds the data to the TextView in each cell
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (mem[position].select) {
-            holder.text.background = ContextCompat.getDrawable(context, R.drawable.button_circle_shape)
+            holder.text.background =
+                ContextCompat.getDrawable(context, R.drawable.button_circle_shape)
             holder.text.setTextColor(ContextCompat.getColor(context, R.color.white))
         } else {
-            holder.text.background =  ContextCompat.getDrawable(context, R.drawable.button_circle_shape_white)
+            holder.text.background =
+                ContextCompat.getDrawable(context, R.drawable.button_circle_shape_white)
             holder.text.setTextColor(ContextCompat.getColor(context, R.color.login_hint_black))
         }
 
-        holder.text.text=mem[position].name
+        holder.text.text = mem[position].name
 
     }
 
