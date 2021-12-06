@@ -4,13 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EBECED"
     tools:context=".activity.MainActivity">
 
-    <TextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="送到房间里看见分厘卡"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="20dp"
+        >
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/icon_voice_bg"
+            android:layout_height="300dp"/>
+
+        <ImageView
+            android:id="@+id/iv_voice"
+            android:layout_width="300dp"
+            android:padding="100dp"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_voice" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
