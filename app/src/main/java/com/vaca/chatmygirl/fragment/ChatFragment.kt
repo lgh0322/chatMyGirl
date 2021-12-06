@@ -14,7 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.tencent.bugly.proguard.x
 import com.vaca.chatmygirl.R
+import com.vaca.chatmygirl.adapter.ChatAdapter
+import com.vaca.chatmygirl.bean.ChatBean
 import com.vaca.chatmygirl.data.MyStorage
 import com.vaca.chatmygirl.databinding.FragmentChatBinding
 import com.vaca.chatmygirl.event.Emotion
@@ -26,15 +31,16 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.ArrayList
 import java.util.regex.Pattern
 
 
 class ChatFragment : Fragment() {
 
     lateinit var binding: FragmentChatBinding
-
+    var chatMsg = ArrayList<ChatBean>()
     var keyboardVisible = false
-
+    lateinit var chatAdapter: ChatAdapter
     private fun showKeyboard(view: View) {
         val imm = view.context
             .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -59,6 +65,11 @@ class ChatFragment : Fragment() {
 
         binding = FragmentChatBinding.inflate(inflater, container, false)
 
+        chatAdapter= ChatAdapter(requireContext(),binding.rc)
+        val linearLayoutManager = LinearLayoutManager(requireContext())
+        linearLayoutManager.orientation = RecyclerView.VERTICAL
+        binding.rc.setLayoutManager(linearLayoutManager)
+        binding.rc.setAdapter(chatAdapter)
 
         val fm = childFragmentManager.findFragmentById(R.id.container) as NavHostFragment
         navController = fm.navController
@@ -72,29 +83,31 @@ class ChatFragment : Fragment() {
         binding.container.layoutParams = lp
 
 
-        SoftHeight.observeSoftKeyboard(requireActivity(),
-            object : SoftHeight.OnSoftKeyboardChangeListener {
-                override fun onSoftKeyBoardChange(softKeybardHeight: Int, visible: Boolean) {
-                    Log.e("gogo", softKeybardHeight.toString())
-                    if (visible) {
-                        val lp = binding.container.layoutParams
-                        MyStorage.setKeyboardHeight(softKeybardHeight)
-                        lp.height = softKeybardHeight
-                        binding.container.layoutParams = lp
-                        if (binding.container.visibility == View.VISIBLE) {
-                            editText.setTranslationY(0f)
-                        } else {
-                            editText.setTranslationY(-softKeybardHeight.toFloat())
-                        }
-
-                    }
-                    keyboardVisible = visible
+        SoftHeight.observeSoftKeyboard(requireActivity()
+        ) { softKeybardHeight, visible ->
+            Log.e("gogo", softKeybardHeight.toString())
+            if (visible) {
+                val lp = binding.container.layoutParams
+                MyStorage.setKeyboardHeight(softKeybardHeight)
+                lp.height = softKeybardHeight
+                binding.container.layoutParams = lp
+                if (binding.container.visibility == View.VISIBLE) {
+                    editText.setTranslationY(0f)
+                } else {
+                    editText.setTranslationY(-softKeybardHeight.toFloat())
                 }
 
-            })
+            }
+            keyboardVisible = visible
+        }
         binding.messageSend.setOnClickListener {
             val text = binding.chatMessage.text.toString()
             if (text.isNotEmpty()) {
+                val da = ChatBean()
+                da.setChatMessage(text)
+                da.setChatType(0)
+                chatMsg.add(da)
+                chatAdapter.setData(da)
                 NetCmd.chatText(text, false)
             }
         }
