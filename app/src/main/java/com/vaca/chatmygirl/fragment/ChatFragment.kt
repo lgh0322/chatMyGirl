@@ -136,7 +136,7 @@ class ChatFragment : Fragment() {
 
 
 
-    fun jump(x:Int){
+    private fun jump(x:Int){
         graph.startDestination = topId[x]
         navController.graph = graph
         if (currentIndex != x) {
