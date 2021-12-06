@@ -41,16 +41,16 @@ import android.view.MotionEvent
 import android.R.attr.scrollY
 
 import android.R.attr.scrollX
-
-
-
+import com.tencent.bugly.proguard.v
+import com.vaca.chatmygirl.keyboard.KeyboardHeightObserver
+import com.vaca.chatmygirl.keyboard.KeyboardHeightProvider
 
 
 class ChatFragment : Fragment() {
 
     var scrollX=0f
     var scrollY=0f
-
+    lateinit var keyboardHeightProvider: KeyboardHeightProvider
     lateinit var binding: FragmentChatBinding
     var chatMsg = ArrayList<ChatBean>()
     var keyboardVisible = false
@@ -71,14 +71,27 @@ class ChatFragment : Fragment() {
     lateinit var navController: NavController
     var currentIndex = 0
     lateinit var graph:NavGraph
+
+    var maxK=0;
+    var miniK=0;
+    var mmK=0
+
+
+    override fun onPause() {
+        super.onPause()
+        keyboardHeightProvider.setKeyboardHeightObserver(null)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        keyboardHeightProvider= KeyboardHeightProvider(requireActivity())
 
         binding = FragmentChatBinding.inflate(inflater, container, false)
+
+        binding.root.post { keyboardHeightProvider.start()}
 
         chatAdapter= ChatAdapter(requireContext(),binding.rc)
         val linearLayoutManager = LinearLayoutManager(requireContext())
@@ -98,34 +111,49 @@ class ChatFragment : Fragment() {
         binding.container.layoutParams = lp
 
 
-        SoftHeight.observeSoftKeyboard(requireActivity()
-        ) { softKeybardHeight, isVisible ->
-            Log.e("gogo", softKeybardHeight.toString())
+        keyboardHeightProvider.setKeyboardHeightObserver { height, orientation ->
+            var isVisible=(height>0)
+            val softKeybardHeight=height
+            Log.e("fuckyou",height.toString())
             if (isVisible) {
+                if(maxK>0){
+                    if(height>maxK){
+                        return@setKeyboardHeightObserver
+                    }
+                }
+                maxK=height
+                mmK=maxK-miniK
                 val lp = binding.container.layoutParams
-                MyStorage.setKeyboardHeight(softKeybardHeight)
-                lp.height = softKeybardHeight
+                MyStorage.setKeyboardHeight(mmK)
+                lp.height = mmK
                 binding.container.layoutParams = lp
                 if (binding.container.visibility == View.VISIBLE) {
                     val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
                     newLayoutParams.bottomMargin=0
                     editText.layoutParams = newLayoutParams
                 } else {
+
                     val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
-                    newLayoutParams.bottomMargin=softKeybardHeight
+                    newLayoutParams.bottomMargin=mmK
                     editText.layoutParams = newLayoutParams
+
+
                 }
 
             }else{
-                if(hiddAll){
-                    hiddAll=false
+                miniK=height
+//                if(hiddAll){
+//                    hiddAll=false
                     val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
                     newLayoutParams.bottomMargin=0
                     editText.layoutParams = newLayoutParams
-                }
+//                }
             }
             keyboardVisible = isVisible
+
         }
+
+
         binding.rc.setOnTouchListener { v, event ->
             if (event.getAction() === MotionEvent.ACTION_DOWN) {
                 scrollX = event.getX()
@@ -138,8 +166,9 @@ class ChatFragment : Fragment() {
                     ) <= 5
                 ) {
                     MainScope().launch {
-                        hiddAll=true
-
+//                        hiddAll=true
+                       binding.container.visibility=View.GONE
+                        delay(100)
                         (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
                         requireActivity().getCurrentFocus()?.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS
@@ -218,21 +247,29 @@ class ChatFragment : Fragment() {
                     navController.navigate(topId[x])
                 }
                 if (keyboardVisible) {
-                    binding.container.visibility = View.VISIBLE
+
                     (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
                         requireActivity().getCurrentFocus()?.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS
                     );
+                    MainScope().launch {
+                        delay(2000)
+                        binding.container.visibility = View.VISIBLE
+                    }
                 }
             }
 
         } else {
             if (keyboardVisible) {
-                binding.container.visibility = View.VISIBLE
+
                 (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
                     requireActivity().getCurrentFocus()?.getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS
                 );
+                MainScope().launch {
+                    delay(200)
+                    binding.container.visibility = View.VISIBLE
+                }
             } else {
                 if (binding.container.visibility == View.VISIBLE) {
                     showKeyboard(binding.chatMessage)
