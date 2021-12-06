@@ -34,9 +34,22 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.ArrayList
 import java.util.regex.Pattern
+import android.R.attr.scrollY
+
+import android.R.attr.scrollX
+import android.view.MotionEvent
+import android.R.attr.scrollY
+
+import android.R.attr.scrollX
+
+
+
 
 
 class ChatFragment : Fragment() {
+
+    var scrollX=0f
+    var scrollY=0f
 
     lateinit var binding: FragmentChatBinding
     var chatMsg = ArrayList<ChatBean>()
@@ -48,6 +61,7 @@ class ChatFragment : Fragment() {
         view.requestFocus()
         imm.showSoftInput(view, 0)
     }
+    var hiddAll=false
 
     private val topId = arrayOf(
         R.id.sendOptionFragment,
@@ -85,9 +99,9 @@ class ChatFragment : Fragment() {
 
 
         SoftHeight.observeSoftKeyboard(requireActivity()
-        ) { softKeybardHeight, visible ->
+        ) { softKeybardHeight, isVisible ->
             Log.e("gogo", softKeybardHeight.toString())
-            if (visible) {
+            if (isVisible) {
                 val lp = binding.container.layoutParams
                 MyStorage.setKeyboardHeight(softKeybardHeight)
                 lp.height = softKeybardHeight
@@ -100,12 +114,46 @@ class ChatFragment : Fragment() {
                     val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
                     newLayoutParams.bottomMargin=softKeybardHeight
                     editText.layoutParams = newLayoutParams
-
                 }
 
+            }else{
+                if(hiddAll){
+                    hiddAll=false
+                    val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
+                    newLayoutParams.bottomMargin=0
+                    editText.layoutParams = newLayoutParams
+                }
             }
-            keyboardVisible = visible
+            keyboardVisible = isVisible
         }
+        binding.rc.setOnTouchListener { v, event ->
+            if (event.getAction() === MotionEvent.ACTION_DOWN) {
+                scrollX = event.getX()
+                scrollY = event.getY()
+                Log.e("fuck","fuckScroll")
+            }
+            if (event.getAction() === MotionEvent.ACTION_UP) {
+                if (v.getId() !== 0 && Math.abs(scrollX - event.getX()) <= 5 && Math.abs(
+                        scrollY - event.getY()
+                    ) <= 5
+                ) {
+                    MainScope().launch {
+                        hiddAll=true
+
+                        (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                        requireActivity().getCurrentFocus()?.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS
+                    );
+
+
+                    }
+                }
+            }
+            false
+        }
+
+
+
         binding.messageSend.setOnClickListener {
             val text = binding.chatMessage.text.toString()
             if (text.isNotEmpty()) {
