@@ -69,12 +69,15 @@ public class StickyListHeadersListView extends FrameLayout {
     private AdapterWrapperDataSetObserver mDataSetObserver;
     private Drawable mDivider;
     private int mDividerHeight;
+
     public StickyListHeadersListView(Context context) {
         this(context, null);
     }
+
     public StickyListHeadersListView(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.stickyListHeadersListViewStyle);
     }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public StickyListHeadersListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);

@@ -16,6 +16,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.scrat.app.selectorlibrary.R;
@@ -27,13 +34,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import androidx.annotation.ColorRes;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 /**
  * Created by yixuanxuan on 16/10/13.
  */
@@ -44,6 +44,33 @@ public class ImagePreviewActivity extends AppCompatActivity {
     private static final String EXTRA_FINISH = "finish";
     private static final String SELECTED_POSITION = "selected_position";
     private static final String ONLY_PREVIEW = "only_preview";
+    private ViewPager mViewPager;
+    private ImageButton mCheckedBtn;
+    private TextView mTitleTv;
+    private TextView mFinishTv;
+    private TextView mFinishTipTv;
+    private View mFinishTipView;
+    private View rl_bottom;
+    private ArrayList<String> mPaths;
+    private int mPosition;
+    private Set<Integer> mUnCheckPos = new HashSet<>();
+    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            mPosition = position;
+            updateCheckStatus();
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 
     public static void show(Activity activity, int requestCode, ArrayList<String> paths) {
         Intent i = new Intent(activity, ImagePreviewActivity.class);
@@ -59,17 +86,16 @@ public class ImagePreviewActivity extends AppCompatActivity {
         context.startActivity(i);
     }
 
-    private ViewPager mViewPager;
-    private ImageButton mCheckedBtn;
-    private TextView mTitleTv;
-    private TextView mFinishTv;
-    private TextView mFinishTipTv;
-    private View mFinishTipView;
-    private View rl_bottom;
-    private ArrayList<String> mPaths;
-    private int mPosition;
+    public static ArrayList<String> parsePaths(Intent intent) {
+        if (intent == null)
+            return new ArrayList<>();
 
-    private Set<Integer> mUnCheckPos = new HashSet<>();
+        return intent.getStringArrayListExtra(EXTRA_PATHS);
+    }
+
+    public static boolean isFinsh(Intent intent) {
+        return intent != null && intent.getBooleanExtra(EXTRA_FINISH, false);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -168,17 +194,6 @@ public class ImagePreviewActivity extends AppCompatActivity {
         setResult(RESULT_OK, intent);
     }
 
-    public static ArrayList<String> parsePaths(Intent intent) {
-        if (intent == null)
-            return new ArrayList<>();
-
-        return intent.getStringArrayListExtra(EXTRA_PATHS);
-    }
-
-    public static boolean isFinsh(Intent intent) {
-        return intent != null && intent.getBooleanExtra(EXTRA_FINISH, false);
-    }
-
     private void updateCheckStatus() {
         int checkedBtnDrawableId = mUnCheckPos.contains(mPosition) ? R.drawable.ic_round_check : R.drawable.ic_round_check_fill;
         mCheckedBtn.setImageDrawable(ContextCompat.getDrawable(this, checkedBtnDrawableId));
@@ -194,24 +209,6 @@ public class ImagePreviewActivity extends AppCompatActivity {
         }
         mTitleTv.setText(String.format(Locale.getDefault(), "%d/%d", mPosition + 1, mPaths.size()));
     }
-
-    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            mPosition = position;
-            updateCheckStatus();
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    };
 
     private static class MyPagerAdapter extends PagerAdapter {
         private List<String> mPaths;

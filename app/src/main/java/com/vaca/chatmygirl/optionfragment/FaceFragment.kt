@@ -49,13 +49,12 @@ class FaceFragment : Fragment() {
     }
 
 
-
     private fun delete() {
         EventBus.getDefault().post(Emotion(true))
     }
 
     private fun insert(text: CharSequence) {
-        EventBus.getDefault().post(Emotion(false,text))
+        EventBus.getDefault().post(Emotion(false, text))
     }
 
     fun bitMapScale(bitmap: Bitmap, scale: Float): Bitmap {
@@ -71,6 +70,7 @@ class FaceFragment : Fragment() {
             true
         )
     }
+
     private fun getFace(png: String): SpannableStringBuilder {
         val sb = SpannableStringBuilder()
         try {
@@ -78,7 +78,7 @@ class FaceFragment : Fragment() {
             sb.append(tempText)
             sb.setSpan(
                 ImageSpan(
-                    requireContext(),BitmapFactory
+                    requireContext(), BitmapFactory
                         .decodeStream(requireActivity().getAssets().open("face/png/$png.png"))
                 ), sb.length
                         - tempText.length, sb.length,
@@ -89,7 +89,6 @@ class FaceFragment : Fragment() {
         }
         return sb
     }
-
 
 
     private fun viewPagerItem(position: Int): View {

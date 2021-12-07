@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.IBinder
 import android.view.MotionEvent
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -18,9 +17,9 @@ import com.vaca.chatmygirl.R
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         const val REQUEST_CODE_SELECT_IMG = 91
-       const val MAX_SELECT_COUNT = 10
+        const val MAX_SELECT_COUNT = 10
     }
 
     /**

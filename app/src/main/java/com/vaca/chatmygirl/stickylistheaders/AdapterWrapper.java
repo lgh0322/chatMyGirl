@@ -44,6 +44,7 @@ class AdapterWrapper extends BaseAdapter implements StickyListHeadersAdapter {
             AdapterWrapper.super.notifyDataSetChanged();
         }
     };
+
     AdapterWrapper(Context context,
                    StickyListHeadersAdapter delegate) {
         this.mContext = context;

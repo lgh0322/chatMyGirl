@@ -15,14 +15,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.bean.ChatBean
-import com.vaca.chatmygirl.holder.ChatTextSendHolder
-import com.vaca.chatmygirl.holder.ChatTextReceiveHolder
-import com.vaca.chatmygirl.gif.AnimatedImageSpan
 import com.vaca.chatmygirl.gif.AnimatedGifDrawable
 import com.vaca.chatmygirl.gif.AnimatedGifDrawable.UpdateListener
+import com.vaca.chatmygirl.gif.AnimatedImageSpan
+import com.vaca.chatmygirl.holder.ChatTextReceiveHolder
+import com.vaca.chatmygirl.holder.ChatTextSendHolder
 import java.io.IOException
-import java.lang.Exception
-import java.util.ArrayList
+import java.util.*
 import java.util.regex.Pattern
 
 class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
@@ -60,6 +59,7 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
         }
         return viewHolder!!
     }
+
     fun bitMapScale(bitmap: Bitmap, scale: Float): Bitmap {
         val matrix = Matrix()
         matrix.postScale(scale, scale) //长和宽放大缩小的比例
@@ -73,6 +73,7 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
             true
         )
     }
+
     private fun handler(gifTextView: TextView, content: String): SpannableStringBuilder {
         val sb = SpannableStringBuilder(content)
         val regex = "(\\[f_static_)\\d{1,3}(\\])"
@@ -104,11 +105,13 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
                 try {
                     sb.setSpan(
                         ImageSpan(
-                            mContext, bitMapScale( BitmapFactory.decodeStream(
-                                mContext.assets.open(
-                                    "face/png/$png.png"
-                                )
-                            ),2.5f)
+                            mContext, bitMapScale(
+                                BitmapFactory.decodeStream(
+                                    mContext.assets.open(
+                                        "face/png/$png.png"
+                                    )
+                                ), 2.5f
+                            )
                         ), m.start(), m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 } catch (e1: IOException) {

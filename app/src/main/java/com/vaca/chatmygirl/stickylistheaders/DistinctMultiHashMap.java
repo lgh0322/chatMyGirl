@@ -16,6 +16,7 @@ class DistinctMultiHashMap<TKey, TItemValue> {
     LinkedHashMap<Object, List<TItemValue>> mKeyToValuesMap = new LinkedHashMap<Object, List<TItemValue>>();
     LinkedHashMap<Object, TKey> mValueToKeyIndexer = new LinkedHashMap<Object, TKey>();
     private IDMapper<TKey, TItemValue> mIDMapper;
+
     DistinctMultiHashMap() {
         this(new IDMapper<TKey, TItemValue>() {
             @Override

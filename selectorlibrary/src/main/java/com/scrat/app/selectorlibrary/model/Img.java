@@ -14,11 +14,6 @@ public class Img implements ISelectImageItem {
     }
 
     @Override
-    public void setChecked(boolean checked) {
-        isChecked = checked;
-    }
-
-    @Override
     public String getImgPath() {
         return path;
     }
@@ -26,6 +21,11 @@ public class Img implements ISelectImageItem {
     @Override
     public boolean isChecked() {
         return isChecked;
+    }
+
+    @Override
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
 }

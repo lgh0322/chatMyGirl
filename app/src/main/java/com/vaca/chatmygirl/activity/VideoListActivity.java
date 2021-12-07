@@ -23,7 +23,6 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.vaca.chatmygirl.R;
 import com.vaca.chatmygirl.bean.VideoInfo;
 import com.vaca.chatmygirl.tool.Code;
@@ -37,10 +36,10 @@ import java.util.ArrayList;
 
 public class VideoListActivity extends AppCompatActivity {
 
+    ArrayList<VideoInfo> vList;
     private ListView mListView;
     private TextView noData;
     private Button btnBack;
-    ArrayList<VideoInfo> vList;
     private Intent lastIntent;
 
     @Override

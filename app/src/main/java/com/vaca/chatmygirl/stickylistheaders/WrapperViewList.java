@@ -21,6 +21,7 @@ class WrapperViewList extends ListView {
     private Field mSelectorPositionField;
     private boolean mClippingToPadding = true;
     private boolean mBlockLayoutChildren = false;
+
     public WrapperViewList(Context context) {
         super(context);
 

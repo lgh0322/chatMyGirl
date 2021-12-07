@@ -28,6 +28,11 @@ import java.util.Set;
 
 public class SelectorAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
+    private static final int[] COLORS = new int[]{
+            R.color.image_selector_red,
+            R.color.image_selector_orange,
+            R.color.image_selector_yellow
+    };
     private List<ISelectImageItem> mData;
     private OnItemClickListener mListener;
 
@@ -41,12 +46,6 @@ public class SelectorAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_img, parent, false);
         return new RecyclerViewHolder(v);
     }
-
-    private static final int[] COLORS = new int[]{
-            R.color.image_selector_red,
-            R.color.image_selector_orange,
-            R.color.image_selector_yellow
-    };
 
     private int getColor(int position) {
         int pos = position % COLORS.length;
@@ -143,10 +142,6 @@ public class SelectorAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         notifyDataSetChanged();
     }
 
-    public interface OnItemClickListener {
-        int onItemClick(ISelectImageItem item, int pos);
-    }
-
     public ArrayList<String> getPathByPosList(List<Integer> posList) {
         ArrayList<String> paths = new ArrayList<>();
         if (posList == null || posList.isEmpty())
@@ -159,6 +154,10 @@ public class SelectorAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
             }
         }
         return paths;
+    }
+
+    public interface OnItemClickListener {
+        int onItemClick(ISelectImageItem item, int pos);
     }
 
 }

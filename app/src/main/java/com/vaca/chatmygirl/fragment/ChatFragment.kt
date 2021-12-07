@@ -167,7 +167,7 @@ class ChatFragment : Fragment() {
 
                         delay(100)
                         val newLayoutParams = editText.layoutParams as ConstraintLayout.LayoutParams
-                        newLayoutParams.bottomMargin=0
+                        newLayoutParams.bottomMargin = 0
                         editText.layoutParams = newLayoutParams
 
 
@@ -230,8 +230,8 @@ class ChatFragment : Fragment() {
 
 
     private fun jump(x: Int) {
-        val newLayoutParams =  binding.constraintLayout.layoutParams as ConstraintLayout.LayoutParams
-        newLayoutParams.bottomMargin=0
+        val newLayoutParams = binding.constraintLayout.layoutParams as ConstraintLayout.LayoutParams
+        newLayoutParams.bottomMargin = 0
         binding.constraintLayout.layoutParams = newLayoutParams
         graph.startDestination = topId[x]
         navController.graph = graph

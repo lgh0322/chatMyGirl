@@ -1,7 +1,6 @@
 package com.scrat.app.selectorlibrary.view;
 
 import android.graphics.Rect;
-
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;

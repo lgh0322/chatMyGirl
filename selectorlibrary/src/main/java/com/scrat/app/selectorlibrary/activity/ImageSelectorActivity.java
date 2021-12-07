@@ -12,16 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.scrat.app.selectorlibrary.R;
-import com.scrat.app.selectorlibrary.adapter.SelectorAdapter;
-import com.scrat.app.selectorlibrary.model.ISelectImageItem;
-import com.scrat.app.selectorlibrary.model.Img;
-import com.scrat.app.selectorlibrary.view.GridSpacingItemDecoration;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +23,16 @@ import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.scrat.app.selectorlibrary.R;
+import com.scrat.app.selectorlibrary.adapter.SelectorAdapter;
+import com.scrat.app.selectorlibrary.model.ISelectImageItem;
+import com.scrat.app.selectorlibrary.model.Img;
+import com.scrat.app.selectorlibrary.view.GridSpacingItemDecoration;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by yixuanxuan on 16/10/12.
  */
@@ -43,7 +43,9 @@ public class ImageSelectorActivity extends AppCompatActivity implements LoaderMa
     private static final int READ_EXTERNAL_STORAGE_CODE = 2;
     private static final String EXTRA_KEY_MAX = "max";
     private static final String EXTRA_KEY_DATA = "data";
-
+    private static final String[] IMAGE_PROJECTION = new String[]{
+            MediaStore.MediaColumns.DATA
+    };
     private RecyclerView mRecyclerView;
     private SelectorAdapter mAdapter;
     private List<Integer> mSelectSortPosList;
@@ -52,11 +54,31 @@ public class ImageSelectorActivity extends AppCompatActivity implements LoaderMa
     private TextView mFinishTipTv;
     private View mFinishTipView;
     private int mMaxImgCount;
+    private SelectorAdapter.OnItemClickListener onItemClickListener = new SelectorAdapter.OnItemClickListener() {
+        @Override
+        public int onItemClick(ISelectImageItem item, int pos) {
+            if (item.isChecked()) {
+                mSelectSortPosList.remove((Integer) pos);
+            } else {
+                if (mMaxImgCount > 0 && mSelectSortPosList.size() >= mMaxImgCount) {
+                    Toast.makeText(ImageSelectorActivity.this, String.format(getString(R.string.image_selector_limit_of_img_error), mMaxImgCount), Toast.LENGTH_LONG).show();
+                    return -1;
+                }
+                mSelectSortPosList.add(pos);
+            }
+            refreshFinishBtn();
+            return mSelectSortPosList.size();
+        }
+    };
 
     public static void show(Activity activity, int requestCode, int maxCount) {
         Intent i = new Intent(activity, ImageSelectorActivity.class);
         i.putExtra(EXTRA_KEY_MAX, maxCount);
         activity.startActivityForResult(i, requestCode);
+    }
+
+    public static List<String> getImagePaths(Intent data) {
+        return data == null ? Collections.<String>emptyList() : data.getStringArrayListExtra(EXTRA_KEY_DATA);
     }
 
     @Override
@@ -88,23 +110,6 @@ public class ImageSelectorActivity extends AppCompatActivity implements LoaderMa
     private void initView() {
 
     }
-
-    private SelectorAdapter.OnItemClickListener onItemClickListener = new SelectorAdapter.OnItemClickListener() {
-        @Override
-        public int onItemClick(ISelectImageItem item, int pos) {
-            if (item.isChecked()) {
-                mSelectSortPosList.remove((Integer) pos);
-            } else {
-                if (mMaxImgCount > 0 && mSelectSortPosList.size() >= mMaxImgCount) {
-                    Toast.makeText(ImageSelectorActivity.this, String.format(getString(R.string.image_selector_limit_of_img_error), mMaxImgCount), Toast.LENGTH_LONG).show();
-                    return -1;
-                }
-                mSelectSortPosList.add(pos);
-            }
-            refreshFinishBtn();
-            return mSelectSortPosList.size();
-        }
-    };
 
     private void refreshFinishBtn() {
         int totalSelect = mSelectSortPosList.size();
@@ -140,10 +145,6 @@ public class ImageSelectorActivity extends AppCompatActivity implements LoaderMa
         i.putStringArrayListExtra(EXTRA_KEY_DATA, paths);
         setResult(RESULT_OK, i);
         finish();
-    }
-
-    public static List<String> getImagePaths(Intent data) {
-        return data == null ? Collections.<String>emptyList() : data.getStringArrayListExtra(EXTRA_KEY_DATA);
     }
 
     public void preview(View v) {
@@ -193,10 +194,6 @@ public class ImageSelectorActivity extends AppCompatActivity implements LoaderMa
 
         return true;
     }
-
-    private static final String[] IMAGE_PROJECTION = new String[]{
-            MediaStore.MediaColumns.DATA
-    };
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

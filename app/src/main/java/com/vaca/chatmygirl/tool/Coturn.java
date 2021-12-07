@@ -8,8 +8,8 @@ package com.vaca.chatmygirl.tool;
  */
 
 public class Coturn {
-	public static final String stun = "stun:60.216.60.60:3478";
-	public static final String turn = "turn:60.216.60.60:3478";
-	public static final String user = "link";
-	public static final String password = "link123";
+    public static final String stun = "stun:60.216.60.60:3478";
+    public static final String turn = "turn:60.216.60.60:3478";
+    public static final String user = "link";
+    public static final String password = "link123";
 }

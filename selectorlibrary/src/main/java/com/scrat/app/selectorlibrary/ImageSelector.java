@@ -3,7 +3,6 @@ package com.scrat.app.selectorlibrary;
 import android.app.Activity;
 import android.content.Intent;
 
-
 import androidx.annotation.NonNull;
 
 import com.scrat.app.selectorlibrary.activity.ImageSelectorActivity;

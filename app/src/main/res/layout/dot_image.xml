@@ -6,4 +6,4 @@
     android:layout_gravity="center"
     android:layout_marginLeft="8dp"
     android:scaleType="fitXY"
-    android:src="@drawable/dots"/>
+    android:src="@drawable/dots" />

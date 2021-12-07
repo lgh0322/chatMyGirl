@@ -18,9 +18,9 @@ public class AnimatedImageSpan extends DynamicDrawableSpan {
         final Handler mHandler = new Handler();
         mHandler.post(new Runnable() {
             public void run() {
-                ((AnimatedGifDrawable)mDrawable).nextFrame();
+                ((AnimatedGifDrawable) mDrawable).nextFrame();
                 // Set next with a delay depending on the duration for this frame 
-                mHandler.postDelayed(this, ((AnimatedGifDrawable)mDrawable).getFrameDuration());
+                mHandler.postDelayed(this, ((AnimatedGifDrawable) mDrawable).getFrameDuration());
             }
         });
     }
@@ -31,7 +31,7 @@ public class AnimatedImageSpan extends DynamicDrawableSpan {
      */
     @Override
     public Drawable getDrawable() {
-        return ((AnimatedGifDrawable)mDrawable).getDrawable();
+        return ((AnimatedGifDrawable) mDrawable).getDrawable();
     }
 
     /*
@@ -44,8 +44,8 @@ public class AnimatedImageSpan extends DynamicDrawableSpan {
         Rect rect = d.getBounds();
 
         if (fm != null) {
-            fm.ascent = -rect.bottom; 
-            fm.descent = 0; 
+            fm.ascent = -rect.bottom;
+            fm.descent = 0;
 
             fm.top = fm.ascent;
             fm.bottom = 0;

@@ -36,6 +36,7 @@ public class GestureImageView extends AppCompatImageView {
         super(context);
         init(context);
     }
+
     public GestureImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
