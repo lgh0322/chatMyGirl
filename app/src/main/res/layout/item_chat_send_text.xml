@@ -37,20 +37,20 @@
             android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="80dp"
             android:layout_marginRight="20dp"
             android:layout_toLeftOf="@id/iv_icon"
-            android:textSize="40sp"
-            android:layout_centerVertical="true"
-            android:textColor="@color/black"
             android:autoLink="all"
+            android:background="@drawable/chat_bg_blue"
             android:clickable="true"
             android:focusable="true"
-            android:lineSpacingExtra="2dp"
             android:gravity="left|center_vertical"
+            android:lineSpacingExtra="2dp"
 
-            android:background="@drawable/chat_bg_blue"
+            android:textColor="@color/black"
 
-            android:layout_marginLeft="80dp" />
+            android:textSize="32sp" />
 
 
 
