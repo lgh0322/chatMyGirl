@@ -35,11 +35,16 @@ class SendOptionFragment : Fragment() {
     lateinit var binding: FragmentSendOptionBinding
 
     lateinit var takePhotoLauncher: ActivityResultLauncher<Intent>
+    var photoTemp=""
 
     fun takePhoto(){
         val intent = Intent()
         intent.action = MediaStore.ACTION_IMAGE_CAPTURE
-        val fileJA: File = File(PathUtil.getPathX("fuck.jpg"))
+        photoTemp=PathUtil.getPathX("photo"+System.currentTimeMillis()+".jpg")
+        val fileJA: File = File(photoTemp)
+        if(fileJA.exists()){
+            fileJA.delete()
+        }
         val uri = FileProvider.getUriForFile(
             requireContext(),
             "com.vaca.chatmygirl.fileProvider",
@@ -64,7 +69,15 @@ class SendOptionFragment : Fragment() {
 
         takePhotoLauncher= registerForActivityResult(ActivityResultContracts.StartActivityForResult()
         ) {
-            Log.e("gugu3","yues")
+            val options = FileCompressOptions()
+            Tiny.getInstance().source(photoTemp).asFile().withOptions(options)
+                .compress { isSuccess: Boolean, bitmap: Bitmap?, outfile: String?, t: Throwable? ->
+                    Log.e("outfile",outfile!!)
+                    EventBus.getDefault().post(ChatBean().apply {
+                        chatType=2;
+                        chatMessage=outfile
+                    })
+                }
         }
 
 
