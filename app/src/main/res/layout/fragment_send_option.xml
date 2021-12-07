@@ -18,26 +18,28 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/switch_camera_tv"
+            android:id="@+id/photo"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_weight="1"
             android:src="@drawable/yy3" />
 
         <ImageView
-            android:id="@+id/switch_camera_tv2"
+            android:id="@+id/camera"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_weight="1"
             android:src="@drawable/yy4" />
 
         <ImageView
+            android:id="@+id/video"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_weight="1"
             android:src="@drawable/yy1" />
 
         <ImageView
+            android:id="@+id/file"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_weight="1"

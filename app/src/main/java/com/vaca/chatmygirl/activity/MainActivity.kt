@@ -18,6 +18,11 @@ import com.vaca.chatmygirl.R
 
 class MainActivity : AppCompatActivity() {
 
+    companion object{
+        const val REQUEST_CODE_SELECT_IMG = 91
+       const val MAX_SELECT_COUNT = 10
+    }
+
     /**
      * 点击空白区域隐藏键盘.
      */
