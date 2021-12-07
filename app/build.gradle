@@ -136,4 +136,7 @@ dependencies {
     api "com.tencent.bugly:crashreport:latest.release"
     implementation 'com.zxy.android:tiny:1.1.0'
     implementation project(':selectorlibrary')
+
+
+    implementation 'com.makeramen:roundedimageview:2.2.1'
 }
