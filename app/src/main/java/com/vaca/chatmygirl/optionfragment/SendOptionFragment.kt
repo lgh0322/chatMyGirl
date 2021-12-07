@@ -5,19 +5,19 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import com.scrat.app.selectorlibrary.ImageSelector
+import com.scrat.app.selectorlibrary.activity.ImageSelectorActivity
 import com.vaca.chatmygirl.R
-import com.vaca.chatmygirl.activity.MainActivity
-import com.vaca.chatmygirl.activity.MainActivity.Companion.MAX_SELECT_COUNT
 import com.vaca.chatmygirl.activity.VideoListActivity
 import com.vaca.chatmygirl.databinding.FragmentSendOptionBinding
 import com.vaca.chatmygirl.utils.PathUtil
@@ -27,12 +27,52 @@ class SendOptionFragment : Fragment() {
 
     lateinit var binding: FragmentSendOptionBinding
 
+    lateinit var takePhotoLauncher: ActivityResultLauncher<Intent>
+
+    fun takePhoto(){
+        val intent = Intent()
+        intent.action = MediaStore.ACTION_IMAGE_CAPTURE
+        val fileJA: File = File(PathUtil.getPathX("fuck.jpg"))
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            "com.vaca.chatmygirl.fileProvider",
+            fileJA
+        )
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
+        takePhotoLauncher.launch(intent)
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = FragmentSendOptionBinding.inflate(inflater, container, false)
+
+
+
+
+        takePhotoLauncher= registerForActivityResult(ActivityResultContracts.StartActivityForResult()
+        ) {
+            Log.e("gugu3","yues")
+        }
+
+
+
+        val requestPhotoPermission= registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) {
+            val grantedList = it.filterValues { it }.mapNotNull { it.key }
+            val allGranted = grantedList.size == it.size
+            if(allGranted){
+               takePhoto()
+            }
+        }
+
+
         binding.camera.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
                     requireContext(),
@@ -43,45 +83,45 @@ class SendOptionFragment : Fragment() {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    65
-                )
+
+                requestPhotoPermission.launch( arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+
                 return@setOnClickListener
             }
-            val intent = Intent()
-            intent.action = MediaStore.ACTION_IMAGE_CAPTURE
-            val fileJA: File = File(PathUtil.getPathX("fuck.jpg"))
-            val uri = FileProvider.getUriForFile(
-                requireContext(),
-                "com.vaca.chatmygirl.fileProvider",
-                fileJA
-            )
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
-            intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
-            requireActivity().startActivityForResult(intent, 96)
+            takePhoto()
         }
 
+
+        val phoneSelector=registerForActivityResult(ActivityResultContracts.StartActivityForResult()
+        ) {
+            Log.e("gug2u","yues")
+        }
         binding.photo.setOnClickListener {
-            ImageSelector.show(
-                requireActivity(),
-                MainActivity.REQUEST_CODE_SELECT_IMG,
-                MAX_SELECT_COUNT
+            val i = Intent(
+                activity,
+                ImageSelectorActivity::class.java
             )
+            i.putExtra(ImageSelectorActivity.EXTRA_KEY_MAX, 10)
+            phoneSelector.launch(i)
         }
 
+        val openFileSelect= registerForActivityResult(ActivityResultContracts.OpenDocument()){
+//                Glide.with(this).load(it).into(binding.imageView)
+        }
         binding.file.setOnClickListener {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            intent.type = "*/*"
-            this.startActivityForResult(
-                intent,
-                92
-            )
+           openFileSelect.launch(arrayOf("text/plain"))
         }
 
 
+        val takeVideo=registerForActivityResult(ActivityResultContracts.StartActivityForResult()
+        ) {
+            Log.e("gugu","yues")
+        }
+
+        val selectVideo=registerForActivityResult(ActivityResultContracts.StartActivityForResult()
+        ) {
+            Log.e("gug2u","yues")
+        }
         binding.video.setOnClickListener {
             val builder_video = AlertDialog.Builder(requireContext()) //创建对话框
             val layout_video = layoutInflater.inflate(R.layout.dialog_select_video, null) //获取自定义布局
@@ -98,15 +138,13 @@ class SendOptionFragment : Fragment() {
                 intentx.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1) // 设置视频的质量，值为0-1，
                 intentx.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 20) // 设置视频的录制长度，s为单位
                 intentx.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 50 * 1024 * 1024L) // 设置视频文件大小，字节为单位
-                startActivityForResult(
-                    intentx,
-                    93
-                )
+                takeVideo.launch(intentx)
+
             }
             chooseVideoTV.setOnClickListener {
                 dialog_video.dismiss()
                 val intent: Intent = Intent(requireActivity(), VideoListActivity::class.java)
-                requireActivity().startActivityForResult(intent, 86)
+                selectVideo.launch(intent)
             }
             cancelVideoTV.setOnClickListener {
                 dialog_video.dismiss()
@@ -116,4 +154,6 @@ class SendOptionFragment : Fragment() {
 
         return binding.root
     }
+
+
 }

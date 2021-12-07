@@ -41,8 +41,8 @@ public class ImageSelectorActivity extends AppCompatActivity implements LoaderMa
 
     private static final int REQUEST_CODE_PREVIEW = 1;
     private static final int READ_EXTERNAL_STORAGE_CODE = 2;
-    private static final String EXTRA_KEY_MAX = "max";
-    private static final String EXTRA_KEY_DATA = "data";
+    public static final String EXTRA_KEY_MAX = "max";
+    public static final String EXTRA_KEY_DATA = "data";
     private static final String[] IMAGE_PROJECTION = new String[]{
             MediaStore.MediaColumns.DATA
     };
