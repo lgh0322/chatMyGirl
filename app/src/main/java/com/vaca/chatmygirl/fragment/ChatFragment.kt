@@ -337,6 +337,15 @@ class ChatFragment : Fragment() {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(da: ChatBean) {
+        chatMsg.add(da)
+        chatAdapter.setData(da)
+        //NetCmd.chatText(text, false)
+        binding.rc.smoothScrollToPosition(chatMsg.size - 1)
+    }
+
+
 
     override fun onStart() {
         EventBus.getDefault().register(this);

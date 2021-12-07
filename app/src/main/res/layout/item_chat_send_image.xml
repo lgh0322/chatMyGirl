@@ -44,7 +44,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/iv_icon"
             android:minWidth="120dp"
-            android:minHeight="180dp"
+            android:minHeight="120dp"
             app:riv_corner_radius="8dp" />
 
 

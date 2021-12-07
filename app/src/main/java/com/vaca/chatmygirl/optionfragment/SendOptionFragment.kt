@@ -3,6 +3,7 @@ package com.vaca.chatmygirl.optionfragment
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -16,11 +17,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.scrat.app.selectorlibrary.ImageSelector
 import com.scrat.app.selectorlibrary.activity.ImageSelectorActivity
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.activity.VideoListActivity
+import com.vaca.chatmygirl.bean.ChatBean
 import com.vaca.chatmygirl.databinding.FragmentSendOptionBinding
 import com.vaca.chatmygirl.utils.PathUtil
+import com.zxy.tiny.Tiny
+import com.zxy.tiny.Tiny.FileCompressOptions
+import com.zxy.tiny.callback.FileWithBitmapCallback
+import org.greenrobot.eventbus.EventBus
 import java.io.File
 
 class SendOptionFragment : Fragment() {
@@ -95,6 +102,27 @@ class SendOptionFragment : Fragment() {
         val phoneSelector=registerForActivityResult(ActivityResultContracts.StartActivityForResult()
         ) {
             Log.e("gug2u","yues")
+
+           it.run {
+               val paths = ImageSelector.getImagePaths(data)
+               if (paths == null) return@run
+               if (paths.isEmpty()) return@run
+
+               for (k in paths.indices) {
+                   val options = FileCompressOptions()
+                   Tiny.getInstance().source(paths!![k]).asFile().withOptions(options)
+                       .compress { isSuccess: Boolean, bitmap: Bitmap?, outfile: String?, t: Throwable? ->
+                           Log.e("outfile",outfile!!)
+                           EventBus.getDefault().post(ChatBean().apply {
+                               chatType=2;
+                               chatMessage=outfile
+                           })
+                       }
+               }
+
+           }
+
+
         }
         binding.photo.setOnClickListener {
             val i = Intent(

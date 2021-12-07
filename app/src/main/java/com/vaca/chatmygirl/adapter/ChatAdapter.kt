@@ -13,11 +13,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.bean.ChatBean
 import com.vaca.chatmygirl.gif.AnimatedGifDrawable
 import com.vaca.chatmygirl.gif.AnimatedGifDrawable.UpdateListener
 import com.vaca.chatmygirl.gif.AnimatedImageSpan
+import com.vaca.chatmygirl.holder.ChatImageSendHolder
 import com.vaca.chatmygirl.holder.ChatTextReceiveHolder
 import com.vaca.chatmygirl.holder.ChatTextSendHolder
 import java.io.IOException
@@ -35,7 +37,7 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
 
     fun setData(bean: ChatBean) {
         chatList.add(bean)
-        notifyDataSetChanged()
+        notifyItemChanged(chatList.size-1)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -52,6 +54,46 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
                 viewHolder = ChatTextSendHolder(view)
             }
             1 -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.item_chat_receive_text, parent, false)
+                viewHolder = ChatTextReceiveHolder(view)
+            }
+            2 -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.item_chat_send_image, parent, false)
+                viewHolder = ChatImageSendHolder(view)
+            }
+            3 -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.item_chat_receive_text, parent, false)
+                viewHolder = ChatTextReceiveHolder(view)
+            }
+            4 -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.item_chat_send_text, parent, false)
+                viewHolder = ChatTextSendHolder(view)
+            }
+            5 -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.item_chat_receive_text, parent, false)
+                viewHolder = ChatTextReceiveHolder(view)
+            }
+            6 -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.item_chat_send_text, parent, false)
+                viewHolder = ChatTextSendHolder(view)
+            }
+            7 -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.item_chat_receive_text, parent, false)
+                viewHolder = ChatTextReceiveHolder(view)
+            }
+            8 -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.item_chat_send_text, parent, false)
+                viewHolder = ChatTextSendHolder(view)
+            }
+            9 -> {
                 view = LayoutInflater.from(mContext)
                     .inflate(R.layout.item_chat_receive_text, parent, false)
                 viewHolder = ChatTextReceiveHolder(view)
@@ -105,13 +147,12 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
                 try {
                     sb.setSpan(
                         ImageSpan(
-                            mContext, bitMapScale(
+                            mContext,
                                 BitmapFactory.decodeStream(
                                     mContext.assets.open(
                                         "face/png/$png.png"
                                     )
-                                ), 2.5f
-                            )
+                                )
                         ), m.start(), m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 } catch (e1: IOException) {
@@ -134,11 +175,15 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
                 (holder as ChatTextSendHolder?)!!.tv_content.text = sb
             }
             1 -> {
-                val sb2 = handler(
+                val sb = handler(
                     (holder as ChatTextReceiveHolder?)!!.tv_content,
                     bean.chatMessage
                 )
-                (holder as ChatTextReceiveHolder?)!!.tv_content.text = sb2
+                (holder as ChatTextReceiveHolder?)!!.tv_content.text = sb
+            }
+            2->{
+
+                Glide.with(mContext).load(bean.chatMessage).into((holder as ChatImageSendHolder?)!!.img_content)
             }
         }
     }
