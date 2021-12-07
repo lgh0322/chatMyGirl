@@ -23,11 +23,6 @@ import org.greenrobot.eventbus.EventBus
 import java.util.*
 
 class FaceFragment : Fragment() {
-
-
-
-
-
     lateinit var binding: FragmentFaceBinding
     lateinit var mDotsLayout: LinearLayout
     lateinit var mViewPager: ViewPager
@@ -79,17 +74,12 @@ class FaceFragment : Fragment() {
     private fun getFace(png: String): SpannableStringBuilder {
         val sb = SpannableStringBuilder()
         try {
-            /**
-             * 经过测试，虽然这里tempText被替换为png显示，但是但我单击发送按钮时，获取到輸入框的内容是tempText的值而不是png
-             * 所以这里对这个tempText值做特殊处理
-             * 格式：#[face/png/f_static_000.png]#，以方便判斷當前圖片是哪一個
-             */
             val tempText = "[$png]"
             sb.append(tempText)
             sb.setSpan(
                 ImageSpan(
-                    requireContext(),bitMapScale( BitmapFactory
-                        .decodeStream(requireActivity().getAssets().open("face/png/$png.png")),2.5f)
+                    requireContext(),BitmapFactory
+                        .decodeStream(requireActivity().getAssets().open("face/png/$png.png"))
                 ), sb.length
                         - tempText.length, sb.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
