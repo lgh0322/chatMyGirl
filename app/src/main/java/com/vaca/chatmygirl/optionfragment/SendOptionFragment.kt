@@ -118,7 +118,7 @@ class SendOptionFragment : Fragment() {
             Log.e("gugu","yues")
         }
 
-        val selectVideo=registerForActivityResult(ActivityResultContracts.StartActivityForResult()
+        val selectVideo= registerForActivityResult(ActivityResultContracts.StartActivityForResult()
         ) {
             Log.e("gug2u","yues")
         }
