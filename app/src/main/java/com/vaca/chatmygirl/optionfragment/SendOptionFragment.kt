@@ -34,9 +34,6 @@ class SendOptionFragment : Fragment() {
     ): View {
         binding = FragmentSendOptionBinding.inflate(inflater, container, false)
         binding.camera.setOnClickListener {
-            //"点击了照相";
-            //  6.0之后动态申请权限 摄像头调取权限,SD卡写入权限
-            //判断是否拥有权限，true则动态申请
             if (ContextCompat.checkSelfPermission(
                     requireContext(),
                     Manifest.permission.CAMERA
