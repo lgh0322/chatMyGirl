@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.media.ThumbnailUtils
+import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ImageSpan
@@ -15,6 +17,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vaca.chatmygirl.R
+import com.vaca.chatmygirl.activity.MainActivity
 import com.vaca.chatmygirl.bean.ChatBean
 import com.vaca.chatmygirl.gif.AnimatedGifDrawable
 import com.vaca.chatmygirl.gif.AnimatedGifDrawable.UpdateListener
@@ -22,7 +25,13 @@ import com.vaca.chatmygirl.gif.AnimatedImageSpan
 import com.vaca.chatmygirl.holder.ChatImageSendHolder
 import com.vaca.chatmygirl.holder.ChatTextReceiveHolder
 import com.vaca.chatmygirl.holder.ChatTextSendHolder
+import com.vaca.chatmygirl.holder.ChatVideoSendHolder
+import com.vaca.chatmygirl.utils.PathUtil
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import java.util.*
 import java.util.regex.Pattern
 
@@ -70,8 +79,8 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
             }
             4 -> {
                 view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_chat_send_text, parent, false)
-                viewHolder = ChatTextSendHolder(view)
+                    .inflate(R.layout.item_chat_send_video, parent, false)
+                viewHolder = ChatVideoSendHolder(view)
             }
             5 -> {
                 view = LayoutInflater.from(mContext)
@@ -165,6 +174,36 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
         return sb
     }
 
+
+    fun md5(data: String): String? {
+        val md: MessageDigest = MessageDigest.getInstance("MD5")
+        md.update(data.toByteArray())
+        val buf = StringBuffer()
+        val bits: ByteArray = md.digest()
+        for (i in bits.indices) {
+            var a = bits[i].toInt()
+            if (a < 0) a += 256
+            if (a < 16) buf.append("0")
+            buf.append(Integer.toHexString(a))
+        }
+        return buf.toString().substring(0,16)
+    }
+
+    fun getVideoThumbnail(videoPath: String?, width: Int, height: Int, kind: Int): Bitmap {
+        var bitmap: Bitmap? = null
+        bitmap = ThumbnailUtils.createVideoThumbnail(
+            videoPath!!,
+            kind
+        )
+        if (bitmap != null) {
+            bitmap = ThumbnailUtils.extractThumbnail(
+                bitmap, width, height,
+                ThumbnailUtils.OPTIONS_RECYCLE_INPUT
+            )
+        }
+        return bitmap!!
+    }
+
     private fun showContent(holder: RecyclerView.ViewHolder?, bean: ChatBean) {
         when (holder!!.itemViewType) {
             0 -> {
@@ -184,6 +223,27 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
             2->{
 
                 Glide.with(mContext).load(bean.chatMessage).into((holder as ChatImageSendHolder?)!!.img_content)
+            }
+
+
+
+            4->{
+                val dd: File =File(PathUtil.getPathX( md5(bean.chatMessage)+".jpg"))
+                if(dd.exists()){
+                    dd.delete()
+                }
+                val gaga: Bitmap =getVideoThumbnail(
+                    bean.chatMessage,
+                    200,
+                    300,
+                    MediaStore.Video.Thumbnails.MINI_KIND
+                )
+                val fout=FileOutputStream(dd)
+               gaga.compress(Bitmap.CompressFormat.JPEG, 80,fout)
+                fout.flush()
+                fout.close()
+
+                Glide.with(mContext).load(dd.absolutePath).into((holder as ChatVideoSendHolder?)!!.img_content)
             }
         }
     }

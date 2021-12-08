@@ -184,6 +184,10 @@ class SendOptionFragment : Fragment() {
             val uri = it.data!!.data!!
             val ff=uriToFile(MainApplication.application,uri)!!
             println("发的时刻JFK撒旦解放${ff.absolutePath}")
+            EventBus.getDefault().post(ChatBean().apply {
+                chatType=4;
+                chatMessage=ff.absolutePath
+            })
         }
 
         val selectVideo= registerForActivityResult(ActivityResultContracts.StartActivityForResult()
