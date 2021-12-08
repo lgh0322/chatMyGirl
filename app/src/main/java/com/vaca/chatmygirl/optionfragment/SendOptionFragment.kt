@@ -49,11 +49,12 @@ class SendOptionFragment : Fragment() {
 
     lateinit var takePhotoLauncher: ActivityResultLauncher<Intent>
     var photoTemp=""
+    var videoTemp=""
 
     fun takePhoto(){
         val intent = Intent()
         intent.action = MediaStore.ACTION_IMAGE_CAPTURE
-        photoTemp=PathUtil.getPathX("photo"+System.currentTimeMillis()+".jpg")
+        photoTemp=PathUtil.getPathX("photoTemp.jpg")
         val fileJA: File = File(photoTemp)
         if(fileJA.exists()){
             fileJA.delete()
@@ -180,7 +181,9 @@ class SendOptionFragment : Fragment() {
 
         val takeVideo=registerForActivityResult(ActivityResultContracts.StartActivityForResult()
         ) {
-            Log.e("gugu","yues")
+            val uri = it.data!!.data!!
+            val ff=uriToFile(MainApplication.application,uri)!!
+            println("发的时刻JFK撒旦解放${ff.absolutePath}")
         }
 
         val selectVideo= registerForActivityResult(ActivityResultContracts.StartActivityForResult()
