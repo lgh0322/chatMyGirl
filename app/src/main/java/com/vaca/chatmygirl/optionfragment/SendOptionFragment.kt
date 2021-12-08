@@ -184,7 +184,9 @@ class SendOptionFragment : Fragment() {
         ) {
             val uri = it.data!!.data!!
             val ff=uriToFile(MainApplication.application,uri)!!
-            println("发的时刻JFK撒旦解放${ff.absolutePath}")
+//            println("发的时刻JFK撒旦解放${ff.absolutePath}")
+
+
             EventBus.getDefault().post(ChatBean().apply {
                 chatType=4;
                 chatMessage=ff.absolutePath
@@ -193,7 +195,11 @@ class SendOptionFragment : Fragment() {
 
         val selectVideo= registerForActivityResult(ActivityResultContracts.StartActivityForResult()
         ) {
-            Log.e("gug2u","yues")
+            val filPaths = it.data!!.getStringExtra("path")
+            EventBus.getDefault().post(ChatBean().apply {
+                chatType=4;
+                chatMessage=filPaths
+            })
         }
         binding.video.setOnClickListener {
             val builder_video = AlertDialog.Builder(requireContext()) //创建对话框
