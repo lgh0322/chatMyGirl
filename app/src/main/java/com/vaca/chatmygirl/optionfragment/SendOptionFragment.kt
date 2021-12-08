@@ -56,9 +56,6 @@ class SendOptionFragment : Fragment() {
         intent.action = MediaStore.ACTION_IMAGE_CAPTURE
         photoTemp=PathUtil.getPathX("photoTemp.jpg")
         val fileJA: File = File(photoTemp)
-        if(fileJA.exists()){
-            fileJA.delete()
-        }
         val uri = FileProvider.getUriForFile(
             requireContext(),
             "com.vaca.chatmygirl.fileProvider",
@@ -167,6 +164,10 @@ class SendOptionFragment : Fragment() {
                 val ff=uriToFile(MainApplication.application,uri)
                 val path: String = ff!!.absolutePath
                 println("四点零分介绍了雕刻技法卢卡斯的  $path")
+                EventBus.getDefault().post(ChatBean().apply {
+                    chatType=6;
+                    chatMessage=path
+                })
 
             }
         }
@@ -242,8 +243,9 @@ class SendOptionFragment : Fragment() {
                         ois?.let {
                             val file = File(
                                 context.externalCacheDir!!.absolutePath,
-                                "${Random.nextInt(0, 9999)}$displayName"
+                                "$displayName"
                             )
+
                             val fos = FileOutputStream(file)
                             val buffer = ByteArray(1024)
                             var len: Int = ois.read(buffer)

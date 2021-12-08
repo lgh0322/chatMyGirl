@@ -22,10 +22,7 @@ import com.vaca.chatmygirl.bean.ChatBean
 import com.vaca.chatmygirl.gif.AnimatedGifDrawable
 import com.vaca.chatmygirl.gif.AnimatedGifDrawable.UpdateListener
 import com.vaca.chatmygirl.gif.AnimatedImageSpan
-import com.vaca.chatmygirl.holder.ChatImageSendHolder
-import com.vaca.chatmygirl.holder.ChatTextReceiveHolder
-import com.vaca.chatmygirl.holder.ChatTextSendHolder
-import com.vaca.chatmygirl.holder.ChatVideoSendHolder
+import com.vaca.chatmygirl.holder.*
 import com.vaca.chatmygirl.utils.PathUtil
 import java.io.File
 import java.io.FileOutputStream
@@ -89,8 +86,8 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
             }
             6 -> {
                 view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_chat_send_text, parent, false)
-                viewHolder = ChatTextSendHolder(view)
+                    .inflate(R.layout.item_chat_send_file, parent, false)
+                viewHolder = ChatFileSendHolder(view)
             }
             7 -> {
                 view = LayoutInflater.from(mContext)
@@ -244,6 +241,13 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
                 fout.close()
 
                 Glide.with(mContext).load(dd.absolutePath).into((holder as ChatVideoSendHolder?)!!.img_content)
+            }
+
+            6->{
+                val nn=bean.chatMessage.lastIndexOf("/")
+                val strx=bean.chatMessage.substring(nn+1,bean.chatMessage.length)
+                (holder as ChatFileSendHolder?)!!.fileName.text=strx
+
             }
         }
     }

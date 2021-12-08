@@ -76,7 +76,7 @@
                 android:visibility="visible" />
 
             <TextView
-                android:id="@+id/person_name"
+                android:id="@+id/file_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/iv_card_head"
@@ -93,7 +93,7 @@
                 android:id="@+id/person_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/person_name"
+                android:layout_below="@id/file_name"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_toRightOf="@id/iv_card_head"
