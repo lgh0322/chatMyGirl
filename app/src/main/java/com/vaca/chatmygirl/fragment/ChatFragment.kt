@@ -149,7 +149,6 @@ class ChatFragment : Fragment() {
             if (event.getAction() === MotionEvent.ACTION_DOWN) {
                 scrollX = event.getX()
                 scrollY = event.getY()
-                Log.e("fuck", "fuckScroll")
             }
             if (event.getAction() === MotionEvent.ACTION_UP) {
                 if (v.getId() !== 0 && Math.abs(scrollX - event.getX()) <= 5 && Math.abs(
