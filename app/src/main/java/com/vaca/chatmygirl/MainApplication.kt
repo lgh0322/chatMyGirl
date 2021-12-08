@@ -4,12 +4,14 @@ import android.app.Application
 
 import com.tencent.bugly.crashreport.CrashReport
 import com.vaca.chatmygirl.net.NetCmd
+import com.vaca.chatmygirl.utils.FileUtils
 import com.vaca.chatmygirl.utils.PathUtil
 
 
 class MainApplication : Application() {
 
     companion object {
+        lateinit var fileUtils: FileUtils
         lateinit var application: Application
     }
 
@@ -18,7 +20,7 @@ class MainApplication : Application() {
         super.onCreate()
 
         PathUtil.initVar(this)
-
+        fileUtils=FileUtils(this)
 
         NetCmd.initSocket()
         application = this

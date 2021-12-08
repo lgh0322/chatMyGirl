@@ -1,11 +1,20 @@
 package com.vaca.chatmygirl.optionfragment
 
 import android.Manifest
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +25,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
 import com.scrat.app.selectorlibrary.ImageSelector
 import com.scrat.app.selectorlibrary.activity.ImageSelectorActivity
+import com.vaca.chatmygirl.MainApplication
 import com.vaca.chatmygirl.R
 import com.vaca.chatmygirl.activity.VideoListActivity
 import com.vaca.chatmygirl.bean.ChatBean
@@ -29,6 +40,8 @@ import com.zxy.tiny.Tiny.FileCompressOptions
 import com.zxy.tiny.callback.FileWithBitmapCallback
 import org.greenrobot.eventbus.EventBus
 import java.io.File
+import java.io.FileOutputStream
+import kotlin.random.Random
 
 class SendOptionFragment : Fragment() {
 
@@ -146,11 +159,22 @@ class SendOptionFragment : Fragment() {
             phoneSelector.launch(i)
         }
 
-        val openFileSelect= registerForActivityResult(ActivityResultContracts.OpenDocument()){
-//                Glide.with(this).load(it).into(binding.imageView)
+        val openFileSelect= registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if (it.data != null) {
+                val uri: Uri = it.data!!.getData() !!
+                println("四点零分介绍了雕刻技法卢卡斯的Uri  ${uri.path}")
+                val ff=uriToFile(MainApplication.application,uri)
+                val path: String = ff!!.absolutePath
+                println("四点零分介绍了雕刻技法卢卡斯的  $path")
+
+            }
         }
+
         binding.file.setOnClickListener {
-           openFileSelect.launch(arrayOf("text/plain"))
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "*/*"
+           openFileSelect.launch(intent)
         }
 
 
@@ -194,6 +218,47 @@ class SendOptionFragment : Fragment() {
 
 
         return binding.root
+    }
+
+
+    fun uriToFile(context: Context, uri: Uri): File? = when(uri.scheme){
+        ContentResolver.SCHEME_FILE -> uri.toFile()
+        ContentResolver.SCHEME_CONTENT ->{
+            val cursor = context.contentResolver.query(uri, null, null, null, null)
+            cursor?.let {
+                if(it.moveToFirst()){
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                        //保存到本地
+                        val ois = context.contentResolver.openInputStream(uri)
+                        val displayName =
+                            it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                        ois?.let {
+                            val file = File(
+                                context.externalCacheDir!!.absolutePath,
+                                "${Random.nextInt(0, 9999)}$displayName"
+                            )
+                            val fos = FileOutputStream(file)
+                            val buffer = ByteArray(1024)
+                            var len: Int = ois.read(buffer)
+                            var downloaded: Long = 0
+                            while (len != -1) {
+                                fos.write(buffer, 0, len)
+                                len = ois.read(buffer)
+                            }
+                            fos.close()
+                            it.close()
+                            file
+                        }
+                    }else
+                    //直接转换
+                        File(it.getString(it.getColumnIndex(MediaStore.Images.Media.DATA)))
+                }else {
+                    it.close()
+                    null
+                }
+            }
+        }
+        else -> null
     }
 
 
