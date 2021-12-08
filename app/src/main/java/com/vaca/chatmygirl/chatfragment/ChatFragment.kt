@@ -85,6 +85,19 @@ class ChatFragment : Fragment() {
         binding.root.post { keyboardHeightProvider.start() }
 
         chatAdapter = ChatAdapter(requireContext(), binding.rc)
+        chatAdapter.click=object :ChatAdapter.Click{
+            override fun showDetail(type: String, content: String) {
+                Log.e("type",type+content)
+            }
+
+        }
+
+
+
+
+
+
+
         val linearLayoutManager = LinearLayoutManager(requireContext())
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         binding.rc.setLayoutManager(linearLayoutManager)

@@ -14,6 +14,7 @@ public class ChatTextSendHolder extends RecyclerView.ViewHolder {
     public ImageView iv_icon;
     public TextView tv_time;
     public TextView tv_content;
+    public View.OnClickListener click;
 
 
     public ChatTextSendHolder(@NonNull View itemView) {
@@ -21,5 +22,6 @@ public class ChatTextSendHolder extends RecyclerView.ViewHolder {
         iv_icon = itemView.findViewById(R.id.iv_icon);
         tv_time = itemView.findViewById(R.id.tv_chat_time);
         tv_content = itemView.findViewById(R.id.tv_content);
+        itemView.setOnClickListener(click);
     }
 }

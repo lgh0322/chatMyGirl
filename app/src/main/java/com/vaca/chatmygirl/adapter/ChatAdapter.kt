@@ -36,7 +36,10 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
     RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
 
 
-
+    interface Click{
+        fun showDetail(type:String,content:String)
+    }
+    var click:Click?=null
 
 
     private val chatList: MutableList<ChatBean> = ArrayList()
@@ -191,7 +194,7 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
         return buf.toString().substring(0,16)
     }
 
-    fun getVideoThumbnail(videoPath: String?, width: Int, height: Int, kind: Int): Bitmap {
+    private fun getVideoThumbnail(videoPath: String?, width: Int, height: Int, kind: Int): Bitmap {
         var bitmap: Bitmap? = null
         bitmap = ThumbnailUtils.createVideoThumbnail(
             videoPath!!,
@@ -214,6 +217,9 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
                     bean.chatMessage
                 )
                 (holder as ChatTextSendHolder?)!!.tv_content.text = sb
+                (holder as ChatTextSendHolder?)!!.tv_content.setOnClickListener {
+                   click?.showDetail("text",bean.chatMessage)
+                }
             }
             1 -> {
                 val sb = handler(
@@ -225,6 +231,11 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
             2->{
 
                 Glide.with(mContext).load(bean.chatMessage).into((holder as ChatImageSendHolder?)!!.img_content)
+                (holder as ChatImageSendHolder?)!!.img_content.setOnClickListener {
+                    click?.showDetail("img",bean.chatMessage)
+                }
+
+
             }
 
 
@@ -246,6 +257,9 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
                 fout.close()
 
                 Glide.with(mContext).load(dd.absolutePath).into((holder as ChatVideoSendHolder?)!!.img_content)
+                (holder as ChatVideoSendHolder?)!!.img_content.setOnClickListener {
+                    click?.showDetail("video")
+                }
             }
 
             6->{
