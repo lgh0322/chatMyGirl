@@ -52,6 +52,35 @@
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.vaca.chatmygirl.fragment.ChatFragment"
-        android:label="ChatFragment" />
+        android:name="com.vaca.chatmygirl.chatfragment.ChatFragment"
+        android:label="ChatFragment" >
+        <action
+            android:id="@+id/action_chatFragment_to_imageDetailFragment"
+            app:destination="@id/imageDetailFragment" />
+        <action
+            android:id="@+id/action_chatFragment_to_videoDetailFragment"
+            app:destination="@id/videoDetailFragment" />
+        <action
+            android:id="@+id/action_chatFragment_to_fileDetailFragment"
+            app:destination="@id/fileDetailFragment" />
+        <action
+            android:id="@+id/action_chatFragment_to_textDetailFragment"
+            app:destination="@id/textDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageDetailFragment"
+        android:name="com.vaca.chatmygirl.chatfragment.ImageDetailFragment"
+        android:label="ImageDetailFragment" />
+    <fragment
+        android:id="@+id/videoDetailFragment"
+        android:name="com.vaca.chatmygirl.chatfragment.VideoDetailFragment"
+        android:label="VideoDetailFragment" />
+    <fragment
+        android:id="@+id/fileDetailFragment"
+        android:name="com.vaca.chatmygirl.chatfragment.FileDetailFragment"
+        android:label="FileDetailFragment" />
+    <fragment
+        android:id="@+id/textDetailFragment"
+        android:name="com.vaca.chatmygirl.chatfragment.TextDetailFragment"
+        android:label="TextDetailFragment" />
 </navigation>

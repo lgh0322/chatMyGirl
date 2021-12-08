@@ -34,6 +34,11 @@ import java.util.regex.Pattern
 
 class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
     RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
+
+
+
+
+
     private val chatList: MutableList<ChatBean> = ArrayList()
     var itemClickListener: OnItemClickListener? = null
     fun setList(chatList: List<ChatBean>?) {

@@ -1,4 +1,4 @@
-package com.vaca.chatmygirl.fragment
+package com.vaca.chatmygirl.chatfragment
 
 import android.content.Context
 import android.os.Bundle
