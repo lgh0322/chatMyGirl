@@ -258,7 +258,7 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
 
                 Glide.with(mContext).load(dd.absolutePath).into((holder as ChatVideoSendHolder?)!!.img_content)
                 (holder as ChatVideoSendHolder?)!!.img_content.setOnClickListener {
-                    click?.showDetail("video")
+                    //click?.showDetail("video")
                 }
             }
 
