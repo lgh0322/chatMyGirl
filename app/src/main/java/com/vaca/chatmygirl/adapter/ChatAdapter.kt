@@ -79,7 +79,7 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
             }
             3 -> {
                 view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_chat_receive_text, parent, false)
+                    .inflate(R.layout.item_chat_receive_image, parent, false)
                 viewHolder = ChatTextReceiveHolder(view)
             }
             4 -> {
@@ -89,7 +89,7 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
             }
             5 -> {
                 view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_chat_receive_text, parent, false)
+                    .inflate(R.layout.item_chat_receive_video, parent, false)
                 viewHolder = ChatTextReceiveHolder(view)
             }
             6 -> {
@@ -99,7 +99,7 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
             }
             7 -> {
                 view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_chat_receive_text, parent, false)
+                    .inflate(R.layout.item_chat_receive_file, parent, false)
                 viewHolder = ChatTextReceiveHolder(view)
             }
             8 -> {
@@ -109,7 +109,7 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
             }
             9 -> {
                 view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_chat_receive_text, parent, false)
+                    .inflate(R.layout.item_chat_receive_voice, parent, false)
                 viewHolder = ChatTextReceiveHolder(view)
             }
         }
