@@ -104,7 +104,7 @@ class ChatAdapter(private val mContext: Context, private val rv: RecyclerView) :
             }
             8 -> {
                 view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_chat_send_text, parent, false)
+                    .inflate(R.layout.item_chat_send_voice, parent, false)
                 viewHolder = ChatTextSendHolder(view)
             }
             9 -> {

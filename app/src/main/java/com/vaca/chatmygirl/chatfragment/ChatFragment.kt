@@ -1,5 +1,6 @@
 package com.vaca.chatmygirl.chatfragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -35,7 +36,7 @@ import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 import java.util.regex.Pattern
 
-
+//--------------------------------这个是聊天界面
 class ChatFragment : Fragment() {
 
     var scrollX = 0f
@@ -73,6 +74,7 @@ class ChatFragment : Fragment() {
         keyboardHeightProvider.setKeyboardHeightObserver(null)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -114,7 +116,7 @@ class ChatFragment : Fragment() {
         lp.height = MyStorage.keyboardHeightX
         binding.container.layoutParams = lp
 
-
+//------------------------------------------------------------------为了获取键盘高度做了很多工作。
         keyboardHeightProvider.setKeyboardHeightObserver { height, orientation ->
             var isVisible = (height > 0)
             val softKeybardHeight = height
@@ -157,7 +159,7 @@ class ChatFragment : Fragment() {
 
         }
 
-
+//-----------------------------------------------------这里是点击空白处隐藏键盘。
         binding.rc.setOnTouchListener { v, event ->
             if (event.getAction() === MotionEvent.ACTION_DOWN) {
                 scrollX = event.getX()
@@ -191,6 +193,8 @@ class ChatFragment : Fragment() {
 
 
 
+        //-------------------------------------------这个是发送按钮。
+
         binding.messageSend.setOnClickListener {
             val text = binding.chatMessage.text.toString()
             if (text.isNotEmpty()) {
@@ -205,18 +209,26 @@ class ChatFragment : Fragment() {
             }
         }
 
+
+
+
+        //------------------------------------------这个是右边的加号， 可以弹出发送的各种选项。
         binding.plus.setOnClickListener {
             jump(0)
         }
-
+        //------------------------------------------这个是右边的加号， 发送语音的。
         binding.voice.setOnClickListener {
             jump(2)
         }
 
+
+        //----------------------------------------这个是发送表情的。
         binding.emotion.setOnClickListener {
             jump(1)
         }
 
+
+        //----------------------------------------------------这个是监听输入文字的变化的。
         binding.chatMessage.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -240,7 +252,7 @@ class ChatFragment : Fragment() {
         return binding.root
     }
 
-
+//-----------------------------------------这里是下方的选择弹窗。 还有键盘相关的。
     private fun jump(x: Int) {
         val newLayoutParams = binding.constraintLayout.layoutParams as ConstraintLayout.LayoutParams
         newLayoutParams.bottomMargin = 0
@@ -340,6 +352,8 @@ class ChatFragment : Fragment() {
         (binding.chatMessage.text as Editable).insert(iCursor, text)
     }
 
+
+    //---------------------------------这个是表情的删除按键。
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: Emotion) {
         if (event.isDelete) {
@@ -349,6 +363,8 @@ class ChatFragment : Fragment() {
         }
     }
 
+
+    //另一个地方接收到的消息都集中再这里。
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(da: ChatBean) {
         chatMsg.add(da)
