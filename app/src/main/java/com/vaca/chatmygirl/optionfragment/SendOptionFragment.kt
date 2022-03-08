@@ -103,6 +103,11 @@ class SendOptionFragment : Fragment() {
             }
         }
 
+        val requestVideoPermission= registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) {
+
+        }
 
         binding.camera.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
@@ -212,6 +217,20 @@ class SendOptionFragment : Fragment() {
             val cancelVideoTV = layout_video.findViewById<TextView>(R.id.cancel_video)
             //设置监听
             takeVideoTV.setOnClickListener {
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.CAMERA
+                    ) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+
+                    requestVideoPermission.launch( arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+
+                    return@setOnClickListener
+                }
                 dialog_video.dismiss()
                 val intentx = Intent(MediaStore.ACTION_VIDEO_CAPTURE) // 创建一个请求视频的意图
                 intentx.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1) // 设置视频的质量，值为0-1，
